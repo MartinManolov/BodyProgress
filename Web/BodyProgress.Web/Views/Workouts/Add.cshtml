@@ -1,0 +1,57 @@
+﻿@model BodyProgress.Web.ViewModels.ViewInputModels.AddWorkoutInputModel
+<h1>Add workout</h1>
+
+<h4>Workout</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Add">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="WorkoutName" class="control-label"></label>
+                <input asp-for="WorkoutName" class="form-control" />
+                <span asp-validation-for="WorkoutName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <button onclick="addRow()" type="button" >Add Set</button>
+            <table id="AddSetsTable" style="width:100%">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Sets[0].ExerciseName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Sets[0].Reps)</th>
+                    <th>@Html.DisplayNameFor(model => model.Sets[0].Weight)</th>
+                </tr>
+            </table>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+@* TODO: Find other solution *@
+@section Scripts {
+    <script>
+        var counter = 0;
+
+        function addRow() {
+            var table = document.getElementById("AddSetsTable");
+            var row = table.insertRow(+1);
+
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+
+        cell1.innerHTML = '<input type="text" name="Sets[' + counter + '].ExerciseName"/>';
+        cell2.innerHTML = '<input type="text" name="Sets[' + counter + '].Reps"/>';
+        cell3.innerHTML = '<input type="text" name="Sets[' + counter + '].Weight"/>';
+        counter++;
+    }
+    </script>
+}

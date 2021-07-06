@@ -1,5 +1,41 @@
 ﻿@model List<WorkoutViewModel>
+
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+    table.center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
 <h1>Workout History</h1>
 <div>
-    @* TODO: All Workouts View *@
+    @foreach (var workout in Model)
+    {
+        <h2>@workout.Name</h2>
+        <h4>@workout.Date</h4>
+        @foreach (var set in workout.Sets)
+        {
+            <table style="width: 100%" border-spacing: 5px;>
+                <colgroup>
+                </colgroup>
+                <tr>
+                    <th>Exercise</th>
+                    <th>Reps</th>
+                    <th>Weight</th>
+                </tr>
+                <tr>
+                    <td>@set.ExerciseName</td>
+                    <td>@set.Reps</td>
+                    <td>@set.Weight</td>
+                </tr>
+            </table>
+        }
+        <p>All Weight @workout.AllWeightForWorkout</p>
+        
+        <a href="/Workouts/Delete?workoutId=@workout.Id" class="btn btn-block btn-primary">Delete</a>
+
+    }
 </div>

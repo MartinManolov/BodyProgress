@@ -17,7 +17,7 @@
                 <input asp-for="Date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
-            <button onclick="addRow()" type="button" >Add Set</button>
+           
             <table id="AddSetsTable" style="width:100%">
                 <tr>
                     <th>@Html.DisplayNameFor(model => model.Sets[0].ExerciseName)</th>
@@ -26,6 +26,7 @@
                 </tr>
             </table>
             <div class="form-group">
+                <button onclick="addRow()" type="button" class="btn-warning">Add Set</button>
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

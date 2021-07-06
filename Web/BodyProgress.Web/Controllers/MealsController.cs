@@ -8,13 +8,13 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    public class WorkoutsController : BaseController
+    public class MealsController : BaseController
     {
-        private readonly IWorkoutsService _workoutsService;
+        private readonly IMealsService _mealsService;
 
-        public WorkoutsController(IWorkoutsService workoutsService)
+        public MealsController(IMealsService mealsService)
         {
-            this._workoutsService = workoutsService;
+            this._mealsService = mealsService;
         }
 
         [Authorize]
@@ -23,9 +23,9 @@
             return this.View();
         }
 
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Add(AddWorkoutInputModel input)
+        [Authorize]
+        public async Task<IActionResult> Add(AddMealInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
@@ -33,24 +33,25 @@
             }
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await this._workoutsService.Create(input, userId);
+            await this._mealsService.Create(input, userId);
+            return this.Redirect("/");
 
-            return this.RedirectToAction("Index", "Home");
         }
 
         [Authorize]
         public IActionResult All()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var workouts = this._workoutsService.All(userId);
-            return this.View(workouts);
+            var meals = this._mealsService.All(userId);
+            return this.View(meals);
         }
 
         [Authorize]
-        public async Task<IActionResult> Delete(string workoutId)
+        public async Task<IActionResult> Delete(string mealId)
         {
-            await this._workoutsService.Delete(workoutId);
-            return this.Redirect("/Workouts/All");
+            await this._mealsService.Delete(mealId);
+            return this.Redirect("/Meals/All");
         }
+
     }
 }

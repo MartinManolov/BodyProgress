@@ -82,6 +82,7 @@ namespace BodyProgress.Services
 
             return workoutsFromDb.Select(workoutDb => new WorkoutViewModel()
                 {
+                    Id = workoutDb.Id,
                     Name = workoutDb.Name,
                     Date = workoutDb.Date,
                     Sets = workoutDb.Sets.Select(x => new SetViewModel()
@@ -93,6 +94,20 @@ namespace BodyProgress.Services
                     AllWeightForWorkout = workoutDb.Sets.Select(x => x.Reps * x.Weight).Sum(),
                 })
                 .ToList();
+        }
+
+        public async Task Delete(string workoutId)
+        {
+            var workout = this._workoutRepository.All().FirstOrDefault(x => x.Id == workoutId);
+            this._workoutRepository.Delete(workout);
+            var sets = this._setsRepository.All().Where(x => x.WorkoutId == workoutId).ToList();
+            foreach (var set in sets)
+            {
+                this._setsRepository.Delete(set);
+            }
+
+            await this._workoutRepository.SaveChangesAsync();
+            await this._setsRepository.SaveChangesAsync();
         }
     }
 }

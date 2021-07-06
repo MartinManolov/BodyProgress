@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BodyProgress.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210701153422_InitialCreate")]
+    [Migration("20210706111428_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -253,9 +253,6 @@ namespace BodyProgress.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -278,13 +275,13 @@ namespace BodyProgress.Data.Migrations
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Meals");
                 });
@@ -490,9 +487,13 @@ namespace BodyProgress.Data.Migrations
 
             modelBuilder.Entity("BodyProgress.Data.Models.Meal", b =>
                 {
-                    b.HasOne("BodyProgress.Data.Models.ApplicationUser", null)
+                    b.HasOne("BodyProgress.Data.Models.ApplicationUser", "Owner")
                         .WithMany("Meals")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("BodyProgress.Data.Models.Set", b =>

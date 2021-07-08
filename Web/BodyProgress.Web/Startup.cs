@@ -1,4 +1,6 @@
 ﻿using System.Globalization;
+using BodyProgress.Services.Common;
+using CloudinaryDotNet;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -56,6 +58,17 @@ namespace BodyProgress.Web
                     {
                         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     }).AddRazorRuntimeCompilation();
+            
+            // Cloudinary
+            var account = new CloudinaryDotNet.Account(
+                this.configuration["Cloudinary:AppName"],
+                this.configuration["Cloudinary:AppKey"],
+                this.configuration["Cloudinary:AppSecret"]);
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            services.AddSingleton(cloudinary);
+
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -67,6 +80,8 @@ namespace BodyProgress.Web
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
+
+            services.AddTransient<IUploadMediaService, UploadMediaService>();
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<IWorkoutsService, WorkoutsService>();
             services.AddTransient<IMealsService, MealsService>();

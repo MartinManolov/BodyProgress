@@ -1,0 +1,29 @@
+﻿@model List<BodyStatisticViewModel>
+
+<h1 class="h1">All your body measurement</h1>
+
+<div>
+
+    @foreach (var bodyStatistic in Model)
+    {
+        <h3>@bodyStatistic.Date</h3>
+        <table class="tab-content" style="width: 100%" border-spacing: 5px;>
+            <colgroup>
+            </colgroup>
+            <tr>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>Body fat %</th>
+            </tr>
+            <tr>
+                <td>@bodyStatistic.Height</td>
+                <td>@bodyStatistic.Weight</td>
+                <td>@bodyStatistic.BodyFatPercentage</td>
+            <td><a href="/BodyStatistics/Delete?workoutId=@bodyStatistic.Id" class="btn-danger">Delete</a></td>
+            </tr>
+        </table>
+       
+    }
+
+
+</div>

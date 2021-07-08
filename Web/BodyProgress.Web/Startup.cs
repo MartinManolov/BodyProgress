@@ -1,4 +1,8 @@
-﻿namespace BodyProgress.Web
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+namespace BodyProgress.Web
 {
     using System.Reflection;
 
@@ -66,13 +70,18 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<IWorkoutsService, WorkoutsService>();
             services.AddTransient<IMealsService, MealsService>();
+            services.AddTransient<IBodyStatisticsService, BodyStatisticsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            app.UseRequestLocalization(new RequestLocalizationOptions()
+            {
+                DefaultRequestCulture = new RequestCulture(CultureInfo.InvariantCulture),
+            });
 
+            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {

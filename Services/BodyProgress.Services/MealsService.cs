@@ -100,6 +100,11 @@ namespace BodyProgress.Services
         public async Task Delete(string mealId)
         {
             var meal = this._mealsRepository.All().FirstOrDefault(x => x.Id == mealId);
+            if (meal == null)
+            {
+                return;
+            }
+
             this._mealsRepository.Delete(meal);
 
             var foodsMeal = this._foodsMealsQuantityRepository.All()

@@ -99,6 +99,11 @@ namespace BodyProgress.Services
         public async Task Delete(string workoutId)
         {
             var workout = this._workoutRepository.All().FirstOrDefault(x => x.Id == workoutId);
+            if (workout == null)
+            {
+                return;
+            }
+
             this._workoutRepository.Delete(workout);
             var sets = this._setsRepository.All().Where(x => x.WorkoutId == workoutId).ToList();
             foreach (var set in sets)

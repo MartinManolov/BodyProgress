@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using BodyProgress.Web.ViewModels;
-
-namespace BodyProgress.Services
+﻿namespace BodyProgress.Services
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
+
+    using BodyProgress.Web.ViewModels;
     using BodyProgress.Web.ViewModels.ViewInputModels;
 
     public interface IWorkoutsService

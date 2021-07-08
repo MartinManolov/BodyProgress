@@ -40,6 +40,8 @@
 
         public DbSet<Workout> Workouts { get; set; }
 
+        public DbSet<BodyStatistic> BodyStatistics { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

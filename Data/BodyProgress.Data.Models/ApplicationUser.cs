@@ -17,11 +17,14 @@
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.Workouts = new HashSet<Workout>();
             this.Meals = new HashSet<Meal>();
+            this.BodyStatistics = new HashSet<BodyStatistic>();
         }
 
         public virtual ICollection<Workout> Workouts { get; set; }
 
         public virtual ICollection<Meal> Meals { get; set; }
+
+        public virtual ICollection<BodyStatistic> BodyStatistics { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

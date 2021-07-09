@@ -1,4 +1,4 @@
-﻿namespace BodyProgress.Services
+﻿namespace BodyProgress.Services.Contracts
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -8,7 +8,7 @@
 
     public interface IMealsService
     {
-        Task Create(AddMealInputModel input, string userId);
+        Task Create(MealInputModel input, string userId);
 
         ICollection<MealViewModel> All(string userId);
 

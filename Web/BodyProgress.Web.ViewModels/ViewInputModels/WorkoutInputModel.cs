@@ -6,11 +6,11 @@
 
     using BodyProgress.Web.ViewModels.ValidationAtributes;
 
-    public class AddWorkoutInputModel
+    public class WorkoutInputModel
     {
-        public AddWorkoutInputModel()
+        public WorkoutInputModel()
         {
-            this.Sets = new List<AddSetInputModel>();
+            this.Sets = new List<SetInputModel>();
         }
 
         [Required]
@@ -20,6 +20,6 @@
         [DateBetween2020andUtsNow]
         public DateTime Date { get; set; }
 
-        public List<AddSetInputModel> Sets { get; set; }
+        public List<SetInputModel> Sets { get; set; }
     }
 }

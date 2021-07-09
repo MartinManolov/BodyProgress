@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class AddSetInputModel
+    public class SetInputModel
     {
         [Required]
         [MaxLength(20)]

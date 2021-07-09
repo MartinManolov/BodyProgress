@@ -1,4 +1,8 @@
-﻿namespace BodyProgress.Web.Controllers
+﻿using System.Linq;
+using BodyProgress.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
+
+namespace BodyProgress.Web.Controllers
 {
     using System.Diagnostics;
 
@@ -8,8 +12,20 @@
 
     public class HomeController : BaseController
     {
+        private readonly IPostsService _postsService;
+
+        public HomeController(IPostsService postsService)
+        {
+            this._postsService = postsService;
+        }
+
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return this.Redirect("/Home/Feed");
+            }
+
             return this.View();
         }
 
@@ -23,6 +39,13 @@
         {
             return this.View(
                 new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
+        }
+
+        [Authorize]
+        public IActionResult Feed()
+        {
+            var feeds = this._postsService.AllPublic();
+            return this.View(feeds.ToList());
         }
     }
 }

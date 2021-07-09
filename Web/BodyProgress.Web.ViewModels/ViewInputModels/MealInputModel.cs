@@ -6,11 +6,11 @@
 
     using BodyProgress.Web.ViewModels.ValidationAtributes;
 
-    public class AddMealInputModel
+    public class MealInputModel
     {
-        public AddMealInputModel()
+        public MealInputModel()
         {
-            this.FoodsWithQuantities = new List<AddFoodWithQuantityInputModel>();
+            this.FoodsWithQuantities = new List<FoodWithQuantityInputModel>();
         }
 
         [Required]
@@ -21,6 +21,6 @@
         [DateBetween2020andUtsNow]
         public DateTime Date { get; set; }
 
-        public List<AddFoodWithQuantityInputModel> FoodsWithQuantities { get; set; }
+        public List<FoodWithQuantityInputModel> FoodsWithQuantities { get; set; }
     }
 }

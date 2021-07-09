@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class AddFoodWithQuantityInputModel
+    public class FoodWithQuantityInputModel
     {
         [Required]
         [MaxLength(20)]

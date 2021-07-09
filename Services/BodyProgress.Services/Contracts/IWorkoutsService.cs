@@ -1,4 +1,4 @@
-﻿namespace BodyProgress.Services
+﻿namespace BodyProgress.Services.Contracts
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -8,7 +8,7 @@
 
     public interface IWorkoutsService
     {
-        Task Create(AddWorkoutInputModel workout, string userId);
+        Task Create(WorkoutInputModel workout, string userId);
 
         ICollection<WorkoutViewModel> All(string userId);
 

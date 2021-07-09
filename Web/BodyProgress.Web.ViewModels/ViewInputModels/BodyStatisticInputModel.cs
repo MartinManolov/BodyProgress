@@ -5,7 +5,7 @@
 
     using BodyProgress.Web.ViewModels.ValidationAtributes;
 
-    public class AddBodyStatisticInputModel
+    public class BodyStatisticInputModel
     {
         [DateBetween2020andUtsNow]
         public DateTime Date { get; set; }

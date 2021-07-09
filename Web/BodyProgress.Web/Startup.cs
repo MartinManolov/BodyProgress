@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using BodyProgress.Services.Common;
+using BodyProgress.Services.Contracts;
 using CloudinaryDotNet;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -86,6 +87,7 @@ namespace BodyProgress.Web
             services.AddTransient<IWorkoutsService, WorkoutsService>();
             services.AddTransient<IMealsService, MealsService>();
             services.AddTransient<IBodyStatisticsService, BodyStatisticsService>();
+            services.AddTransient<IPostsService, PostsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

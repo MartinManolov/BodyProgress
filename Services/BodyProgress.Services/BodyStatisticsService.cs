@@ -9,6 +9,7 @@ namespace BodyProgress.Services
 
     using BodyProgress.Data.Common.Repositories;
     using BodyProgress.Data.Models;
+    using BodyProgress.Services.Contracts;
     using BodyProgress.Web.ViewModels.ViewInputModels;
 
     public class BodyStatisticsService : IBodyStatisticsService
@@ -23,7 +24,7 @@ namespace BodyProgress.Services
             this._userRepository = userRepository;
         }
 
-        public async Task Create(AddBodyStatisticInputModel input, string userId)
+        public async Task Create(BodyStatisticInputModel input, string userId)
         {
             var bodyStatistic = new BodyStatistic()
             {

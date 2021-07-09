@@ -1,0 +1,14 @@
+﻿@model List<PostViewModel>
+
+@foreach (var post in Model) 
+{ <div><p>@post.OwnerUsername</p>
+      <p>@post.Date</p>
+      <div>
+          <img src="@post.ImageUrl" alt="@post.OwnerUsername BodyProgress" width="300" height="400" />
+      </div>
+      <button name="like">Like</button>
+      <a>Likes @post.Likes.Count</a>
+
+      </div>
+    
+}

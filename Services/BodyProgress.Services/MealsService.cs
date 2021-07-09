@@ -9,6 +9,7 @@ namespace BodyProgress.Services
 
     using BodyProgress.Data.Common.Repositories;
     using BodyProgress.Data.Models;
+    using BodyProgress.Services.Contracts;
     using BodyProgress.Web.ViewModels.ViewInputModels;
 
     public class MealsService : IMealsService
@@ -26,7 +27,7 @@ namespace BodyProgress.Services
             this._foodRepository = foodRepository;
         }
 
-        public async Task Create(AddMealInputModel input, string userId)
+        public async Task Create(MealInputModel input, string userId)
         {
             var meal = new Meal()
             {

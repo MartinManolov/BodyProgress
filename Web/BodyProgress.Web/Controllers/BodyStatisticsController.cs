@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using BodyProgress.Services;
+using BodyProgress.Services.Contracts;
 using BodyProgress.Web.ViewModels.ViewInputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ namespace BodyProgress.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Add(AddBodyStatisticInputModel input)
+        public async Task<IActionResult> Add(BodyStatisticInputModel input)
         {
             if (!ModelState.IsValid)
             {

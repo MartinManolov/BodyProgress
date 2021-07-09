@@ -1,4 +1,6 @@
-﻿namespace BodyProgress.Web.Controllers
+﻿using BodyProgress.Services.Contracts;
+
+namespace BodyProgress.Web.Controllers
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -25,7 +27,7 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Add(AddMealInputModel input)
+        public async Task<IActionResult> Add(MealInputModel input)
         {
             if (!this.ModelState.IsValid)
             {

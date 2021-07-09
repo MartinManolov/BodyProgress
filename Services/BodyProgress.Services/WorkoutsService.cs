@@ -8,6 +8,7 @@ namespace BodyProgress.Services
 
     using BodyProgress.Data.Common.Repositories;
     using BodyProgress.Data.Models;
+    using BodyProgress.Services.Contracts;
     using BodyProgress.Web.ViewModels;
     using BodyProgress.Web.ViewModels.ViewInputModels;
 
@@ -29,7 +30,7 @@ namespace BodyProgress.Services
             this._usersRepository = usersRepository;
         }
 
-        public async Task Create(AddWorkoutInputModel input, string userId)
+        public async Task Create(WorkoutInputModel input, string userId)
         {
             var workout = new Workout()
             {

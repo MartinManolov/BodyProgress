@@ -42,6 +42,14 @@
 
         public DbSet<BodyStatistic> BodyStatistics { get; set; }
 
+        public DbSet<Post> Posts { get; set; }
+
+        public DbSet<Like> Likes { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Friendship> Friendships { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -88,6 +96,19 @@
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            builder.Entity<Friendship>()
+                .HasKey(fs => new { fs.UserId, fs.FriendId, fs.Status });
+
+            builder.Entity<Friendship>()
+                .HasOne(x => x.User)
+                .WithMany(y => y.FriendRequestsMade)
+                .HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Friendship>()
+                .HasOne(x => x.Friend)
+                .WithMany(y => y.FriendRequestsAccepted)
+                .HasForeignKey(x => x.FriendId);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

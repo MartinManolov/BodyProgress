@@ -31,7 +31,7 @@
                 };
 
                 var uploadResult = cloudinary.Upload(uploadParams);
-                return uploadResult.SecureUri.AbsoluteUri;
+                return uploadResult.SecureUrl.AbsoluteUri;
             }
         }
 

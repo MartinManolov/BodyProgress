@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BodyProgress.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210707104148_AddBodyStatisticModel")]
-    partial class AddBodyStatisticModel
+    [Migration("20210708220242_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,6 +88,9 @@ namespace BodyProgress.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPublic")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -181,6 +184,47 @@ namespace BodyProgress.Data.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("BodyStatistics");
+                });
+
+            modelBuilder.Entity("BodyProgress.Data.Models.Comment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PostId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TextContent")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("BodyProgress.Data.Models.Exercise", b =>
@@ -290,6 +334,77 @@ namespace BodyProgress.Data.Migrations
                     b.ToTable("FoodsMealsQuantities");
                 });
 
+            modelBuilder.Entity("BodyProgress.Data.Models.Friendship", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FriendId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserId", "FriendId", "Status");
+
+                    b.HasIndex("FriendId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Friendships");
+                });
+
+            modelBuilder.Entity("BodyProgress.Data.Models.Like", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PostId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("BodyProgress.Data.Models.Meal", b =>
                 {
                     b.Property<string>("Id")
@@ -326,6 +441,50 @@ namespace BodyProgress.Data.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Meals");
+                });
+
+            modelBuilder.Entity("BodyProgress.Data.Models.Post", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TextContent")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("BodyProgress.Data.Models.Set", b =>
@@ -523,6 +682,25 @@ namespace BodyProgress.Data.Migrations
                     b.Navigation("Owner");
                 });
 
+            modelBuilder.Entity("BodyProgress.Data.Models.Comment", b =>
+                {
+                    b.HasOne("BodyProgress.Data.Models.ApplicationUser", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BodyProgress.Data.Models.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("BodyProgress.Data.Models.FoodsMealsQuantity", b =>
                 {
                     b.HasOne("BodyProgress.Data.Models.Food", "Food")
@@ -538,10 +716,59 @@ namespace BodyProgress.Data.Migrations
                     b.Navigation("Meal");
                 });
 
+            modelBuilder.Entity("BodyProgress.Data.Models.Friendship", b =>
+                {
+                    b.HasOne("BodyProgress.Data.Models.ApplicationUser", "Friend")
+                        .WithMany("FriendRequestsAccepted")
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BodyProgress.Data.Models.ApplicationUser", "User")
+                        .WithMany("FriendRequestsMade")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Friend");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BodyProgress.Data.Models.Like", b =>
+                {
+                    b.HasOne("BodyProgress.Data.Models.ApplicationUser", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BodyProgress.Data.Models.Post", "Post")
+                        .WithMany("Likes")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("BodyProgress.Data.Models.Meal", b =>
                 {
                     b.HasOne("BodyProgress.Data.Models.ApplicationUser", "Owner")
                         .WithMany("Meals")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("BodyProgress.Data.Models.Post", b =>
+                {
+                    b.HasOne("BodyProgress.Data.Models.ApplicationUser", "Owner")
+                        .WithMany("Posts")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -636,9 +863,15 @@ namespace BodyProgress.Data.Migrations
 
                     b.Navigation("Claims");
 
+                    b.Navigation("FriendRequestsAccepted");
+
+                    b.Navigation("FriendRequestsMade");
+
                     b.Navigation("Logins");
 
                     b.Navigation("Meals");
+
+                    b.Navigation("Posts");
 
                     b.Navigation("Roles");
 
@@ -653,6 +886,13 @@ namespace BodyProgress.Data.Migrations
             modelBuilder.Entity("BodyProgress.Data.Models.Meal", b =>
                 {
                     b.Navigation("FoodsMealsQuantities");
+                });
+
+            modelBuilder.Entity("BodyProgress.Data.Models.Post", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Likes");
                 });
 
             modelBuilder.Entity("BodyProgress.Data.Models.Workout", b =>

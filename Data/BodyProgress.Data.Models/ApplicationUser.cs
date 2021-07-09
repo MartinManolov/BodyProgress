@@ -1,4 +1,6 @@
-﻿namespace BodyProgress.Data.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BodyProgress.Data.Models
 {
     using System;
     using System.Collections.Generic;
@@ -18,6 +20,9 @@
             this.Workouts = new HashSet<Workout>();
             this.Meals = new HashSet<Meal>();
             this.BodyStatistics = new HashSet<BodyStatistic>();
+            this.FriendRequestsMade = new HashSet<Friendship>();
+            this.FriendRequestsAccepted = new HashSet<Friendship>();
+            this.Posts = new HashSet<Post>();
         }
 
         public virtual ICollection<Workout> Workouts { get; set; }
@@ -25,6 +30,16 @@
         public virtual ICollection<Meal> Meals { get; set; }
 
         public virtual ICollection<BodyStatistic> BodyStatistics { get; set; }
+
+        public virtual ICollection<Friendship> FriendRequestsMade { get; set; }
+
+        public virtual ICollection<Friendship> FriendRequestsAccepted { get; set; }
+
+        public virtual ICollection<Post> Posts { get; set; }
+
+        public bool IsPublic { get; set; }
+
+
 
         // Audit info
         public DateTime CreatedOn { get; set; }

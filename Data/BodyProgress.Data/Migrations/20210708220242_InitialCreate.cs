@@ -30,6 +30,7 @@ namespace BodyProgress.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IsPublic = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -197,6 +198,62 @@ namespace BodyProgress.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BodyStatistics",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Height = table.Column<int>(type: "int", nullable: false),
+                    Weight = table.Column<double>(type: "float", nullable: false),
+                    BodyFatPercentage = table.Column<double>(type: "float", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BodyStatistics", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BodyStatistics_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Friendships",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FriendId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Friendships", x => new { x.UserId, x.FriendId, x.Status });
+                    table.ForeignKey(
+                        name: "FK_Friendships_AspNetUsers_FriendId",
+                        column: x => x.FriendId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Friendships_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Meals",
                 columns: table => new
                 {
@@ -214,6 +271,32 @@ namespace BodyProgress.Data.Migrations
                     table.PrimaryKey("PK_Meals", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Meals_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TextContent = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    IsPublic = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_AspNetUsers_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -270,6 +353,65 @@ namespace BodyProgress.Data.Migrations
                         name: "FK_FoodsMealsQuantities_Meals_MealId",
                         column: x => x.MealId,
                         principalTable: "Meals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TextContent = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    PostId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Comments_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Likes",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PostId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Likes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Likes_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Likes_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -355,6 +497,31 @@ namespace BodyProgress.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BodyStatistics_IsDeleted",
+                table: "BodyStatistics",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BodyStatistics_OwnerId",
+                table: "BodyStatistics",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_IsDeleted",
+                table: "Comments",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_OwnerId",
+                table: "Comments",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_PostId",
+                table: "Comments",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Exercises_IsDeleted",
                 table: "Exercises",
                 column: "IsDeleted");
@@ -380,6 +547,31 @@ namespace BodyProgress.Data.Migrations
                 column: "MealId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Friendships_FriendId",
+                table: "Friendships",
+                column: "FriendId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Friendships_IsDeleted",
+                table: "Friendships",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_IsDeleted",
+                table: "Likes",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_OwnerId",
+                table: "Likes",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_PostId",
+                table: "Likes",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Meals_IsDeleted",
                 table: "Meals",
                 column: "IsDeleted");
@@ -387,6 +579,16 @@ namespace BodyProgress.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Meals_OwnerId",
                 table: "Meals",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_IsDeleted",
+                table: "Posts",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_OwnerId",
+                table: "Posts",
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
@@ -433,7 +635,19 @@ namespace BodyProgress.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BodyStatistics");
+
+            migrationBuilder.DropTable(
+                name: "Comments");
+
+            migrationBuilder.DropTable(
                 name: "FoodsMealsQuantities");
+
+            migrationBuilder.DropTable(
+                name: "Friendships");
+
+            migrationBuilder.DropTable(
+                name: "Likes");
 
             migrationBuilder.DropTable(
                 name: "Sets");
@@ -446,6 +660,9 @@ namespace BodyProgress.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Meals");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
 
             migrationBuilder.DropTable(
                 name: "Exercises");

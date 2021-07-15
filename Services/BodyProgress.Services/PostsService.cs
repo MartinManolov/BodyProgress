@@ -64,22 +64,20 @@ namespace BodyProgress.Services
                 .Where(x => x.IsPublic)
                 .Select(x => new PostViewModel()
                 {
+                    Id = x.Id,
                     Date = x.Date,
-                    OwnerId = x.OwnerId,
                     OwnerUsername = x.Owner.UserName,
                     TextContent = x.TextContent,
                     ImageUrl = x.ImageUrl,
                     Comments = x.Comments.Select(c => new CommentViewModel()
                     {
                         Date = c.CreatedOn,
-                        OwnerId = c.OwnerId,
                         OwnerName = c.Owner.UserName,
                         TextContent = c.TextContent,
                     }).OrderBy(x => x.Date).ToList(),
                     Likes = x.Likes.Select(l => new LikeViewModel()
                     {
-                        OwnerId = l.OwnerId,
-                        OwnerName = l.Owner.UserName,
+                        Username = l.Owner.UserName,
                     }).ToList(),
                 }).OrderByDescending(x => x.Date).ToList();
         }

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BodyProgress.Web.ViewModels
+﻿namespace BodyProgress.Web.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+
     public class PostViewModel
     {
-        public DateTime Date { get; set; }
+        public string Id { get; set; }
 
-        public string OwnerId { get; set; }
+        public DateTime Date { get; set; }
 
         public string OwnerUsername { get; set; }
 

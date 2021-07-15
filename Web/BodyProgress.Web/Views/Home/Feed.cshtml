@@ -1,14 +1,143 @@
 ﻿@model List<PostViewModel>
 
-@foreach (var post in Model) 
-{ <div><p>@post.OwnerUsername</p>
-      <p>@post.Date</p>
-      <div>
-          <img src="@post.ImageUrl" alt="@post.OwnerUsername BodyProgress" width="300" height="400" />
-      </div>
-      <button name="like">Like</button>
-      <a>Likes @post.Likes.Count</a>
+@foreach (var post in Model)
+{<div class="container-fluid, border-dark"style="border:groove">
+        @Html.AntiForgeryToken()
+        <h6 class="h6">@post.OwnerUsername</h6>
+        <p class="text-right">@post.Date</p>
+        <div class="card-img">
+            <img src="@post.ImageUrl" alt="@post.OwnerUsername BodyProgress" class="img-fluid"/>
+        </div>
+        <div class="container, border-dark" >
+            <button name="like" data-PostId="@post.Id">Like</button>
+            <button name="unlike"  data-PostId="@post.Id">Unlike</button>
+            <a name="likesCount" id="@post.Id">
+                Likes @post.Likes.Count
+            </a>
+        </div>
+        <div  class="container-fluid" style="width:stretch; height:200px; overflow:scroll;">
+            @foreach (var comment in post.Comments)
+            {
+            <div name="Comments" id="@post.Id" class="container-fluid , border" >
+                <p id="@string.Format("{0}{1}", "commentInfo", post.Id)" data-commentId="@comment.Id" name="CommentUserInfo">@comment.OwnerName  - @comment.Date </p>
+                <p>@comment.TextContent</p>
+            </div>
+            }
+        </div>
+        <div>
+            
+                <input class="form-control" id="@string.Format("{0}{1}", "comment", post.Id)" type="text" name="commentContent" value="" />
+                <button type="submit" name="commentButton" data-postId="@post.Id">Add comment</button>
+           
+        </div>
 
-      </div>
-    
+
+
+    </div>
+}
+
+@section Scripts{
+    <script>
+
+        function GetComments (postId) {
+            $.ajax({
+                type: 'GET',
+                url: '/api/Comments',
+                dataType: "json",
+                data: { postId: postId },
+                complete: function (data) {
+
+                    //TODO: Visualizing of comments and delete.
+                    $(data).each(function (i,element){
+                        $(element.responseJSON).each(function (i, comment) {
+                            var txt1 = "<p id=commentInfo" + postId + " data-commentId=" + comment.id + " name=\"CommentUserInfo\">" + comment.ownerName + "  - " + comment.date + "</p>";
+                            $('#' + postId + '[name=Comments]').append(txt1);
+                        });
+                    });
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            $('[name=commentButton]').on('click', AddComment);
+        });
+        function AddComment() {
+            var postId = $(this).attr('data-postId');
+            var textContent = $('#comment' + postId).val();
+            token = $('[name=__RequestVerificationToken]').val();
+            var comment = {'PostId': postId, 'TextContent': textContent };
+            $.ajax({
+                type: 'POST',
+                url: '/api/Comments',
+                data: JSON.stringify(comment),
+                contentType: "application/json ; charset=utf-8",
+                dataType: 'json',
+                headers: {
+                    "RequestVerificationToken": token
+                },
+                complete: function () {
+                    $('#comment' + postId).val('');
+                    $('[name=Comments]').remove();
+                    GetComments(postId);
+                },
+
+            })
+
+        }
+
+
+        function GetLikes(postId) {
+            $.ajax({
+                type: 'GET',
+                url: '/api/Likes',
+                data: { postId: postId },
+                success: function (data) {
+                    $('#' + postId + '[name=likesCount]').text("Likes " + data);
+                }
+            })
+        }
+
+
+        $('[name=like]').on('click', Like);
+        function Like() {
+            var postId = $(this).attr('data-postId');
+            var like = {'PostId': postId };
+            token = $('[name=__RequestVerificationToken]').val();
+            $.ajax({
+                type: 'POST',
+                url: '/api/Likes',
+                data: JSON.stringify(like),
+                contentType: "application/json ; charset=utf-8",
+                dataType: 'json',
+                headers: {
+                    "RequestVerificationToken": token
+                },
+                complete: function () {
+                    GetLikes(postId);
+                }
+            })
+        }
+
+        $('[name=unlike]').on('click', Unlike);
+        function Unlike() {
+            var postId = $(this).attr('data-postId');
+            var like = {'PostId': postId };
+            token = $('[name=__RequestVerificationToken]').val();
+            $.ajax({
+                type: 'Delete',
+                url: '/api/Likes',
+                data: JSON.stringify(like),
+                contentType: "application/json ; charset=utf-8",
+                dataType: 'json',
+                headers: {
+                    "RequestVerificationToken": token
+                },
+                complete: function () {
+                    GetLikes(postId);
+                }
+            })
+        }
+
+
+    </script>
 }

@@ -3,7 +3,7 @@ using BodyProgress.Services.Common;
 using BodyProgress.Services.Contracts;
 using CloudinaryDotNet;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 
 namespace BodyProgress.Web
 {
@@ -16,7 +16,7 @@ namespace BodyProgress.Web
     using BodyProgress.Data.Repositories;
     using BodyProgress.Data.Seeding;
     using BodyProgress.Services;
-    using BodyProgress.Services;
+    
     using BodyProgress.Services.Mapping;
     using BodyProgress.Services.Messaging;
     using BodyProgress.Web.ViewModels;
@@ -59,7 +59,13 @@ namespace BodyProgress.Web
                     {
                         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     }).AddRazorRuntimeCompilation();
-            
+            services.AddControllersWithViews().ConfigureApiBehaviorOptions(options =>
+            {
+                options.SuppressConsumesConstraintForFormFileParameters = true;
+                options.SuppressInferBindingSourcesForParameters = true;
+                options.SuppressModelStateInvalidFilter = true;
+                options.SuppressMapClientErrors = true;
+            });
             // Cloudinary
             var account = new CloudinaryDotNet.Account(
                 this.configuration["Cloudinary:AppName"],
@@ -88,6 +94,8 @@ namespace BodyProgress.Web
             services.AddTransient<IMealsService, MealsService>();
             services.AddTransient<IBodyStatisticsService, BodyStatisticsService>();
             services.AddTransient<IPostsService, PostsService>();
+            services.AddTransient<ILikesService, LikesService>();
+            services.AddTransient<ICommentsService, CommentsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
-namespace BodyProgress.Web.ViewModels
+﻿namespace BodyProgress.Web.ViewModels
 {
-     public class CommentViewModel
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
+    public class CommentViewModel
     {
+        public string Id { get; set; }
+
         public DateTime Date { get; set; }
 
         public string OwnerName { get; set; }
-
-        public string OwnerId { get; set; }
 
         public string TextContent { get; set; }
     }

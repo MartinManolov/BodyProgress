@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace BodyProgress.Web.Controllers
 {
     using System.Diagnostics;
-
+    using System.Security.Claims;
     using BodyProgress.Web.ViewModels;
 
     using Microsoft.AspNetCore.Mvc;
@@ -44,6 +44,7 @@ namespace BodyProgress.Web.Controllers
         [Authorize]
         public IActionResult Feed()
         {
+            this.ViewBag.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var feeds = this._postsService.AllPublic();
             return this.View(feeds.ToList());
         }

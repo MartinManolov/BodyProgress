@@ -21,9 +21,16 @@ namespace BodyProgress.Services
 
         public async Task<string> Add(string userId, string postId)
         {
-            var likeDB = this.likesRepository.AllAsNoTracking().FirstOrDefault(x => x.OwnerId == userId && x.PostId == postId);
+            var likeDB = this.likesRepository.AllWithDeleted().FirstOrDefault(x => x.OwnerId == userId && x.PostId == postId);
             if (likeDB != null)
             {
+                if (likeDB.IsDeleted == true)
+                {
+                    likeDB.IsDeleted = false;
+                    await this.likesRepository.SaveChangesAsync();
+                    return likeDB.Id;
+                }
+
                 return null;
             }
 

@@ -1,7 +1,4 @@
-﻿using System;
-using BodyProgress.Web.ViewModels;
-
-namespace BodyProgress.Services
+﻿namespace BodyProgress.Services
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -10,6 +7,7 @@ namespace BodyProgress.Services
     using BodyProgress.Data.Common.Repositories;
     using BodyProgress.Data.Models;
     using BodyProgress.Services.Contracts;
+    using BodyProgress.Web.ViewModels;
     using BodyProgress.Web.ViewModels.ViewInputModels;
 
     public class MealsService : IMealsService

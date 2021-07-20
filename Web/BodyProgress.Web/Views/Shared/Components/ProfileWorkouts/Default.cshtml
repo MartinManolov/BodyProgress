@@ -1,0 +1,25 @@
+﻿@model ICollection<WorkoutViewModel>
+
+@foreach (var workout in Model)
+{
+    <h5>@workout.Name</h5>
+    <p>@workout.Date</p>
+    @foreach (var set in workout.Sets)
+    {
+        <table class="tab-content" style="table-layout:auto" border-spacing: 5px;>
+            <colgroup>
+            </colgroup>
+            <tr>
+                <th>Exercise</th>
+                <th>Reps</th>
+                <th>Weight</th>
+            </tr>
+            <tr>
+                <td>@set.ExerciseName</td>
+                <td>@set.Reps</td>
+                <td>@set.Weight</td>
+            </tr>
+        </table>
+    }
+    <p>All Weight @workout.AllWeightForWorkout</p>
+}

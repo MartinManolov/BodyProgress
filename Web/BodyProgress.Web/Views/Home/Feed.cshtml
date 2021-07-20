@@ -1,9 +1,9 @@
 ﻿@model List<PostViewModel>
 
 @foreach (var post in Model)
-{<div class="container-fluid, border-dark"style="border:groove">
+{<div class="container-fluid, border-dark," style="border:groove; margin:70px" >
         @Html.AntiForgeryToken()
-        <h6 class="h6">@post.OwnerUsername</h6>
+        <h6 class="h6"><a href="/Profiles/Info?username=@post.OwnerUsername">@post.OwnerUsername</a></h6>
         <p class="text-right">@post.Date</p>
         <div class="card-img">
             <img src="@post.ImageUrl" alt="@post.OwnerUsername BodyProgress" class="img-fluid"/>
@@ -15,11 +15,11 @@
                 Likes @post.Likes.Count
             </a>
         </div>
-        <div  class="container-fluid" style="width:stretch; height:200px; overflow:scroll;">
+        <div name="@string.Format("{0}{1}", "CommentsContainer", post.Id)" class="container-fluid" style="width:stretch; height:200px; overflow:scroll;">
             @foreach (var comment in post.Comments)
             {
-            <div name="Comments" id="@post.Id" class="container-fluid , border" >
-                <p id="@string.Format("{0}{1}", "commentInfo", post.Id)" data-commentId="@comment.Id" name="CommentUserInfo">@comment.OwnerName  - @comment.Date </p>
+            <div name="Comments" id="@string.Format("{0}{1}", "commentDiv", comment.Id)" class="container-fluid , border" >
+                <p id="@string.Format("{0}{1}", "commentInfo", comment.Id)" data-commentId="@comment.Id" name="CommentUserInfo">@comment.OwnerName  - @comment.Date </p>
                 <p>@comment.TextContent</p>
             </div>
             }
@@ -30,10 +30,14 @@
                 <button type="submit" name="commentButton" data-postId="@post.Id">Add comment</button>
            
         </div>
-
+        
 
 
     </div>
+ <p></p>
+ <p></p>
+ <p></p>
+
 }
 
 @section Scripts{
@@ -47,18 +51,24 @@
                 data: { postId: postId },
                 complete: function (data) {
 
+                    $('[name=CommentsContainer' + postId + ']').children().remove();
                     //TODO: Visualizing of comments and delete.
                     $(data).each(function (i,element){
                         $(element.responseJSON).each(function (i, comment) {
-                            var txt1 = "<p id=commentInfo" + postId + " data-commentId=" + comment.id + " name=\"CommentUserInfo\">" + comment.ownerName + "  - " + comment.date + "</p>";
-                            $('#' + postId + '[name=Comments]').append(txt1);
+                            var formattedDate = new Date(comment.date).toLocaleString(window.navigator.language);
+                            
+                            var txtDiv = "<div name=Comments id=commentDiv" + comment.id + " class=\"container-fluid , border\" > </div>";
+                            var txt1 = "<p id=commentInfo" + comment.id + " data-commentId=" + comment.id + " name=\"CommentUserInfo\">" + comment.ownerName + "  - " + formattedDate + "</p> <p>" + comment.textContent + "</p> ";
+                            $('[name=CommentsContainer' + postId + ']').append(txtDiv).append(txt1);
                         });
                     });
+                    scrollSmoothToBottom();
                 }
             })
         }
 
         $(document).ready(function () {
+            scrollSmoothToBottom();
             $('[name=commentButton]').on('click', AddComment);
         });
         function AddComment() {
@@ -77,7 +87,6 @@
                 },
                 complete: function () {
                     $('#comment' + postId).val('');
-                    $('[name=Comments]').remove();
                     GetComments(postId);
                 },
 
@@ -138,6 +147,9 @@
             })
         }
 
+        function scrollSmoothToBottom() {
+            $('.container-fluid').animate({ scrollTop: $('.container-fluid').prop("scrollHeight")}, 500);
+        }
 
     </script>
 }

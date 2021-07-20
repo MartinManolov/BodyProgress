@@ -96,6 +96,8 @@ namespace BodyProgress.Web
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<ILikesService, LikesService>();
             services.AddTransient<ICommentsService, CommentsService>();
+            services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IFriendshipsService, FriendshipsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

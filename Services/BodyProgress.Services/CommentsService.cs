@@ -33,7 +33,7 @@
             return comment.Id;
         }
 
-        public async Task<bool> Delete(string commentId,string userId)
+        public async Task<bool> Delete(string commentId, string userId)
         {
             var comment = this.commentsRepository.All()
                 .FirstOrDefault(x => x.Id == commentId && x.OwnerId == userId);

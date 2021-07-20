@@ -1,11 +1,9 @@
-﻿using BodyProgress.Services.Contracts;
-
-namespace BodyProgress.Web.Controllers
+﻿namespace BodyProgress.Web.Controllers
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using BodyProgress.Services;
+    using BodyProgress.Services.Contracts;
     using BodyProgress.Web.ViewModels.ViewInputModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -13,10 +11,13 @@ namespace BodyProgress.Web.Controllers
     public class WorkoutsController : BaseController
     {
         private readonly IWorkoutsService _workoutsService;
+        private readonly IUsersService usersService;
 
-        public WorkoutsController(IWorkoutsService workoutsService)
+        public WorkoutsController(IWorkoutsService workoutsService,
+            IUsersService usersService)
         {
             this._workoutsService = workoutsService;
+            this.usersService = usersService;
         }
 
         [Authorize]

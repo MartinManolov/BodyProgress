@@ -58,10 +58,14 @@ namespace BodyProgress.Services
             await this._postsRepository.SaveChangesAsync();
         }
 
-        public ICollection<PostViewModel> AllPublic()
+        public ICollection<PostViewModel> AllPublicAndFriends(string userId)
         {
             return this._postsRepository.AllAsNoTracking()
-                .Where(x => x.IsPublic)
+                .Where(x => x.IsPublic || x.Owner.FriendRequestsAccepted
+                                            .Any(f => f.UserId == userId &&
+                                            f.FriendId == x.OwnerId && f.Status == Data.Models.Enums.FriendshipStatus.Friends) ||
+                                            x.Owner.FriendRequestsMade
+                                            .Any(f => f.UserId == x.OwnerId && f.FriendId == userId && f.Status == Data.Models.Enums.FriendshipStatus.Friends))
                 .Select(x => new PostViewModel()
                 {
                     Id = x.Id,

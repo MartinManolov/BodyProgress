@@ -13,6 +13,6 @@ namespace BodyProgress.Services.Contracts
 
         Task Delete(string postId);
 
-        ICollection<PostViewModel> AllPublic();
+        ICollection<PostViewModel> AllPublicAndFriends(string userId);
     }
 }

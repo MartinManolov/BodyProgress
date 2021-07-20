@@ -1,0 +1,6 @@
+﻿@model UsernameViewModel
+<h1 style="font-weight:800">@Model.Username</h1>
+
+<div class="col-6" >
+    @await Component.InvokeAsync("ProfileWorkouts",Model.Username)
+</div>

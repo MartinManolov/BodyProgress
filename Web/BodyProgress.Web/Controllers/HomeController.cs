@@ -44,8 +44,8 @@ namespace BodyProgress.Web.Controllers
         [Authorize]
         public IActionResult Feed()
         {
-            this.ViewBag.UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var feeds = this._postsService.AllPublic();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var feeds = this._postsService.AllPublicAndFriends(userId);
             return this.View(feeds.ToList());
         }
     }

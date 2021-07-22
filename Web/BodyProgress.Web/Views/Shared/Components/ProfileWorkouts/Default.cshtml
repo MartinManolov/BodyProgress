@@ -2,11 +2,12 @@
 
 @foreach (var workout in Model)
 {
+<div class="container-fluid" style="border-block-style:groove">
     <h5>@workout.Name</h5>
     <p>@workout.Date</p>
     @foreach (var set in workout.Sets)
     {
-        <table class="tab-content" style="table-layout:auto" border-spacing: 5px;>
+        <table class="table-bordered" style="table-layout:auto" border-spacing: 5px;>
             <colgroup>
             </colgroup>
             <tr>
@@ -22,4 +23,5 @@
         </table>
     }
     <p>All Weight @workout.AllWeightForWorkout</p>
+</div>
 }

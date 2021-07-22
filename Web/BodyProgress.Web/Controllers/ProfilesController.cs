@@ -25,22 +25,43 @@ namespace BodyProgress.Web.Controllers
         [Authorize]
         public IActionResult Info([FromQuery(Name = "username")] string username)
         {
-            var userId = this.usersService.GetIdByUsername(username);
-            if (userId == null)
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var visitedUserId = this.usersService.GetIdByUsername(username);
+            if (visitedUserId == null)
             {
                 return this.NotFound(username);
             }
 
-            var usernameModel = new UsernameViewModel { Username = username };
+            if (userId == visitedUserId)
+            {
+                return this.Redirect("/Home/Feed");
+            }
+
+            var usernameModel = new ProfileViewModel
+            {
+                Username = username,
+                IsPublic = this.usersService.IsPublic(visitedUserId),
+                IsFriend = this.friendshipsService.IsFriend(userId, visitedUserId),
+                IsReceivedRequest = this.friendshipsService.IsReceivedRequest(userId, visitedUserId),
+                IsSendedRequest = this.friendshipsService.IsSendedRequest(userId, visitedUserId),
+            };
 
             return this.View(usernameModel);
         }
 
-        public async Task<IActionResult> AddFriend(string username)
+        public async Task<IActionResult> AddFriend([FromQuery(Name = "username")] string username)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var friendId = this.usersService.GetIdByUsername(username);
             await this.friendshipsService.AddFriend(userId, friendId);
+            return this.Redirect($"/Profiles/Info?username={username}");
+        }
+
+        public async Task<IActionResult> RemoveFriend([FromQuery(Name = "username")] string username)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var friendId = this.usersService.GetIdByUsername(username);
+            await this.friendshipsService.RemoveFriend(userId, friendId);
             return this.Redirect($"/Profiles/Info?username={username}");
         }
     }

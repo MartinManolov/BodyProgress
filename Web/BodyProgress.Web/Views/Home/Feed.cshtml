@@ -5,6 +5,7 @@
         @Html.AntiForgeryToken()
         <h6 class="h6"><a href="/Profiles/Info?username=@post.OwnerUsername">@post.OwnerUsername</a></h6>
         <p class="text-right">@post.Date</p>
+        <p>@post.TextContent</p>
         <div class="card-img">
             <img src="@post.ImageUrl" alt="@post.OwnerUsername BodyProgress" class="img-fluid"/>
         </div>
@@ -15,7 +16,7 @@
                 Likes @post.Likes.Count
             </a>
         </div>
-        <div name="@string.Format("{0}{1}", "CommentsContainer", post.Id)" class="container-fluid" style="width:stretch; height:200px; overflow:scroll;">
+        <div name="@string.Format("{0}{1}", "CommentsContainer", post.Id)" class="container-fluid" style="width:stretch; max-height:200px; overflow:scroll;">
             @foreach (var comment in post.Comments)
             {
             <div name="Comments" id="@string.Format("{0}{1}", "commentDiv", comment.Id)" class="container-fluid , border" >

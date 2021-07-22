@@ -27,6 +27,9 @@
             return user.Id;
         }
 
-
+        public bool IsPublic(string userId)
+        {
+            return this.usersRepository.AllAsNoTracking().FirstOrDefault(x => x.Id == userId).IsPublic;
+        }
     }
 }

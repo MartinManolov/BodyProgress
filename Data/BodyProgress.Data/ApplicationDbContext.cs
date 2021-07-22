@@ -98,7 +98,7 @@
             }
 
             builder.Entity<Friendship>()
-                .HasKey(fs => new { fs.UserId, fs.FriendId, fs.Status });
+                .HasKey(fs => new { fs.UserId, fs.FriendId });
 
             builder.Entity<Friendship>()
                 .HasOne(x => x.User)

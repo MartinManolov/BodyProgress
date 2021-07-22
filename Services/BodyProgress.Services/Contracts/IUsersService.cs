@@ -5,5 +5,7 @@ namespace BodyProgress.Services.Contracts
     public interface IUsersService
     {
         string GetIdByUsername(string userId);
+
+        bool IsPublic(string userId);
     }
 }

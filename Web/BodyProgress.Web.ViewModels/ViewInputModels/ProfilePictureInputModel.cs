@@ -1,24 +1,17 @@
-﻿using System;
+﻿using BodyProgress.Web.ViewModels.ValidationAtributes;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using Microsoft.AspNetCore.Http;
-using BodyProgress.Web.ViewModels.ValidationAtributes;
 
 namespace BodyProgress.Web.ViewModels.ViewInputModels
 {
-    public class PostInputModel
+    public class ProfilePictureInputModel
     {
-        [Required]
-        [MinLength(3)]
-        [MaxLength(300)]
-        public string TextContent { get; set; }
-
-        public bool IsPublic { get; set; }
-
+        [Required(ErrorMessage = "Please select a file.")]
         [DataType(DataType.Upload)]
         [MaxFileSize(5 * 1024 * 1024)]
         public IFormFile Image { get; set; }

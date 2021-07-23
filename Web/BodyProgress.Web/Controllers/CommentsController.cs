@@ -8,10 +8,12 @@
     using BodyProgress.Services.Contracts;
     using BodyProgress.Web.ViewModels;
     using BodyProgress.Web.ViewModels.ViewInputModels;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
 
     [Route("/api/[controller]")]
+    [Authorize]
     public class CommentsController : ApiBaseController
     {
         private readonly ICommentsService commentsService;

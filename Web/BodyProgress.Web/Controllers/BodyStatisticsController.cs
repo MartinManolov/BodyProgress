@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BodyProgress.Web.Controllers
 {
+    [Authorize]
     public class BodyStatisticsController : BaseController
     {
         private readonly IBodyStatisticsService _bodyStatisticsService;
@@ -17,13 +18,11 @@ namespace BodyProgress.Web.Controllers
             _bodyStatisticsService = bodyStatisticsService;
         }
 
-        [Authorize]
         public IActionResult Add()
         {
             return this.View();
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Add(BodyStatisticInputModel input)
         {

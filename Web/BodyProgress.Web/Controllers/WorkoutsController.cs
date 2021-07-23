@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class WorkoutsController : BaseController
     {
         private readonly IWorkoutsService _workoutsService;
@@ -20,13 +21,11 @@
             this.usersService = usersService;
         }
 
-        [Authorize]
         public IActionResult Add()
         {
             return this.View();
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Add(WorkoutInputModel input)
         {
@@ -41,7 +40,6 @@
             return this.RedirectToAction("Index", "Home");
         }
 
-        [Authorize]
         public IActionResult All()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -49,7 +47,6 @@
             return this.View(workouts);
         }
 
-        [Authorize]
         public async Task<IActionResult> Delete(string workoutId)
         {
             await this._workoutsService.Delete(workoutId);

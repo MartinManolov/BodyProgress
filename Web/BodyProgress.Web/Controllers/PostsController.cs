@@ -12,22 +12,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BodyProgress.Web.Controllers
 {
+    [Authorize]
     public class PostsController : BaseController
     {
-        private readonly IPostsService _postsService;
+        private readonly IPostsService postsService;
 
         public PostsController(IPostsService postsService)
         {
-            this._postsService = postsService;
+            this.postsService = postsService;
         }
 
-        [Authorize]
         public async Task<IActionResult> Create()
         {
             return this.View();
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(PostInputModel input)
         {
@@ -37,7 +36,7 @@ namespace BodyProgress.Web.Controllers
             }
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await this._postsService.Create(input, userId);
+            await this.postsService.Create(input, userId);
 
             return this.Redirect("/");
         }

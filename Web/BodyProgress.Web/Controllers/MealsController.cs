@@ -10,6 +10,7 @@ namespace BodyProgress.Web.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class MealsController : BaseController
     {
         private readonly IMealsService _mealsService;
@@ -19,14 +20,12 @@ namespace BodyProgress.Web.Controllers
             this._mealsService = mealsService;
         }
 
-        [Authorize]
         public IActionResult Add()
         {
             return this.View();
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Add(MealInputModel input)
         {
             if (!this.ModelState.IsValid)
@@ -40,7 +39,6 @@ namespace BodyProgress.Web.Controllers
 
         }
 
-        [Authorize]
         public IActionResult All()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -48,7 +46,6 @@ namespace BodyProgress.Web.Controllers
             return this.View(meals);
         }
 
-        [Authorize]
         public async Task<IActionResult> Delete(string mealId)
         {
             await this._mealsService.Delete(mealId);

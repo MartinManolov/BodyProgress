@@ -5,9 +5,11 @@
 
     using BodyProgress.Services.Contracts;
     using BodyProgress.Web.ViewModels.ViewInputModels;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("/api/[controller]")]
+    [Authorize]
     public class LikesController : ApiBaseController
     {
         private readonly ILikesService likesService;

@@ -16,23 +16,23 @@ namespace BodyProgress.Services
 {
     public class PostsService : IPostsService
     {
-        private readonly IDeletableEntityRepository<Post> _postsRepository;
+        private readonly IDeletableEntityRepository<Post> postsRepository;
         private readonly IUploadMediaService _uploadMediaService;
-        private readonly Cloudinary _cloudinary;
+        private readonly Cloudinary cloudinary;
 
         public PostsService(IDeletableEntityRepository<Post> postsRepository,
             IUploadMediaService uploadMediaService,
             Cloudinary cloudinary)
         {
-            this._postsRepository = postsRepository;
+            this.postsRepository = postsRepository;
             this._uploadMediaService = uploadMediaService;
-            this._cloudinary = cloudinary;
+            this.cloudinary = cloudinary;
         }
 
         public async Task Create(PostInputModel input, string userId)
         {
             var imageName = userId + Guid.NewGuid().ToString();
-            var imageUrl = await this._uploadMediaService.UploadImage(_cloudinary, input.Image, imageName);
+            var imageUrl = await this._uploadMediaService.UploadImage(this.cloudinary, input.Image, imageName);
             var post = new Post()
             {
                 Date = DateTime.UtcNow,
@@ -42,25 +42,25 @@ namespace BodyProgress.Services
                 ImageUrl = imageUrl,
             };
 
-            await this._postsRepository.AddAsync(post);
-            await this._postsRepository.SaveChangesAsync();
+            await this.postsRepository.AddAsync(post);
+            await this.postsRepository.SaveChangesAsync();
         }
 
         public async Task Delete(string postId)
         {
-            var post = this._postsRepository.All().FirstOrDefault(x => x.Id == postId);
+            var post = this.postsRepository.All().FirstOrDefault(x => x.Id == postId);
             if (post == null)
             {
                 return;
             }
 
-            this._postsRepository.Delete(post);
-            await this._postsRepository.SaveChangesAsync();
+            this.postsRepository.Delete(post);
+            await this.postsRepository.SaveChangesAsync();
         }
 
         public ICollection<PostViewModel> AllPublicAndFriends(string userId)
         {
-            return this._postsRepository.AllAsNoTracking()
+            return this.postsRepository.AllAsNoTracking()
                 .Where(x => x.IsPublic || x.Owner.FriendRequestsAccepted
                                             .Any(f => f.UserId == userId &&
                                             f.FriendId == x.OwnerId && f.Status == Data.Models.Enums.FriendshipStatus.Friends) ||

@@ -4,7 +4,7 @@ namespace BodyProgress.Data.Models
 {
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations;
     using BodyProgress.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
@@ -39,7 +39,10 @@ namespace BodyProgress.Data.Models
 
         public bool IsPublic { get; set; }
 
+        public string ProfilePicture { get; set; }
 
+        [MaxLength(40)]
+        public string Goal { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

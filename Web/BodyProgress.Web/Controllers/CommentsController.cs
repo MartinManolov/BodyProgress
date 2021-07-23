@@ -30,7 +30,6 @@
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add([FromBody] CommentInputModel input)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

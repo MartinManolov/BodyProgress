@@ -57,6 +57,14 @@ namespace BodyProgress.Web.Controllers
             return this.Redirect($"/Profiles/Info?username={username}");
         }
 
+        public async Task<IActionResult> AcceptFriend([FromQuery(Name = "username")] string username)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var friendId = this.usersService.GetIdByUsername(username);
+            await this.friendshipsService.AcceptFriend(userId, friendId);
+            return this.Redirect($"/Profiles/Info?username={username}");
+        }
+
         public async Task<IActionResult> RemoveFriend([FromQuery(Name = "username")] string username)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -26,7 +26,6 @@
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add([FromBody]LikeInputModel input)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -40,7 +39,6 @@
         }
 
         [HttpDelete]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete([FromBody]LikeInputModel input)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

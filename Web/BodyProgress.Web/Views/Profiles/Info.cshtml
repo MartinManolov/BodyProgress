@@ -55,11 +55,11 @@ else
         <button type="button" onclick="location.href='@Url.Action("AddFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/AddFriend?username=@Model.Username" class="btn-success">Send friend request</button>
     }
 </h1>
-    <div class="container-fluid">
-        <div class="container-fluid" style="width:fit-content; height:300px; overflow-y:scroll;">
+    <div class="container-fluid row">
+        <div class="container-fluid col" style="width:fit-content; height:300px; overflow-y:scroll;">
             @await Component.InvokeAsync("ProfileWorkouts", Model.Username)
         </div>
-        <div class="container-fluid" style="width:fit-content; height:300px; overflow-y:scroll;">
+        <div class="container-fluid col" style="width:fit-content; height:300px; overflow-y:scroll;">
             @await Component.InvokeAsync("ProfileMeals", Model.Username)
         </div>
     </div>

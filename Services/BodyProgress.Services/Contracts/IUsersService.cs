@@ -16,7 +16,7 @@ namespace BodyProgress.Services.Contracts
 
         string GetGoal(string userId);
 
-        Task ChangeProfilePicture(string userId, ProfilePictureInputModel input);
+        Task ChangeProfilePicture(string userId, IFormFile input);
 
         Task RemoveProfilePicture(string userId);
 

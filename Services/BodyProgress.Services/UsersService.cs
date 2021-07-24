@@ -51,7 +51,7 @@
             await this.usersRepository.SaveChangesAsync();
         }
 
-        public async Task ChangeProfilePicture(string userId, ProfilePictureInputModel input)
+        public async Task ChangeProfilePicture(string userId, IFormFile input)
         {
             var user = this.usersRepository.All().FirstOrDefault(x => x.Id == userId);
             if (user == null)
@@ -60,7 +60,7 @@
             }
 
             var imageName = userId + "ProfilePicture_" + Guid.NewGuid().ToString();
-            var imageUrl = await this.uploadMediaService.UploadImage(this.cloudinary, input.Image, imageName);
+            var imageUrl = await this.uploadMediaService.UploadImage(this.cloudinary, input, imageName);
 
             user.ProfilePicture = imageUrl;
             await this.usersRepository.SaveChangesAsync();

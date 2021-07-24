@@ -1,7 +1,7 @@
 ﻿@model List<PostViewModel>
 
 @foreach (var post in Model)
-{<div class="container-fluid, border-dark," style="border:groove; margin:70px" >
+{<div class="container-fluid, border-dark" style="border:groove; margin:70px" >
         @Html.AntiForgeryToken()
         <h6 class="h6"><a href="/Profiles/Info?username=@post.OwnerUsername">@post.OwnerUsername</a></h6>
         <p class="text-right">@post.Date.ToLocalTime()</p>

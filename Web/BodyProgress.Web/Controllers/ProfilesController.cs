@@ -1,4 +1,5 @@
-﻿using BodyProgress.Services.Contracts;
+﻿using BodyProgress.Services.Common;
+using BodyProgress.Services.Contracts;
 using BodyProgress.Web.ViewModels;
 using BodyProgress.Web.ViewModels.ViewInputModels;
 using Microsoft.AspNetCore.Authorization;
@@ -15,12 +16,15 @@ namespace BodyProgress.Web.Controllers
     {
         private readonly IUsersService usersService;
         private readonly IFriendshipsService friendshipsService;
+        private readonly IUploadMediaService uploadMediaService;
 
         public ProfilesController(IUsersService usersService,
-            IFriendshipsService friendshipsService)
+            IFriendshipsService friendshipsService,
+            IUploadMediaService uploadMediaService)
         {
             this.usersService = usersService;
             this.friendshipsService = friendshipsService;
+            this.uploadMediaService = uploadMediaService;
         }
 
         public IActionResult Info([FromQuery(Name = "username")] string username)
@@ -85,18 +89,18 @@ namespace BodyProgress.Web.Controllers
             }
 
             var profileSettings = new ProfileSettingsViewModel()
-                {
+            {
                 Visibility = visibility,
                 ProfilePicture = profilePic,
                 Username = this.usersService.GetUsernameById(userId),
                 Goal = this.usersService.GetGoal(userId),
-                };
+            };
 
             return this.View(profileSettings);
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangeVisibility([FromBody]bool isPublic)
+        public async Task<IActionResult> ChangeVisibility(bool isPublic)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             await this.usersService.ChangeProfileVisibility(userId, isPublic);
@@ -109,31 +113,47 @@ namespace BodyProgress.Web.Controllers
             if (username == null || username.Length < 6 || username.Length > 20)
             {
                 this.ModelState.AddModelError(username, "Username should be between 6 and 20 character.");
+                return this.Redirect("/Profiles/ProfileSettings");
             }
 
             if (!this.usersService.IsUsernameAvailable(username))
             {
                 this.ModelState.AddModelError(username, "Username is already taken.");
+                return this.Redirect("/Profiles/ProfileSettings");
             }
-            else
-            {
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                await this.usersService.ChangeUsername(userId, username);
-            }
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await this.usersService.ChangeUsername(userId, username);
 
             return this.Redirect("/Profiles/ProfileSettings");
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangeProfilePicture(ProfilePictureInputModel input)
+        public async Task<IActionResult> ChangeProfilePicture(IFormFile image)
         {
+            if (image == null)
+            {
+                return this.Redirect("/Profiles/ProfileSettings");
+            }
+
+            if (image.Length > 5 * 1024 * 1024)
+            {
+                this.ModelState.AddModelError("image", "File must be no larger than 5mb.");
+                return this.Redirect("/Profiles/ProfileSettings");
+            }
+
+            if (!this.uploadMediaService.IsImage(image))
+            {
+                this.ModelState.AddModelError("image", "This file type is not allowed.");
+                return this.Redirect("/Profiles/ProfileSettings");
+            }
+
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await this.usersService.ChangeProfilePicture(userId, input);
+            await this.usersService.ChangeProfilePicture(userId, image);
 
             return this.Redirect("/Profiles/ProfileSettings");
         }
 
-        [HttpDelete]
         public async Task<IActionResult> RemoveProfilePicture()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -143,7 +163,7 @@ namespace BodyProgress.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangeGoal([FromBody]string goal)
+        public async Task<IActionResult> ChangeGoal(string goal)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             await this.usersService.ChangeGoal(userId, goal);
@@ -151,7 +171,6 @@ namespace BodyProgress.Web.Controllers
             return this.Redirect("/Profiles/ProfileSettings");
         }
 
-        [HttpDelete]
         public async Task<IActionResult> RemoveGoal()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

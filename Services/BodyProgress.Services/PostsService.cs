@@ -18,14 +18,17 @@ namespace BodyProgress.Services
     {
         private readonly IDeletableEntityRepository<Post> postsRepository;
         private readonly IUploadMediaService _uploadMediaService;
+        private readonly IUsersService usersService;
         private readonly Cloudinary cloudinary;
 
         public PostsService(IDeletableEntityRepository<Post> postsRepository,
             IUploadMediaService uploadMediaService,
+            IUsersService usersService,
             Cloudinary cloudinary)
         {
             this.postsRepository = postsRepository;
             this._uploadMediaService = uploadMediaService;
+            this.usersService = usersService;
             this.cloudinary = cloudinary;
         }
 
@@ -70,7 +73,9 @@ namespace BodyProgress.Services
                 {
                     Id = x.Id,
                     Date = x.Date,
+                    IsLiked = x.Likes.Any(l => l.OwnerId == userId),
                     OwnerUsername = x.Owner.UserName,
+                    OwnerProfilePicture = this.usersService.GetProfileImage(x.OwnerId),
                     TextContent = x.TextContent,
                     ImageUrl = x.ImageUrl,
                     Comments = x.Comments.Select(c => new CommentViewModel()

@@ -34,6 +34,11 @@
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] CommentInputModel input)
         {
+            if (input.TextContent.Length == 0)
+            {
+                return this.NoContent();
+            }
+
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var commentId = await this.commentsService.Add(input, userId);
 

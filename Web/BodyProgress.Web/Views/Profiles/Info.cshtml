@@ -1,7 +1,16 @@
 ﻿@model ProfileViewModel
+
+<h1>@Model.Username</h1>
+@if (Model.ProfilePicture == null)
+{
+    <img class="img-fluid" style="max-height:400px; max-width:300px; " src="~/DefaultProfilePicture.png" />
+}
+else
+{
+    <img class="img-fluid" style="max-height: 400px; max-width: 300px;" src="@Model.ProfilePicture" />
+}
 @if (!Model.IsPublic && !Model.IsFriend)
 {
-    <h1 class="text-center">@Model.Username</h1>
     <p class="text-center text-danger">This profile is not public.</p>
     @if (Model.IsReceivedRequest)
     {
@@ -22,39 +31,35 @@
 }
 else
 {
-<h1 class="text-center">
-    @Model.Username
-    @if (Model.IsFriend)
-    {
-        <span class="text-secondary text-info">
-            friend
-            <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/RemoveFriend?username=@Model.Username" class="btn-danger">
-                Remove
+    <div class="container-fluid">
+        @if (Model.IsFriend)
+        {
+            <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/RemoveFriend?username=@Model.Username" class="btn btn-danger btn-sm">
+                Remove friend
             </button>
-        </span>
-    }
-    else if (Model.IsReceivedRequest)
-    {
-        <span>
-            You have friendship request
-            <button type="button" onclick="location.href='@Url.Action("AcceptFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/AcceptFriend?username=@Model.Username" class="btn-success">Accept friend request</button>
-            <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/RemoveFriend?username=@Model.Username" class="btn-danger">Refuse friend request</button>
-        </span>
-    }
-    else if (Model.IsSendedRequest)
-    {
-        <span class="text-secondary text-info">
-            You have sended request for friendship.
-            <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/RemoveFriend?username=@Model.Username" class="btn-danger">
-                Refuse friend request
-            </button>
-        </span>
-    }
-    else
-    {
-        <button type="button" onclick="location.href='@Url.Action("AddFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/AddFriend?username=@Model.Username" class="btn-success">Send friend request</button>
-    }
-</h1>
+        }
+        else if (Model.IsReceivedRequest)
+        {
+            <span>
+                You have friendship request
+                <button type="button" onclick="location.href='@Url.Action("AcceptFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/AcceptFriend?username=@Model.Username" class="btn btn-success">Accept friend request</button>
+                <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/RemoveFriend?username=@Model.Username" class="btn btn-danger btn-sm">Refuse friend request</button>
+            </span>
+        }
+        else if (Model.IsSendedRequest)
+        {
+            <span class="text-secondary text-info">
+                You have sended request for friendship.
+                <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/RemoveFriend?username=@Model.Username" class="btn btn-danger btn-sm">
+                    Refuse friend request
+                </button>
+            </span>
+        }
+        else
+        {
+            <button type="button" onclick="location.href='@Url.Action("AddFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/AddFriend?username=@Model.Username" class="btn-success">Send friend request</button>
+        }
+    </div>
     <div class="container-fluid row">
         <div class="container-fluid col" style="width:fit-content; height:300px; overflow-y:scroll;">
             @await Component.InvokeAsync("ProfileWorkouts", Model.Username)

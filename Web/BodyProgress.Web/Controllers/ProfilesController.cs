@@ -5,7 +5,7 @@ using BodyProgress.Web.ViewModels.ViewInputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -41,16 +41,9 @@ namespace BodyProgress.Web.Controllers
                 return this.Redirect("/Home/Feed");
             }
 
-            var usernameModel = new ProfileViewModel
-            {
-                Username = username,
-                IsPublic = this.usersService.IsPublic(visitedUserId),
-                IsFriend = this.friendshipsService.IsFriend(userId, visitedUserId),
-                IsReceivedRequest = this.friendshipsService.IsReceivedRequest(userId, visitedUserId),
-                IsSendedRequest = this.friendshipsService.IsSendedRequest(userId, visitedUserId),
-            };
+            var user = this.usersService.GetProfileInfo(userId, visitedUserId);
 
-            return this.View(usernameModel);
+            return this.View(user);
         }
 
         public async Task<IActionResult> AddFriend([FromQuery(Name = "username")] string username)
@@ -81,20 +74,7 @@ namespace BodyProgress.Web.Controllers
         public IActionResult ProfileSettings()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var profilePic = this.usersService.GetProfileImage(userId);
-            var visibility = "Not Public (Only friends)";
-            if (this.usersService.IsPublic(userId))
-            {
-                visibility = "Public";
-            }
-
-            var profileSettings = new ProfileSettingsViewModel()
-            {
-                Visibility = visibility,
-                ProfilePicture = profilePic,
-                Username = this.usersService.GetUsernameById(userId),
-                Goal = this.usersService.GetGoal(userId),
-            };
+            var profileSettings = this.usersService.GetProfileSettings(userId);
 
             return this.View(profileSettings);
         }

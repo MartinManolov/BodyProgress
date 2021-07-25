@@ -17,5 +17,7 @@ namespace BodyProgress.Web.ViewModels
         public bool IsReceivedRequest { get; set; }
 
         public bool IsSendedRequest { get; set; }
+
+        public string ProfilePicture { get; set; }
     }
 }

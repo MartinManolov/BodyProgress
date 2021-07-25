@@ -11,6 +11,10 @@
 
         public string OwnerUsername { get; set; }
 
+        public string OwnerProfilePicture { get; set; }
+
+        public bool IsLiked { get; set; }
+
         public string TextContent { get; set; }
 
         public string ImageUrl { get; set; }

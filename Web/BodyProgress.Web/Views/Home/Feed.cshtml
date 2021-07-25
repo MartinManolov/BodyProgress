@@ -1,50 +1,74 @@
 ﻿@model List<PostViewModel>
 
 @foreach (var post in Model)
-{<div class="container-fluid, border-dark" style="border:groove; margin:70px" >
-        @Html.AntiForgeryToken()
-        <h6 class="h6"><a href="/Profiles/Info?username=@post.OwnerUsername">@post.OwnerUsername</a></h6>
-        <p class="text-right">@post.Date.ToLocalTime()</p>
-        <p>@post.TextContent</p>
-        <div class="card-img">
-            <img src="@post.ImageUrl" alt="@post.OwnerUsername BodyProgress" class="img-fluid"/>
-        </div>
-        <div class="container, border-dark" >
-            <button name="like" data-PostId="@post.Id">Like</button>
-            <button name="unlike"  data-PostId="@post.Id">Unlike</button>
-            <a name="likesCount" id="@post.Id">
-                Likes @post.Likes.Count
-            </a>
-        </div>
-        <div name="@string.Format("{0}{1}", "CommentsContainer", post.Id)" class="container-fluid" style="width:stretch; max-height:200px; overflow:scroll;">
-            @foreach (var comment in post.Comments)
-            {
-            <div name="Comments" id="@string.Format("{0}{1}", "commentDiv", comment.Id)" class="container-fluid , border" >
+{
+<div class="container-fluid, border-dark" style="border:groove;padding-top:10px; margin:70px;">
+    @Html.AntiForgeryToken()
+    <div class="custom-control-inline">
+        @if (post.OwnerProfilePicture == null)
+        {
+            <img src="/DefaultProfilePicture.png" style="max-block-size:60px; margin-inline-start:7px; margin-block:7px" />
+        }
+        else
+        {
+            <img src="@post.OwnerProfilePicture" style="max-block-size: 60px; margin-inline-start: 7px; margin-block:7px" />
+        }
+        <h5><a style="margin-inline-start:10px" href="/Profiles/Info?username=@post.OwnerUsername">@post.OwnerUsername</a></h5>
+    </div>
+    <p class="text-right" style="padding-right:20px;">@post.Date.ToLocalTime()</p>
+
+
+    <p style="margin-inline-start:7px;">@post.TextContent</p>
+    <div class="card-img">
+        <img src="@post.ImageUrl" alt="@post.OwnerUsername BodyProgress" class="img-fluid" />
+    </div>
+    <div class="container, border-dark">
+        @if (post.IsLiked)
+        {
+            <button name="unlike" id="@string.Format("{0}{1}", "unlike", post.Id)" data-PostId="@post.Id" class="btn btn-secondary btn-pill">Unlike</button>
+            <button name="like" id="@string.Format("{0}{1}", "like", post.Id)" data-PostId="@post.Id" class="btn btn-danger btn-icon" style="display:none">Like</button>
+        }
+        else
+        {
+            <button name="like" id="@string.Format("{0}{1}", "like", post.Id)" data-PostId="@post.Id" class="btn btn-danger btn-icon">Like</button>
+            <button name="unlike" id="@string.Format("{0}{1}", "unlike", post.Id)" data-PostId="@post.Id" class="btn btn-secondary btn-pill" style="display:none">Unlike</button>
+        }
+
+
+        <p class="text-secondary" name="likesCount" id="@post.Id">
+            Likes: @post.Likes.Count
+        </p>
+    </div>
+    <div id="@string.Format("{0}{1}", "CommentsContainer", post.Id)" name="commentsContainer" class=" container-fluid tab-content" style="width:stretch; max-height:200px; overflow:scroll;">
+        @foreach (var comment in post.Comments)
+        {
+            <div name="Comments" id="@string.Format("{0}{1}", "commentDiv", comment.Id)" class="container-fluid , border-top">
                 <p id="@string.Format("{0}{1}", "commentInfo", comment.Id)" data-commentId="@comment.Id" name="CommentUserInfo">@comment.OwnerName  - @comment.Date.ToLocalTime() </p>
                 <p>@comment.TextContent</p>
             </div>
-            }
-        </div>
-        <div>
-            
-                <input class="form-control" id="@string.Format("{0}{1}", "comment", post.Id)" type="text" name="commentContent" value="" />
-                <button type="submit" name="commentButton" data-postId="@post.Id">Add comment</button>
-           
-        </div>
-        
+        }
+    </div>
+    <div>
 
+        <input class="form-control" id="@string.Format("{0}{1}", "comment", post.Id)" type="text" name="commentContent" value="" />
+        <button type="submit" name="commentButton" data-postId="@post.Id" class="btn btn-success">Add comment</button>
 
     </div>
- <p></p>
- <p></p>
- <p></p>
+
+
+</div>
+
+<button id="scrollToTop" style="position:fixed; right: 10px; bottom: 10px;">To Top</button>
+    <p></p>
+    <p></p>
+    <p></p>
 
 }
 
 @section Scripts{
     <script>
 
-        function GetComments (postId) {
+        function GetComments(postId) {
             $.ajax({
                 type: 'GET',
                 url: '/api/Comments',
@@ -52,16 +76,16 @@
                 data: { postId: postId },
                 complete: function (data) {
 
-                    $('[name=CommentsContainer' + postId + ']').children().remove();
+                    $('#CommentsContainer' + postId).children().remove();
                     //TODO: Visualizing of comments and delete.
-                    $(data).each(function (i,element){
+                    $(data).each(function (i, element) {
                         $(element.responseJSON).each(function (i, comment) {
-                            
+
                             var formattedDate = new Date(comment.date).toLocaleString(window.navigator.language);
-                            
+
                             var txtDiv = "<div name=Comments id=commentDiv" + comment.id + " class=\"container-fluid , border\" > </div>";
                             var txt1 = "<p id=commentInfo" + comment.id + " data-commentId=" + comment.id + " name=\"CommentUserInfo\">" + comment.ownerName + "  - " + formattedDate + "</p> <p>" + comment.textContent + "</p> ";
-                            $('[name=CommentsContainer' + postId + ']').append(txtDiv).append(txt1);
+                            $('#CommentsContainer' + postId).append(txtDiv).append(txt1);
                         });
                     });
                     scrollSmoothToBottom();
@@ -77,7 +101,7 @@
             var postId = $(this).attr('data-postId');
             var textContent = $('#comment' + postId).val();
             token = $('[name=__RequestVerificationToken]').val();
-            var comment = {'PostId': postId, 'TextContent': textContent };
+            var comment = { 'PostId': postId, 'TextContent': textContent };
             $.ajax({
                 type: 'POST',
                 url: '/api/Comments',
@@ -104,6 +128,7 @@
                 data: { postId: postId },
                 success: function (data) {
                     $('#' + postId + '[name=likesCount]').text("Likes " + data);
+
                 }
             })
         }
@@ -112,7 +137,7 @@
         $('[name=like]').on('click', Like);
         function Like() {
             var postId = $(this).attr('data-postId');
-            var like = {'PostId': postId };
+            var like = { 'PostId': postId };
             token = $('[name=__RequestVerificationToken]').val();
             $.ajax({
                 type: 'POST',
@@ -124,6 +149,8 @@
                     "RequestVerificationToken": token
                 },
                 complete: function () {
+                    $("#like" + postId).hide();
+                    $("#unlike" + postId).show();
                     GetLikes(postId);
                 }
             })
@@ -132,7 +159,7 @@
         $('[name=unlike]').on('click', Unlike);
         function Unlike() {
             var postId = $(this).attr('data-postId');
-            var like = {'PostId': postId };
+            var like = { 'PostId': postId };
             token = $('[name=__RequestVerificationToken]').val();
             $.ajax({
                 type: 'Delete',
@@ -144,13 +171,15 @@
                     "RequestVerificationToken": token
                 },
                 complete: function () {
+                    $("#like" + postId).show();
+                    $("#unlike" + postId).hide();
                     GetLikes(postId);
                 }
             })
         }
 
         function scrollSmoothToBottom() {
-            $('.container-fluid').animate({ scrollTop: $('.container-fluid').prop("scrollHeight")}, 500);
+            $('.tab-content').each(function () { $(this).animate({ scrollTop: $(this).prop("scrollHeight") }, 500) });
         }
 
     </script>

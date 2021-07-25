@@ -1,4 +1,5 @@
-﻿using BodyProgress.Web.ViewModels.ViewInputModels;
+﻿using BodyProgress.Web.ViewModels;
+using BodyProgress.Web.ViewModels.ViewInputModels;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
@@ -11,6 +12,10 @@ namespace BodyProgress.Services.Contracts
         string GetIdByUsername(string username);
 
         bool IsPublic(string userId);
+
+        ProfileViewModel GetProfileInfo(string userId, string visitedUserId);
+
+        ProfileSettingsViewModel GetProfileSettings(string userId);
 
         string GetProfileImage(string userId);
 

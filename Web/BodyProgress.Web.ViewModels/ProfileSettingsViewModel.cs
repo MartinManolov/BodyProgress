@@ -15,7 +15,5 @@ namespace BodyProgress.Web.ViewModels
         public string Username { get; set; }
 
         public string Goal { get; set; }
-
-
     }
 }

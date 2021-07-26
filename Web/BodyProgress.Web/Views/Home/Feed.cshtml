@@ -2,63 +2,64 @@
 
 @foreach (var post in Model)
 {
-<div class="container-fluid, border-dark" style="border:groove;padding-top:10px; margin:70px;">
-    @Html.AntiForgeryToken()
-    <div class="custom-control-inline">
-        @if (post.OwnerProfilePicture == null)
-        {
-            <img src="/DefaultProfilePicture.png" style="max-block-size:60px; margin-inline-start:7px; margin-block:7px" />
-        }
-        else
-        {
-            <img src="@post.OwnerProfilePicture" style="max-block-size: 60px; margin-inline-start: 7px; margin-block:7px" />
-        }
-        <h5><a style="margin-inline-start:10px" href="/Profiles/Info?username=@post.OwnerUsername">@post.OwnerUsername</a></h5>
+    <div class="container-fluid, border-dark" style="border:groove;padding-top:10px; margin:70px;">
+        @Html.AntiForgeryToken()
+        <div class="custom-control-inline">
+            @if (post.OwnerProfilePicture == null)
+            {
+                <img src="/DefaultProfilePicture.png" style="max-block-size:60px; margin-inline-start:7px; margin-block:7px" />
+            }
+            else
+            {
+                <img src="@post.OwnerProfilePicture" style="max-block-size: 60px; margin-inline-start: 7px; margin-block:7px" />
+            }
+            <h5><a style="margin-inline-start:10px" href="/Profiles/Info?username=@post.OwnerUsername">@post.OwnerUsername</a></h5>
+        </div>
+        <p class="text-right" style="padding-right:20px;">@post.Date.ToLocalTime()</p>
+
+
+        <p style="margin-inline-start:7px;">@post.TextContent</p>
+        <div class="card-img">
+            <img src="@post.ImageUrl" alt="@post.OwnerUsername BodyProgress" class="img-fluid" />
+        </div>
+        <div class="d-inline-block, container, border-dark">
+            @if (post.IsLiked)
+            {
+                <button name="unlike" id="@string.Format("{0}{1}", "unlike", post.Id)" data-PostId="@post.Id" class="btn btn-danger btn-pill"><i class="far fa-heart"></i></button>
+                <button name="like" id="@string.Format("{0}{1}", "like", post.Id)" data-PostId="@post.Id" class="btn btn-outline-danger btn-icon" style="display:none"><i class="far fa-heart"></i></button>
+            }
+            else
+            {
+                <button name="like" id="@string.Format("{0}{1}", "like", post.Id)" data-PostId="@post.Id" class="btn btn-outline-danger btn-icon"><i class="far fa-heart"></i></button>
+                <button name="unlike" id="@string.Format("{0}{1}", "unlike", post.Id)" data-PostId="@post.Id" class="btn btn-danger btn-pill" style="display:none"><i class="far fa-heart"></i></button>
+            }
+
+
+            <p class="d-inline text-dark" name="likesCount" id="@post.Id">
+                @post.Likes.Count
+            </p>
+        </div>
+        <div id="@string.Format("{0}{1}", "CommentsContainer", post.Id)" name="commentsContainer" class=" container-fluid tab-content" style="width:stretch; max-height:200px; overflow:scroll;">
+            @foreach (var comment in post.Comments)
+            {
+                <div name="Comments" id="@string.Format("{0}{1}", "commentDiv", comment.Id)" class="container-fluid , border-top">
+                    <p id="@string.Format("{0}{1}", "commentInfo", comment.Id)" data-commentId="@comment.Id" name="CommentUserInfo">@comment.OwnerName  - @comment.Date.ToLocalTime() </p>
+                    <p>@comment.TextContent</p>
+                </div>
+            }
+        </div>
+        <div>
+
+            <input class="form-control" id="@string.Format("{0}{1}", "comment", post.Id)" type="text" name="commentContent" value="" />
+            <button type="submit" name="commentButton" data-postId="@post.Id" class="btn btn-success">Add comment</button>
+
+        </div>
+
+
     </div>
-    <p class="text-right" style="padding-right:20px;">@post.Date.ToLocalTime()</p>
 
-
-    <p style="margin-inline-start:7px;">@post.TextContent</p>
-    <div class="card-img">
-        <img src="@post.ImageUrl" alt="@post.OwnerUsername BodyProgress" class="img-fluid" />
-    </div>
-    <div class="container, border-dark">
-        @if (post.IsLiked)
-        {
-            <button name="unlike" id="@string.Format("{0}{1}", "unlike", post.Id)" data-PostId="@post.Id" class="btn btn-secondary btn-pill">Unlike</button>
-            <button name="like" id="@string.Format("{0}{1}", "like", post.Id)" data-PostId="@post.Id" class="btn btn-danger btn-icon" style="display:none">Like</button>
-        }
-        else
-        {
-            <button name="like" id="@string.Format("{0}{1}", "like", post.Id)" data-PostId="@post.Id" class="btn btn-danger btn-icon">Like</button>
-            <button name="unlike" id="@string.Format("{0}{1}", "unlike", post.Id)" data-PostId="@post.Id" class="btn btn-secondary btn-pill" style="display:none">Unlike</button>
-        }
-
-
-        <p class="text-secondary" name="likesCount" id="@post.Id">
-            Likes: @post.Likes.Count
-        </p>
-    </div>
-    <div id="@string.Format("{0}{1}", "CommentsContainer", post.Id)" name="commentsContainer" class=" container-fluid tab-content" style="width:stretch; max-height:200px; overflow:scroll;">
-        @foreach (var comment in post.Comments)
-        {
-            <div name="Comments" id="@string.Format("{0}{1}", "commentDiv", comment.Id)" class="container-fluid , border-top">
-                <p id="@string.Format("{0}{1}", "commentInfo", comment.Id)" data-commentId="@comment.Id" name="CommentUserInfo">@comment.OwnerName  - @comment.Date.ToLocalTime() </p>
-                <p>@comment.TextContent</p>
-            </div>
-        }
-    </div>
-    <div>
-
-        <input class="form-control" id="@string.Format("{0}{1}", "comment", post.Id)" type="text" name="commentContent" value="" />
-        <button type="submit" name="commentButton" data-postId="@post.Id" class="btn btn-success">Add comment</button>
-
-    </div>
-
-
-</div>
-
-<button id="scrollToTop" style="position:fixed; right: 10px; bottom: 10px;">To Top</button>
+    <button onclick="ScrollToTop()" title="Scroll to the top" class="btn btn-info btn-icon" id="scrollToTop" style="position:fixed; right: 10px; bottom: 10px;"><i class="fas fa-arrow-circle-up"></i>
+    </button>
     <p></p>
     <p></p>
     <p></p>
@@ -127,7 +128,7 @@
                 url: '/api/Likes',
                 data: { postId: postId },
                 success: function (data) {
-                    $('#' + postId + '[name=likesCount]').text("Likes " + data);
+                    $('#' + postId + '[name=likesCount]').text(data);
 
                 }
             })
@@ -180,6 +181,11 @@
 
         function scrollSmoothToBottom() {
             $('.tab-content').each(function () { $(this).animate({ scrollTop: $(this).prop("scrollHeight") }, 500) });
+        }
+
+        
+        function ScrollToTop() {
+            $(window).scrollTop(0);
         }
 
     </script>

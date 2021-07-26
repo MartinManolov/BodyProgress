@@ -1,0 +1,35 @@
+﻿@model ICollection<BodyStatisticViewModel>
+
+@if (Model.Count == 0)
+{
+    <div class="container-fluid">
+        <p class="text-center">This user doesn't have measurments.</p>
+    </div>
+}
+else
+{
+<div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+    <h5 class="text-center">All body measurement</h5>
+    @foreach (var bodyStatistic in Model)
+    {
+        <div class="shadow-lg p-3 mb-5 bg-white rounded">
+            <h3>@bodyStatistic.Date</h3>
+            <table class="tab-content" style="width: 100%" border-spacing: 5px;>
+                <colgroup>
+                </colgroup>
+                <tr>
+                    <th>Height</th>
+                    <th>Weight</th>
+                    <th>Body fat %</th>
+                </tr>
+                <tr>
+                    <td>@bodyStatistic.Height</td>
+                    <td>@bodyStatistic.Weight</td>
+                    <td>@bodyStatistic.BodyFatPercentage</td>
+                    <td><a href="/BodyStatistics/Delete?workoutId=@bodyStatistic.Id" class="btn btn-outline-danger">Delete</a></td>
+                </tr>
+            </table>
+        </div>
+    }
+</div>
+}

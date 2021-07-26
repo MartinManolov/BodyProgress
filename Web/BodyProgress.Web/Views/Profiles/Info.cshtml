@@ -67,5 +67,8 @@ else
         <div class="container-fluid col" style="width:fit-content; height:300px; overflow-y:scroll;">
             @await Component.InvokeAsync("ProfileMeals", Model.Username)
         </div>
+        <div class="container-fluid col" style="width:fit-content; height:300px; overflow-y:scroll;">
+            @await Component.InvokeAsync("ProfileBodyStatistics", Model.Username)
+        </div>
     </div>
 }

@@ -1,38 +1,40 @@
 ﻿@model ICollection<MealViewModel>
+<div class="container-fluid shadow-lg p-3 mb-5 bg-white rounded">
+    <h1 class="text-center"> All Meals</h1>
 
-@foreach (var meal in Model)
-{
-    <div>
-        <h4>@meal.Name</h4>
-        <h6>@meal.Date</h6>
-        @foreach (var foodQuantity in meal.FoodsMealQuantities)
-        {
-            <table class="tab-content table-bordered"  border-spacing: 5px;>
-                <colgroup>
-                </colgroup>
-                <tr >
-                    <th>Food</th>
-                    <th>Quantity</th>
-                    <th>Kcal per 100g</th>
-                    <th>Carbs per 100g</th>
-                    <th>Protein per 100g</th>
-                    <th>Fat per 100g</th>
-                </tr>
-                <tr>
-                    <td>@foodQuantity.FoodName</td>
-                    <td>@foodQuantity.Quantity</td>
-                    <td>@foodQuantity.KcalPer100g</td>
-                    <td>@foodQuantity.CarbsPer100g</td>
-                    <td>@foodQuantity.ProteinPer100g</td>
-                    <td>@foodQuantity.FatsPer100g</td>
-                </tr>
-            </table>
+    @foreach (var meal in Model)
+    {
+        <div class="shadow-lg p-3 mb-5 bg-white rounded">
+            <h4>@meal.Name</h4>
+            <h6>@meal.Date</h6>
+            @foreach (var foodQuantity in meal.FoodsMealQuantities)
+            {
+                <table class="tab-content shadow-lg p-1 mb-3 bg-white rounded" style="width: 100%" border-spacing: 5px;>
+                    <colgroup>
+                    </colgroup>
+                    <tr>
+                        <th>Food</th>
+                        <th>Quantity</th>
+                        <th>Kcal per 100g</th>
+                        <th>Carbs per 100g</th>
+                        <th>Protein per 100g</th>
+                        <th>Fat per 100g</th>
+                    </tr>
+                    <tr>
+                        <td>@foodQuantity.FoodName</td>
+                        <td>@foodQuantity.Quantity</td>
+                        <td>@foodQuantity.KcalPer100g</td>
+                        <td>@foodQuantity.CarbsPer100g</td>
+                        <td>@foodQuantity.ProteinPer100g</td>
+                        <td>@foodQuantity.FatsPer100g</td>
+                    </tr>
+                </table>
 
-        }
-        <p>Kcal per meal: @meal.KcalPerMeal</p>
-        <p>Carbs per meal: @meal.CarbsPerMeal</p>
-        <p>Protein per meal: @meal.ProteinPerMeal</p>
-        <p>Fats per meal: @meal.FatsPerMeal</p>
-
-    </div>
-}
+            }
+            <p>Kcal per meal: @meal.KcalPerMeal kcal</p>
+            <p>Carbs per meal: @meal.CarbsPerMeal</p>
+            <p>Protein per meal: @meal.ProteinPerMeal</p>
+            <p>Fats per meal: @meal.FatsPerMeal</p>
+        </div>
+    }
+</div>

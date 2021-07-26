@@ -5,20 +5,23 @@
     table, th, td {
         border: 1px solid black;
     }
-    table.center {
-        margin-left: auto;
-        margin-right: auto;
-    }
+
+        table.center {
+            margin-left: auto;
+            margin-right: auto;
+        }
 </style>
-<h1>Workout History</h1>
-<div>
-    @foreach (var workout in Model)
-    {
+<h1 class="text-center">Workout History</h1>
+
+@foreach (var workout in Model)
+{
+    <div class="shadow-lg p-3 mb-5 rounded">
         <h2>@workout.Name</h2>
         <h4>@workout.Date</h4>
         @foreach (var set in workout.Sets)
         {
-            <table class="tab-content" style="width: 100%" border-spacing: 5px;>
+
+            <table class="tab-content shadow-sm p-1 mb-3 bg-white rounded" style="width: 100%" border-spacing: 5px;>
                 <colgroup>
                 </colgroup>
                 <tr>
@@ -34,8 +37,7 @@
             </table>
         }
         <p>All Weight @workout.AllWeightForWorkout</p>
-        
-        <a href="/Workouts/Delete?workoutId=@workout.Id" class="btn btn-block btn-primary">Delete</a>
+        <a href="/Workouts/Delete?workoutId=@workout.Id" class="btn btn-outline-danger">Delete</a>
+    </div>
+}
 
-    }
-</div>

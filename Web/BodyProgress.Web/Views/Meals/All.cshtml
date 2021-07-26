@@ -1,14 +1,14 @@
 ﻿@model List<MealViewModel>
-<h1 > All Meals</h1>
+<h1 class="text-center" > All Meals</h1>
 
 @foreach (var meal in Model)
 {
-<div>
+<div class="shadow-lg p-3 mb-5 bg-white rounded" >
     <h4>@meal.Name</h4>
     <h6>@meal.Date</h6>
     @foreach (var foodQuantity in meal.FoodsMealQuantities)
     {
-        <table class="tab-content" style="width: 100%" border-spacing: 5px;>
+        <table class="tab-content shadow-lg p-1 mb-3 bg-white rounded" style="width: 100%" border-spacing: 5px;>
             <colgroup>
             </colgroup>
             <tr>
@@ -30,7 +30,7 @@
         </table>
 
     }
-    <p>Kcal per meal: @meal.KcalPerMeal</p>
+    <p>Kcal per meal: @meal.KcalPerMeal kcal</p>
     <p>Carbs per meal: @meal.CarbsPerMeal</p>
     <p>Protein per meal: @meal.ProteinPerMeal</p>
     <p>Fats per meal: @meal.FatsPerMeal</p>

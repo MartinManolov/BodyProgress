@@ -2,7 +2,7 @@
 
 @foreach (var post in Model)
 {
-    <div class="container-fluid, border-dark" style="border:groove;padding-top:10px; margin:70px;">
+    <div class="container-fluid, border-dark shadow-lg p-3 mb-5 bg-white rounded" style="border:groove;padding-top:10px; margin:70px;">
         @Html.AntiForgeryToken()
         <div class="custom-control-inline">
             @if (post.OwnerProfilePicture == null)

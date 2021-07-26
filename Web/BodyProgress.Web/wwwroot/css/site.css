@@ -59,14 +59,6 @@ html {
     position: relative;
     min-height: 100%;
 }
-header {
-    position:sticky;
-    left:0;
-    right:0;
-    top:0;
-    background-image: url("../LayoutBackground.jpg");
-    background-size:contain;
-}
 
 body {
     /* Margin bottom by footer height */
@@ -79,7 +71,12 @@ div {
     background-color:white;
 }
 
-
+header {
+    position: sticky;
+    left: 0;
+    right: 0;
+    top: 0;
+}
 
 .footer {
     position: absolute;

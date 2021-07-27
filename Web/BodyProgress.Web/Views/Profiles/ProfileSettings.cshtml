@@ -12,7 +12,7 @@
         <img src="@Model.ProfilePicture" class="img-fluid" style="max-height:400px; max-width:300px; " />
     }
 
-    <form class="col" asp-controller="Profiles" asp-action="ChangeProfilePicture" method="post" enctype="multipart/form-data">
+    <form class="col container-fluid" asp-controller="Profiles" asp-action="ChangeProfilePicture" method="post" enctype="multipart/form-data">
         <input type="file" name="image" class="form-control-file" />
         <button type="submit" class="btn btn-primary">Change profile picture</button>
     </form>

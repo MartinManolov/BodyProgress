@@ -39,7 +39,7 @@
                 @post.Likes.Count
             </p>
         </div>
-        <div id="@string.Format("{0}{1}", "CommentsContainer", post.Id)" name="commentsContainer" class=" container-fluid tab-content" style="width:stretch; max-height:200px; overflow:scroll;">
+        <div id="@string.Format("{0}{1}", "CommentsContainer", post.Id)" name="commentsContainer" class=" container-fluid tab-content" style="width:stretch; max-height:200px; overflow:auto">
             @foreach (var comment in post.Comments)
             {
                 <div name="Comments" id="@string.Format("{0}{1}", "commentDiv", comment.Id)" class="container-fluid , border-top">

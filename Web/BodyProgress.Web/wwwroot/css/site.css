@@ -71,6 +71,10 @@ div {
     background-color:white;
 }
 
+img {
+    border-radius: 8px;
+}
+
 header {
     position: sticky;
     left: 0;

@@ -60,10 +60,10 @@
     <Content Update="wwwroot\favicon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\lib\%40microsoft\signalr\dist\browser\signalr.js">
+    <Content Update="wwwroot\lib\@microsoft\signalr\dist\browser\signalr.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\lib\%40microsoft\signalr\dist\browser\signalr.min.js">
+    <Content Update="wwwroot\lib\@microsoft\signalr\dist\browser\signalr.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css">

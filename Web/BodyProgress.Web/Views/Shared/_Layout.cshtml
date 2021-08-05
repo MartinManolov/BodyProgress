@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery-ui.js" asp-append-version="true"></script>
 </head>
 <body>
     <header>
@@ -26,7 +27,9 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="nav navbar-nav flex-lg-grow-0" style=" margin-inline: 20px">
-
+                        <form>
+                            <input type="text" class="form-control" id="search" placeholder="Search" />
+                        </form>
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="dropdown nav-item">

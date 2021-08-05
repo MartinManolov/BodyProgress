@@ -1,12 +1,15 @@
 ﻿using BodyProgress.Web.ViewModels;
 using BodyProgress.Web.ViewModels.ViewInputModels;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BodyProgress.Services.Contracts
 {
     public interface IUsersService
     {
+        ICollection<string> Search(string expression, int count);
+
         string GetUsernameById(string userId);
 
         string GetIdByUsername(string username);

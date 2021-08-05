@@ -1,6 +1,7 @@
 ﻿namespace BodyProgress.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -194,5 +195,14 @@
                 Goal = this.GetGoal(userId),
             };
     }
+
+        public ICollection<string> Search(string expression, int count)
+        {
+            return this.usersRepository.AllAsNoTracking()
+                .Where(x => x.UserName.Contains(expression))
+                .Take(count)
+                .Select(x => x.UserName)
+                .ToList();
+        }
     }
 }

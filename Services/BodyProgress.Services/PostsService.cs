@@ -88,7 +88,7 @@ namespace BodyProgress.Services
                     {
                         Username = l.Owner.UserName,
                     }).ToList(),
-                }).OrderByDescending(x => x.Date).ToList();
+                }).OrderByDescending(x => x.Date).Take(150).ToList();
         }
     }
 }

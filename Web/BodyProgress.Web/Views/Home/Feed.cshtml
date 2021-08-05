@@ -96,6 +96,8 @@
 
         $(document).ready(function () {
             scrollSmoothToBottom();
+            setTimeout(RefreshLikes, 50000);
+            setTimeout(RefreshComments, 60000);
             $('[name=commentButton]').on('click', AddComment);
         });
         function AddComment() {
@@ -186,6 +188,22 @@
         
         function ScrollToTop() {
             $(window).scrollTop(0);
+        }
+
+        function RefreshLikes() {
+            $('[name=likesCount]').each(function () {
+                var postId = $(this).prop('id');
+                GetLikes(postId);
+            })
+            setTimeout(RefreshLikes,50000)
+        }
+
+        function RefreshComments() {
+            $('[name=likesCount]').each(function () {
+                var postId = $(this).prop('id');
+                GetComments(postId);
+            })
+            setTimeout(RefreshComments, 60000)
         }
 
     </script>

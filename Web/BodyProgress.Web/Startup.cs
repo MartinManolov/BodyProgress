@@ -19,6 +19,7 @@ namespace BodyProgress.Web
     
     using BodyProgress.Services.Mapping;
     using BodyProgress.Services.Messaging;
+    using BodyProgress.Web.Hubs;
     using BodyProgress.Web.ViewModels;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -75,7 +76,7 @@ namespace BodyProgress.Web
             Cloudinary cloudinary = new Cloudinary(account);
 
             services.AddSingleton(cloudinary);
-
+            services.AddSignalR();
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -98,6 +99,8 @@ namespace BodyProgress.Web
             services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IFriendshipsService, FriendshipsService>();
+            services.AddTransient<IFriendsService, FriendsService>();
+            services.AddTransient<IMessagesService, MessagesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -133,13 +136,13 @@ namespace BodyProgress.Web
             app.UseCookiePolicy();
 
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(
                 endpoints =>
                     {
+                        endpoints.MapHub<ChatHub>("/chat");
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();

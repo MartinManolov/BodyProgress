@@ -15,15 +15,12 @@ namespace BodyProgress.Web.Controllers
     public class ProfilesController : BaseController
     {
         private readonly IUsersService usersService;
-        private readonly IFriendshipsService friendshipsService;
         private readonly IUploadMediaService uploadMediaService;
 
         public ProfilesController(IUsersService usersService,
-            IFriendshipsService friendshipsService,
             IUploadMediaService uploadMediaService)
         {
             this.usersService = usersService;
-            this.friendshipsService = friendshipsService;
             this.uploadMediaService = uploadMediaService;
         }
 
@@ -46,31 +43,6 @@ namespace BodyProgress.Web.Controllers
             return this.View(user);
         }
 
-        public async Task<IActionResult> AddFriend([FromQuery(Name = "username")] string username)
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var friendId = this.usersService.GetIdByUsername(username);
-            await this.friendshipsService.AddFriend(userId, friendId);
-            return this.Redirect($"/Profiles/Info?username={username}");
-        }
-
-        public async Task<IActionResult> AcceptFriend([FromQuery(Name = "username")] string username)
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var friendId = this.usersService.GetIdByUsername(username);
-            await this.friendshipsService.AcceptFriend(userId, friendId);
-            return this.Redirect($"/Profiles/Info?username={username}");
-        }
-
-        public async Task<IActionResult> RemoveFriend([FromQuery(Name = "username")] string username)
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var friendId = this.usersService.GetIdByUsername(username);
-            await this.friendshipsService.RemoveFriend(userId, friendId);
-            return this.Redirect($"/Profiles/Info?username={username}");
-        }
-
-        [HttpGet]
         public IActionResult ProfileSettings()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

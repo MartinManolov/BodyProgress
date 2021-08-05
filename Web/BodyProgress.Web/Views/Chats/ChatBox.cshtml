@@ -1,0 +1,32 @@
+﻿@model List<MessageViewModel>
+
+<div class="container-fluid">
+    <div id="chatBox" class="container-fluid">
+        @foreach (var user in Model)
+        {
+            <div class="container-fluid, border-dark shadow-lg rounded" style="border-block:medium;">
+                <div class="row">
+                    <div class="col">
+                        <a class="nav-item text-dark" href="/Profiles/Info?username=@user.SenderUsername">
+                            @user.SenderUsername
+                        </a>
+                    </div>
+                    <div class="col-sm-auto">
+                        <p class="text-secondary">
+                            @user.Date
+                        </p>
+                    </div>
+                </div>
+                <p class="text-primary">
+                    @user.Text
+                </p>
+            </div>
+        }
+    </div>
+    <div>
+        <form class="form-control-plaintext">
+            <input class="form-control" type="text" name="Message" id="messageInput" value="" />
+            <input class="btn btn-success" type="button" name="Send" id="sendMessageButton" value="Send" />
+        </form>
+    </div>
+</div>

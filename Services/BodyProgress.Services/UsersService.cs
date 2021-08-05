@@ -174,7 +174,7 @@
                 IsFriend = this.friendshipsService.IsFriend(userId, visitedUserId),
                 IsReceivedRequest = this.friendshipsService.IsReceivedRequest(userId, visitedUserId),
                 IsSendedRequest = this.friendshipsService.IsSendedRequest(userId, visitedUserId),
-                ProfilePicture = this.GetProfileImage(userId),
+                ProfilePicture = this.GetProfileImage(visitedUserId),
             };
         }
 

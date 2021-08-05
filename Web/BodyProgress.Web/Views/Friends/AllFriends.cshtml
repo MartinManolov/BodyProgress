@@ -1,0 +1,21 @@
+﻿@model List<FriendViewModel>
+
+<div class="container-fluid">
+    @foreach (var friend in Model)
+    {
+        <div>
+            <article class="custom-control-inline">
+                @if (friend.ProfilePicture == null)
+                {
+                    <img src="~/DefaultProfilePicture.png" style="max-block-size:60px; margin-inline-start:7px; margin-block:7px" />
+                }
+                else
+                {
+                    <img src="@friend.ProfilePicture" style="max-block-size:60px; margin-inline-start:7px; margin-block:7px" />
+                }
+                <a class="nav-link text-info" href="/Profiles/Info?username=@friend.Username">@friend.Username</a>
+                <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Friends",new {username = friend.Username })'" href="/Friends/RemoveFriend?username=@friend.Username" class="btn btn-danger btn-pill">Remove from friends</button>
+            </article>
+        </div>
+    }
+</div>

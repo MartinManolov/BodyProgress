@@ -15,17 +15,17 @@ else
     @if (Model.IsReceivedRequest)
     {
         <p class="text-center text-secondary">You have friendship request from this user.</p>
-        <button type="button" onclick="location.href='@Url.Action("AcceptFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/AcceptFriend?username=@Model.Username" class="btn-success">Accept friend request</button>
-        <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/RemoveFriend?username=@Model.Username" class="btn-danger">Refuse friend request</button>
+        <button type="button" onclick="location.href='@Url.Action("AcceptFriend", "Friends",new {username = Model.Username })'" href="/Friends/AcceptFriend?username=@Model.Username" class="btn-success">Accept friend request</button>
+        <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Friends",new {username = Model.Username })'" href="/Friends/RemoveFriend?username=@Model.Username" class="btn-danger">Refuse friend request</button>
     }
     else if (Model.IsSendedRequest)
     {
         <p class="text-center text-secondary">You have sended request for friendship.</p>
-        <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/RemoveFriend?username=@Model.Username" class="btn-danger">Refuse friend request</button>
+        <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Friends",new {username = Model.Username })'" href="/Friends/RemoveFriend?username=@Model.Username" class="btn-danger">Refuse friend request</button>
     }
     else
     {
-        <button type="button" onclick="location.href='@Url.Action("AddFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/AddFriend?username=@Model.Username" class="btn-success">Send friend request</button>
+        <button type="button" onclick="location.href='@Url.Action("AddFriend", "Friends",new {username = Model.Username })'" href="/Friends/AddFriend?username=@Model.Username" class="btn-success">Send friend request</button>
     }
 
 }
@@ -34,7 +34,7 @@ else
     <div class="container-fluid">
         @if (Model.IsFriend)
         {
-            <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/RemoveFriend?username=@Model.Username" class="btn btn-danger btn-sm">
+            <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Friends",new {username = Model.Username })'" href="/Friends/RemoveFriend?username=@Model.Username" class="btn btn-danger btn-sm">
                 Remove friend
             </button>
         }
@@ -42,22 +42,22 @@ else
         {
             <span>
                 You have friendship request
-                <button type="button" onclick="location.href='@Url.Action("AcceptFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/AcceptFriend?username=@Model.Username" class="btn btn-success">Accept friend request</button>
-                <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/RemoveFriend?username=@Model.Username" class="btn btn-danger btn-sm">Refuse friend request</button>
+                <button type="button" onclick="location.href='@Url.Action("AcceptFriend", "Friends",new {username = Model.Username })'" href="/Friends/AcceptFriend?username=@Model.Username" class="btn btn-success">Accept friend request</button>
+                <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Friends",new {username = Model.Username })'" href="/Friends/RemoveFriend?username=@Model.Username" class="btn btn-danger btn-sm">Refuse friend request</button>
             </span>
         }
         else if (Model.IsSendedRequest)
         {
             <span class="text-secondary text-info">
                 You have sended request for friendship.
-                <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/RemoveFriend?username=@Model.Username" class="btn btn-danger btn-sm">
+                <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Friends",new {username = Model.Username })'" href="/Friends/RemoveFriend?username=@Model.Username" class="btn btn-danger btn-sm">
                     Refuse friend request
                 </button>
             </span>
         }
         else
         {
-            <button type="button" onclick="location.href='@Url.Action("AddFriend", "Profiles",new {username = Model.Username })'" href="/Profiles/AddFriend?username=@Model.Username" class="btn-success">Send friend request</button>
+            <button type="button" onclick="location.href='@Url.Action("AddFriend", "Friends",new {username = Model.Username })'" href="/Friends/AddFriend?username=@Model.Username" class="btn-success">Send friend request</button>
         }
     </div>
     <div class="container-fluid row">

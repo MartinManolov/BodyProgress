@@ -17,7 +17,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-lg p-3 mb-5 bg-white rounded ">
-            <div class="container">
+            <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -30,25 +30,35 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="dropdown nav-item">
-                                <a class="dropdown-toggle nav nav-link" data-toggle="dropdown" href="#">Workout </a>
+                                <a class="dropdown-toggle nav nav-link" data-toggle="dropdown" href="#"><i class="fas fa-heartbeat"></i> Workout </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Workouts" asp-action="All">Your workouts</a></li>
-                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Workouts" asp-action="Add">Add</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Workouts" asp-action="All"><i class="fas fa-history"></i> Your workouts</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Workouts" asp-action="Add"><i class="far fa-calendar-plus"></i> Add</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown nav-item">
-                                <a class="dropdown-toggle nav nav-link" data-toggle="dropdown" href="#">Meal </a>
+                                <a class="dropdown-toggle nav nav-link" data-toggle="dropdown" href="#"><i class="fas fa-utensils"></i> Meal </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Meals" asp-action="All">Your meals</a></li>
-                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Meals" asp-action="Add">Add</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Meals" asp-action="All"><i class="fas fa-history"></i> Your meals</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Meals" asp-action="Add"><i class="far fa-calendar-plus"></i> Add</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown nav-item">
-                                <a class="dropdown-toggle nav nav-link" data-toggle="dropdown" href="#">Body statistics</a>
+                                <a class="dropdown-toggle nav nav-link" data-toggle="dropdown" href="#"><i class="fas fa-chart-bar"></i> Body statistics</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="BodyStatistics" asp-action="All">History</a></li>
-                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="BodyStatistics" asp-action="Add">Add body measurments</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="BodyStatistics" asp-action="All"><i class="fas fa-history"></i> History</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="BodyStatistics" asp-action="Add"><i class="far fa-calendar-plus"></i> Add body measurments</a></li>
                                 </ul>
+                            </li>
+                            <li class="dropdown nav-item">
+                                <a class="dropdown-toggle nav nav-link" data-toggle="dropdown" href="#"><i class="fas fa-users"></i> Friends</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Friends" asp-action="AllFriends"><i class="fas fa-user-friends"></i> Friends</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Friends" asp-action="ReceivedFriendRequests"><i class="fas fa-user-plus"></i> Requests</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav nav-link" asp-area="" asp-controller="Chats" asp-action="ChatBox"><i class="far fa-comment-dots"></i></a>
                             </li>
                         }
 
@@ -64,19 +74,21 @@
             @this.RenderBody()
         </main>
     </div>
+    
 
     <footer class="border-top footer text-muted">
-        <div class="container">
+        <div class="container-fluid">
             &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 
-
+    <script src="~/lib/@@microsoft/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
-    <script src="~/lib/popper/popper.min.js"></script>
+    <script src="~/lib/popper/popper.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
-    <script src="~/js/lazy.js"></script>
+    <script src="~/js/chat.js" asp-append-version="true"></script>
+    <script src="~/js/lazy.js" asp-append-version="true"></script>
     
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>

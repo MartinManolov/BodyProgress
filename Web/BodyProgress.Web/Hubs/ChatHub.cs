@@ -19,6 +19,11 @@ namespace BodyProgress.Web.Hubs
 
         public async Task SendToAll(string message)
         {
+            if (message.Length == 0)
+            {
+                return;
+            }
+
             var userId = this.Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var usernameSender = this.Context.User.Identity.Name;
 

@@ -30,3 +30,18 @@
         </form>
     </div>
 </div>
+
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+            scrollCommentsToBottom();
+        })
+
+        function scrollCommentsToBottom() {
+            var scroll = document.getElementById('chatBox');
+            scroll.scrollTop = scroll.scrollHeight;
+            scroll.animate({ scrollTop: scroll.scrollHeight }, 500);
+        }
+    </script>
+
+}

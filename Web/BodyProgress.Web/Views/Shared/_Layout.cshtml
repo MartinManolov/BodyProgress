@@ -17,7 +17,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-lg p-3 mb-5 bg-white rounded ">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-lg p-3 mb-5 bg-white rounded" style="background-color:white">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -27,11 +27,12 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="nav navbar-nav flex-lg-grow-0" style=" margin-inline: 20px">
-                        <form>
-                            <input type="text" class="form-control" id="search" placeholder="Search" />
-                        </form>
+
                         @if (User.Identity.IsAuthenticated)
                         {
+                            <form>
+                                <input type="text" class="form-control" id="search" placeholder="Search" />
+                            </form>
                             <li class="dropdown nav-item">
                                 <a class="dropdown-toggle nav nav-link" data-toggle="dropdown" href="#"><i class="fas fa-heartbeat"></i> Workout </a>
                                 <ul class="dropdown-menu">

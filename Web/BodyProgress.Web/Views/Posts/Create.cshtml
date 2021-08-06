@@ -1,20 +1,22 @@
 ﻿@model BodyProgress.Web.ViewModels.ViewInputModels.PostInputModel
-<h1 class="h1">Create your post</h1>
+    <div class="container-fluid">
+        <h1 class="h1">Create your post</h1>
 
-<form asp-action="Create" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="TextContent" class="control-label">Text content</label>
-        <input asp-for="TextContent" class="form-control" />
-        <span asp-validation-for="TextContent" class="text-danger"></span>
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TextContent" class="control-label">Text content</label>
+                <input asp-for="TextContent" class="form-control" />
+                <span asp-validation-for="TextContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label">Image</label>
+                <input asp-for="Image" type="file" class="form-control" />
+            </div>
+            <select asp-for="IsPublic">
+                <option value="true">Public</option>
+                <option value="false">Only friends</option>
+            </select>
+            <input type="submit" class="btn-success" name="Post" />
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="Image" class="control-label">Image</label>
-        <input asp-for="Image" type="file" class="form-control" />
-    </div>
-    <select asp-for="IsPublic">
-        <option value="true">Public</option>
-        <option value="false">Only friends</option>
-    </select>
-    <input type="submit" class="btn-success" name="Post"/>
-</form>

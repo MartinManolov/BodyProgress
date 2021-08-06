@@ -35,7 +35,7 @@ namespace BodyProgress.Web.Controllers
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             await this._mealsService.Create(input, userId);
-            return this.Redirect("/");
+            return this.Redirect("/Meals/All");
 
         }
 

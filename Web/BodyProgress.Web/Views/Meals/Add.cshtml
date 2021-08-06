@@ -1,67 +1,79 @@
 ﻿@model BodyProgress.Web.ViewModels.ViewInputModels.MealInputModel
-<h1>Add Meal</h1>
+    <div class="container-fluid">
+        <h1 class="text-center">Add Meal</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Add">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="MealName" class="control-label"></label>
+                        <input asp-for="MealName" class="form-control" />
+                        <span asp-validation-for="MealName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Date" class="control-label"></label>
+                        <input asp-for="Date" class="form-control" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                    <div class="container-fluid">
+                        <table id="AddFoodTable" style="width:40%">
+                            <tr class="form-check-label">
+                                <th class="col">@Html.DisplayNameFor(model => model.FoodsWithQuantities[0].FoodName)</th>
+                                <th class="col">@Html.DisplayNameFor(model => model.FoodsWithQuantities[0].Quantity)</th>
+                                <th class="col">@Html.DisplayNameFor(model => model.FoodsWithQuantities[0].KcalPer100g)</th>
+                                <th class="col">@Html.DisplayNameFor(model => model.FoodsWithQuantities[0].CarbsPer100g)</th>
+                                <th class="col">@Html.DisplayNameFor(model => model.FoodsWithQuantities[0].ProteinPer100g)</th>
+                                <th class="col">@Html.DisplayNameFor(model => model.FoodsWithQuantities[0].FatPer100g)</th>
+                                <th class="col">  </th>
+                            </tr>
 
-<h4>Workout</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Add">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="MealName" class="control-label"></label>
-                <input asp-for="MealName" class="form-control" />
-                <span asp-validation-for="MealName" class="text-danger"></span>
+                        </table>
+                    </div>
+                    <div class="container-fluid">
+                        <button onclick="addRow()" type="button" class="btn btn-warning btn-pill">Add food</button>
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <button onclick="addRow()" type="button">Add Set</button>
-            <table id="AddSetsTable" style="width:100%">
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.FoodsWithQuantities[0].FoodName)</th>
-                    <th>@Html.DisplayNameFor(model => model.FoodsWithQuantities[0].Quantity)</th>
-                    <th>@Html.DisplayNameFor(model => model.FoodsWithQuantities[0].KcalPer100g)</th>
-                    <th>@Html.DisplayNameFor(model => model.FoodsWithQuantities[0].CarbsPer100g)</th>
-                    <th>@Html.DisplayNameFor(model => model.FoodsWithQuantities[0].ProteinPer100g)</th>
-                    <th>@Html.DisplayNameFor(model => model.FoodsWithQuantities[0].FatPer100g)</th>
-                </tr>
-            </table>
-            <div class="form-group">
-                <button onclick="addRow()" type="button" class="btn-warning">Add Set</button>
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
 
 
 
 
-@* TODO: Find other solution *@
-@section Scripts {
-    <script>
-        var counter = 0;
+    @* TODO: Find other solution *@
+    @section Scripts {
+        <script>
+            var counter = 0;
 
-        function addRow() {
-            var table = document.getElementById("AddSetsTable");
-            var row = table.insertRow(+1);
+            function addRow() {
+                var table = document.getElementById("AddFoodTable");
+                var row = table.insertRow(-1);
 
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            var cell5 = row.insertCell(4);
-            var cell6 = row.insertCell(5);
 
-            cell1.innerHTML = '<input type="text" name="FoodsWithQuantities[' + counter + '].FoodName"/>';
-            cell2.innerHTML = '<input type="text" name="FoodsWithQuantities[' + counter + '].Quantity"/>';
-            cell3.innerHTML = '<input type="text" name="FoodsWithQuantities[' + counter + '].KcalPer100g"/>';
-            cell4.innerHTML = '<input type="text" name="FoodsWithQuantities[' + counter + '].CarbsPer100g"/>';
-            cell5.innerHTML = '<input type="text" name="FoodsWithQuantities[' + counter + '].ProteinPer100g"/>';
-            cell6.innerHTML = '<input type="text" name="FoodsWithQuantities[' + counter + '].FatPer100g"/>';
-            counter++;
-        }
-    </script>
-}
+
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                var cell6 = row.insertCell(5);
+                var cell7 = row.insertCell(6);
+
+                cell1.innerHTML = '<input maxlength="20" minlength="2" class="col" type="text" name="FoodsWithQuantities[' + counter + '].FoodName" required />';
+                cell2.innerHTML = '<input max="5000" min="1" class="col" type="number" name="FoodsWithQuantities[' + counter + '].Quantity" required/>';
+                cell3.innerHTML = '<input max="800" min="1" class="col" type="number" name="FoodsWithQuantities[' + counter + '].KcalPer100g" required/>';
+                cell4.innerHTML = '<input max="100" min="1" class="col" type="number" name="FoodsWithQuantities[' + counter + '].CarbsPer100g" required/>';
+                cell5.innerHTML = '<input max="100" min="1" class="col" type="number" name="FoodsWithQuantities[' + counter + '].ProteinPer100g" required/>';
+                cell6.innerHTML = '<input max="100" min="1" class="col" type="number" name="FoodsWithQuantities[' + counter + '].FatPer100g" required/>';
+                cell7.innerHTML = '<input type="button" class="col btn btn-danger btn-sm btn-pill" onclick="RemoveRow()" value="Remove" />';
+                counter++;
+            }
+
+            function RemoveRow() {
+                var td = event.target.parentNode;
+                var tr = td.parentNode;
+                tr.parentNode.removeChild(tr);
+            }
+        </script>
+    }

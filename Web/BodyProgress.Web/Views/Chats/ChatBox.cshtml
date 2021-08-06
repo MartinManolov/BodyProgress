@@ -1,13 +1,13 @@
 ﻿@model List<MessageViewModel>
 
 <div class="container-fluid">
-    <div id="chatBox" class="container-fluid">
+    <div id="chatBox" class="container-fluid tab-content" style="width:contain; max-height:300px; overflow:auto">
         @foreach (var user in Model)
         {
-            <div class="container-fluid, border-dark shadow-lg rounded" style="border-block:medium;">
-                <div class="row">
+            <div class="container-fluid, border-dark shadow-lg rounded" style="border-block:solid; margin-block:4px;" >
+                <div class="row container-fluid border-bottom">
                     <div class="col">
-                        <a class="nav-item text-dark" href="/Profiles/Info?username=@user.SenderUsername">
+                        <a class="text-dark" style="text-shadow: 4px; text-decoration:none" href="/Profiles/Info?username=@user.SenderUsername">
                             @user.SenderUsername
                         </a>
                     </div>
@@ -17,7 +17,7 @@
                         </p>
                     </div>
                 </div>
-                <p class="text-primary">
+                <p class="text-primary" style="background-color:beige">
                     @user.Text
                 </p>
             </div>

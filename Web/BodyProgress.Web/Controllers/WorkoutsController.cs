@@ -37,7 +37,7 @@
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             await this._workoutsService.Create(input, userId);
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction("All", "Workouts");
         }
 
         public IActionResult All()

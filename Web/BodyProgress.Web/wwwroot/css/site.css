@@ -65,7 +65,9 @@ body {
     margin-bottom: 60px;
     background-image: url("../BackgroundImage.jpg");
     background-size:contain;
+    font-family:Arial;
 }
+
 
 div {
     background-color:white;
@@ -141,4 +143,16 @@ header {
     -moz-border-radius: 0px;
     background-image: none;
     cursor:pointer;
+}
+
+input:invalid {
+    border: 2px solid red;
+}
+
+    input:invalid:required {
+        background-image: linear-gradient( rgba(255,0,0,0.3), white);
+    }
+
+input:valid {
+    border: 2px solid black;
 }

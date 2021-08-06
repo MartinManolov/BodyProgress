@@ -1,58 +1,67 @@
 ﻿@model BodyProgress.Web.ViewModels.ViewInputModels.WorkoutInputModel
-<h1>Add workout</h1>
+    <div class="container-fluid">
+        <h1 class="text-center">Add workout</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Add">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="WorkoutName" class="control-label"></label>
+                        <input asp-for="WorkoutName" class="form-control" />
+                        <span asp-validation-for="WorkoutName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Date" class="control-label"></label>
+                        <input asp-for="Date" class="form-control" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
 
-<h4>Workout</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Add">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="WorkoutName" class="control-label"></label>
-                <input asp-for="WorkoutName" class="form-control" />
-                <span asp-validation-for="WorkoutName" class="text-danger"></span>
+                    <table id="AddSetsTable" class="form-group" style="width:100%">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Sets[0].ExerciseName)</th>
+                            <th>@Html.DisplayNameFor(model => model.Sets[0].Reps)</th>
+                            <th>@Html.DisplayNameFor(model => model.Sets[0].Weight)</th>
+                            <th> </th>
+                        </tr>
+                    </table>
+                    <div class="container-fluid">
+                        <button onclick="addRow()" type="button" class="btn btn-warning btn-pill">Add Set</button>
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-           
-            <table id="AddSetsTable" style="width:100%">
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.Sets[0].ExerciseName)</th>
-                    <th>@Html.DisplayNameFor(model => model.Sets[0].Reps)</th>
-                    <th>@Html.DisplayNameFor(model => model.Sets[0].Weight)</th>
-                </tr>
-            </table>
-            <div class="form-group">
-                <button onclick="addRow()" type="button" class="btn-warning">Add Set</button>
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
 
 
 
 
-@* TODO: Find other solution *@
-@section Scripts {
-    <script>
-        var counter = 0;
+    @* TODO: Find other solution *@
+    @section Scripts {
+        <script>
+            var counter = 0;
 
-        function addRow() {
-            var table = document.getElementById("AddSetsTable");
-            var row = table.insertRow(+1);
+            function addRow() {
+                var table = document.getElementById("AddSetsTable");
+                var row = table.insertRow(-1);
 
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
 
-        cell1.innerHTML = '<input type="text" name="Sets[' + counter + '].ExerciseName"/>';
-        cell2.innerHTML = '<input type="text" name="Sets[' + counter + '].Reps"/>';
-        cell3.innerHTML = '<input type="text" name="Sets[' + counter + '].Weight"/>';
-        counter++;
+                cell1.innerHTML = '<input type="text" maxlength="20" minlength="3" name="Sets[' + counter + '].ExerciseName" required/>';
+                cell2.innerHTML = '<input type="number" min="0" max="300" name="Sets[' + counter + '].Reps" required/>';
+                cell3.innerHTML = '<input type="number" min="0" max="500" name="Sets[' + counter + '].Weight" required/>';
+                cell4.innerHTML = '<input type="button" class="btn btn-danger btn-pill" onclick="RemoveRow()" value="Remove" />';
+
+                counter++;
+            }
+
+            function RemoveRow() {
+                var td = event.target.parentNode;
+                var tr = td.parentNode;
+                tr.parentNode.removeChild(tr);
+            }
+        </script>
     }
-    </script>
-}

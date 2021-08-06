@@ -1,24 +1,25 @@
 ﻿@model List<BodyStatisticViewModel>
-
-<h1 class="h1">All your body measurement</h1>
-@foreach (var bodyStatistic in Model)
+<div class="container-fluid">
+    <h1 class="h1">All your body measurement</h1>
+    @foreach (var bodyStatistic in Model)
     {
-<div class="shadow-lg p-3 mb-5 bg-white rounded">
-    <h3>@bodyStatistic.Date</h3>
-    <table class="tab-content" style="width: 100%" border-spacing: 5px;>
-        <colgroup>
-        </colgroup>
-        <tr>
-            <th>Height</th>
-            <th>Weight</th>
-            <th>Body fat %</th>
-        </tr>
-        <tr>
-            <td>@bodyStatistic.Height</td>
-            <td>@bodyStatistic.Weight</td>
-            <td>@bodyStatistic.BodyFatPercentage</td>
-            <td><a href="/BodyStatistics/Delete?workoutId=@bodyStatistic.Id" class="btn btn-outline-danger">Delete</a></td>
-        </tr>
-    </table>
-</div>
+        <div class="shadow-lg p-3 mb-5 bg-white rounded">
+            <h3>@bodyStatistic.Date</h3>
+            <table class="tab-content" style="width: 100%" border-spacing: 5px;>
+                <colgroup>
+                </colgroup>
+                <tr>
+                    <th>Height</th>
+                    <th>Weight</th>
+                    <th>Body fat %</th>
+                </tr>
+                <tr>
+                    <td>@bodyStatistic.Height cm</td>
+                    <td>@bodyStatistic.Weight kg</td>
+                    <td>@bodyStatistic.BodyFatPercentage %</td>
+                    <td><a href="/BodyStatistics/Delete?workoutId=@bodyStatistic.Id" class="btn btn-outline-danger">Delete</a></td>
+                </tr>
+            </table>
+        </div>
     }
+</div>

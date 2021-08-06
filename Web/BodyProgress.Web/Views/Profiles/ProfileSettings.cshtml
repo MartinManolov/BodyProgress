@@ -1,60 +1,64 @@
 ﻿@model ProfileSettingsViewModel
-<h1 class="text-center">Profile Settings</h1>
-<h2 class="font-weight-bolder">@Model.Username <u class="text-secondary text-info"> (@Model.Visibility)</u> </h2>
-<div class="form-inline">
+    <div class="container-fluid">
+        <h1 class="text-center">Profile Settings</h1>
+        <div>
+            <h2 class="font-weight-bolder">@Model.Username <u class="text-secondary text-info"> (@Model.Visibility)</u> </h2>
+            <div class="form-inline">
 
-    @if (Model.ProfilePicture == null)
-    {
-        <img src="~/DefaultProfilePicture.png" class="img-fluid" style="max-height:300px; max-width:200px; " />
-    }
-    else
-    {
-        <img src="@Model.ProfilePicture" class="img-fluid" style="max-height:400px; max-width:300px; " />
-    }
+                @if (Model.ProfilePicture == null)
+                {
+                    <img src="~/DefaultProfilePicture.png" class="img-fluid" style="max-height:300px; max-width:200px; " />
+                }
+                else
+                {
+                    <img src="@Model.ProfilePicture" class="img-fluid" style="max-height:400px; max-width:300px; " />
+                }
 
-    <form class="col container-fluid" asp-controller="Profiles" asp-action="ChangeProfilePicture" method="post" enctype="multipart/form-data">
-        <input type="file" name="image" class="form-control-file" />
-        <button type="submit" class="btn btn-primary">Change profile picture</button>
-    </form>
-</div>
-<button type="button" onclick="location.href='@Url.Action("RemoveProfilePicture", "Profiles")'" href="/Profiles/RemoveProfilePicture" class="btn btn-danger btn-pill">Remove profile picture</button>
-<p></p>
-<p></p>
-<div class="container-fluid">
-    <div>
-        <form asp-controller="Profiles" asp-action="ChangeUsername" method="post">
-            <input type="text" name="username" />
-            <button type="submit" class="btn btn-primary btn-pill">Change username</button>
-        </form>
+                <form class="col container-fluid" asp-controller="Profiles" asp-action="ChangeProfilePicture" method="post" enctype="multipart/form-data">
+                    <input type="file" name="image" class="form-control-file" />
+                    <button type="submit" class="btn btn-primary">Change profile picture</button>
+                </form>
+            </div>
+            <button type="button" onclick="location.href='@Url.Action("RemoveProfilePicture", "Profiles")'" href="/Profiles/RemoveProfilePicture" class="btn btn-danger btn-pill">Remove profile picture</button>
+            <p></p>
+            <p></p>
+            <div class="container-fluid">
+                <div>
+                    <form asp-controller="Profiles" asp-action="ChangeUsername" method="post">
+                        <input type="text" name="username" />
+                        <button type="submit" class="btn btn-primary btn-pill">Change username</button>
+                    </form>
+                </div>
+                <p></p>
+                <p></p>
+                <div>
+                    <form asp-controller="Profiles" asp-action="ChangeVisibility" method="post">
+                        <select name="isPublic">
+                            <option value="true" class="dropdown-item">Public</option>
+                            <option value="false" class="dropdown-item">Not Public (only friends)</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-pill">Change profile visibility</button>
+                    </form>
+                </div>
+            </div>
+            <p></p>
+            <p></p>
+            @if (Model.Goal != null)
+            {
+                <h3>Your goals:</h3>
+                <div class="text-primary">@Model.Goal</div>
+                <button type="button" onclick="location.href='@Url.Action("RemoveGoal", "Profiles")'" href="/Profiles/RemoveGoal" class="btn btn-danger btn-pill">Remove</button>
+            }
+            <p></p>
+            <p></p>
+            <div class="container-fluid form-row">
+                <form asp-controller="Profiles" asp-action="ChangeGoal" method="post">
+                    <input c type="text" name="goal" />
+                    <button type="submit" class="btn btn-success btn-pill">Set new goals</button>
+                </form>
+            </div>
+        </div>
+
+
+
     </div>
-    <p></p>
-    <p></p>
-    <div>
-        <form asp-controller="Profiles" asp-action="ChangeVisibility" method="post">
-            <select name="isPublic">
-                <option value="true" class="dropdown-item">Public</option>
-                <option value="false" class="dropdown-item">Not Public (only friends)</option>
-            </select>
-            <button type="submit" class="btn btn-primary btn-pill" >Change profile visibility</button>
-        </form>
-    </div>
-</div>
-<p></p>
-<p></p>
-@if (Model.Goal != null)
-{
-    <h3>Your goals:</h3>
-    <div class="text-primary">@Model.Goal</div>
-    <button type="button" onclick="location.href='@Url.Action("RemoveGoal", "Profiles")'" href="/Profiles/RemoveGoal" class="btn btn-danger btn-pill">Remove</button>
-}
-<p></p>
-<p></p>
-<div class="container-fluid form-row">
-    <form asp-controller="Profiles" asp-action="ChangeGoal" method="post">
-        <input c type="text" name="goal" />
-        <button type="submit" class="btn btn-success btn-pill">Set new goals</button>
-    </form>
-</div>
-
-
-

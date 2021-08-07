@@ -61,6 +61,11 @@ namespace BodyProgress.Services
             await this.postsRepository.SaveChangesAsync();
         }
 
+        public bool IsPostOwner(string userId, string postId)
+        {
+            return this.postsRepository.AllAsNoTracking().Any(x => x.Id == postId && x.OwnerId == userId);
+        }
+
         public ICollection<PostViewModel> AllPublicAndFriends(string userId)
         {
             return this.postsRepository.AllAsNoTracking()
@@ -89,6 +94,49 @@ namespace BodyProgress.Services
                         Username = l.Owner.UserName,
                     }).ToList(),
                 }).OrderByDescending(x => x.Date).Take(150).ToList();
+        }
+
+        public ICollection<PostViewModel> UserPosts(string userId)
+        {
+            return this.postsRepository.AllAsNoTracking()
+                .Where(x => x.OwnerId == userId)
+                .Select(x => new PostViewModel()
+                {
+                    Id = x.Id,
+                    Date = x.Date,
+                    IsLiked = x.Likes.Any(l => l.OwnerId == userId),
+                    OwnerUsername = x.Owner.UserName,
+                    OwnerProfilePicture = this.usersService.GetProfileImage(x.OwnerId),
+                    TextContent = x.TextContent,
+                    ImageUrl = x.ImageUrl,
+                    Comments = x.Comments.Select(c => new CommentViewModel()
+                    {
+                        Date = c.CreatedOn,
+                        OwnerName = c.Owner.UserName,
+                        TextContent = c.TextContent,
+                    }).OrderBy(x => x.Date).ToList(),
+                    Likes = x.Likes.Select(l => new LikeViewModel()
+                    {
+                        Username = l.Owner.UserName,
+                    }).ToList(),
+                }).OrderByDescending(x => x.Date).ToList();
+        }
+
+        public async Task Change(PostChangeInputModel input)
+        {
+            var post = this.postsRepository.All().FirstOrDefault(x => x.Id == input.PostId);
+            if (post == null)
+            {
+                return;
+            }
+
+            post.IsPublic = input.IsPublic;
+            if (input.TextContent != null)
+            {
+                post.TextContent = input.TextContent;
+            }
+
+            await this.postsRepository.SaveChangesAsync();
         }
     }
 }

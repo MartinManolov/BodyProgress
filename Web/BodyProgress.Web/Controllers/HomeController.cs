@@ -12,18 +12,18 @@ namespace BodyProgress.Web.Controllers
 
     public class HomeController : BaseController
     {
-        private readonly IPostsService _postsService;
+        private readonly IPostsService postsService;
 
         public HomeController(IPostsService postsService)
         {
-            this._postsService = postsService;
+            this.postsService = postsService;
         }
 
         public IActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
+            if (this.User.Identity.IsAuthenticated)
             {
-                return this.Redirect("/Home/Feed");
+                return this.Redirect("/Posts/Feeds");
             }
 
             return this.View();
@@ -39,14 +39,6 @@ namespace BodyProgress.Web.Controllers
         {
             return this.View(
                 new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
-        }
-
-        [Authorize]
-        public IActionResult Feed()
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var feeds = this._postsService.AllPublicAndFriends(userId);
-            return this.View(feeds.ToList());
         }
     }
 }

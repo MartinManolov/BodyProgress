@@ -35,7 +35,7 @@ namespace BodyProgress.Web.Controllers
 
             if (userId == visitedUserId)
             {
-                return this.Redirect("/Home/Feed");
+                return this.Redirect("/Profiles/ProfileSettings");
             }
 
             var user = this.usersService.GetProfileInfo(userId, visitedUserId);

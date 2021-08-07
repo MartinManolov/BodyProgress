@@ -34,6 +34,13 @@
                                 <input type="text" class="form-control" id="search" placeholder="Search" />
                             </form>
                             <li class="dropdown nav-item">
+                                <a class="dropdown-toggle nav nav-link" data-toggle="dropdown" href="#"><i class="fas fa-camera"></i> Posts </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="UserPosts"><i class="far fa-images"></i> Your posts</a></li>
+                                    <li><a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="Create"><i class="far fa-plus-square"></i> Create</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown nav-item">
                                 <a class="dropdown-toggle nav nav-link" data-toggle="dropdown" href="#"><i class="fas fa-heartbeat"></i> Workout </a>
                                 <ul class="dropdown-menu">
                                     <li><a class="nav-link text-dark" asp-area="" asp-controller="Workouts" asp-action="All"><i class="fas fa-history"></i> Your workouts</a></li>

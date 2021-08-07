@@ -47,6 +47,11 @@
             return false;
         }
 
+        public bool IsCommentOwner(string userId, string commentId)
+        {
+            return this.commentsRepository.AllAsNoTracking().Any(x => x.Id == commentId && x.OwnerId == userId);
+        }
+
         public ICollection<CommentViewModel> GetByPostId(string postId)
         {
             return this.commentsRepository.AllAsNoTracking()

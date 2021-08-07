@@ -22,6 +22,13 @@ namespace BodyProgress.Web.Controllers
             this.postsService = postsService;
         }
 
+        public IActionResult Feeds()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var feeds = this.postsService.AllPublicAndFriends(userId);
+            return this.View("~/Views/Posts/Posts.cshtml", feeds);
+        }
+
         public async Task<IActionResult> Create()
         {
             return this.View();
@@ -39,6 +46,56 @@ namespace BodyProgress.Web.Controllers
             await this.postsService.Create(input, userId);
 
             return this.Redirect("/");
+        }
+
+        public IActionResult UserPosts()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var posts = this.postsService.UserPosts(userId);
+
+            return this.View("~/Views/Posts/Posts.cshtml", posts);
+        }
+
+        [HttpGet]
+        public IActionResult Change(string postId)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!this.postsService.IsPostOwner(userId, postId))
+            {
+                return this.Unauthorized();
+            }
+
+            this.ViewBag.PostId = postId;
+
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Change(PostChangeInputModel input)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!this.postsService.IsPostOwner(userId, input.PostId))
+            {
+                return this.Unauthorized();
+            }
+
+            await this.postsService.Change(input);
+
+            return this.Redirect("/Posts/UserPosts");
+        }
+
+        public async Task<IActionResult> Delete(string postId)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!this.postsService.IsPostOwner(userId, postId))
+            {
+                return this.Unauthorized();
+            }
+
+            await this.postsService.Delete(postId);
+
+            return this.Redirect("/Posts/UserPosts");
         }
 
     }

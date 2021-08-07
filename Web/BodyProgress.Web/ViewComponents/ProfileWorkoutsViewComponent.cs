@@ -1,9 +1,10 @@
-﻿using BodyProgress.Services.Contracts;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-
-namespace BodyProgress.Web.ViewComponents
+﻿namespace BodyProgress.Web.ViewComponents
 {
+    using System.Threading.Tasks;
+
+    using BodyProgress.Services.Contracts;
+    using Microsoft.AspNetCore.Mvc;
+
     public class ProfileWorkoutsViewComponent : ViewComponent
     {
         private readonly IWorkoutsService workoutsService;

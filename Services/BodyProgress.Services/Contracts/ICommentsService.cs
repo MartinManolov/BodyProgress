@@ -12,6 +12,8 @@
 
         Task<bool> Delete(string commentId, string userId);
 
+        bool IsCommentOwner(string userId, string commentId);
+
         ICollection<CommentViewModel> GetByPostId(string postId);
     }
 }

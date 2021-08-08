@@ -1,0 +1,266 @@
+﻿@model List<PostViewModel>
+@if (Model.Count == 0)
+{
+    <div class="container-fluid" style="background-color:black; opacity:0.3">
+        <h3 class="text-center tex" style="color:aliceblue">Doesn't have posts</h3>
+    </div>
+}
+else
+{
+    <div name="userUsername" hidden data-userusername="@this.User.Identity.Name"></div>
+    @foreach (var post in Model)
+    {
+        <div class="container-fluid, border-dark shadow-lg p-3 mb-5 bg-white rounded" style="border:groove;padding-top:10px; margin:70px;">
+            @Html.AntiForgeryToken()
+            @if (post.OwnerUsername == this.User.Identity.Name)
+            {
+                <div class="container-fluid btn-group-sm">
+                    <a class="btn btn-outline-warning btn-sm" href="/Posts/Change?postId=@post.Id">Change</a>
+                    <a class="btn btn-outline-danger btn-sm"  href="/Posts/Delete?postId=@post.Id">Remove</a>
+                </div>
+            }
+            <div class="custom-control-inline container-fluid">
+
+                @if (post.OwnerProfilePicture == null)
+                {
+                    <img src="/DefaultProfilePicture.png" style="max-block-size:60px; margin-inline-start:7px; margin-block:7px" />
+                }
+                else
+                {
+                    <img src="@post.OwnerProfilePicture" style="max-block-size: 60px; margin-inline-start: 7px; margin-block:7px" />
+                }
+                <h5 class=""><a class="nav-link text-info" style="margin-inline-start:10px" href="/Profiles/Info?username=@post.OwnerUsername">@post.OwnerUsername</a></h5>
+            </div>
+            <p class="text-right" style="padding-right:20px;">@post.Date.ToLocalTime()</p>
+
+
+            <p style="margin-inline-start:7px;">@post.TextContent</p>
+            <div class="card-img">
+                <img src="@post.ImageUrl" alt="@post.OwnerUsername BodyProgress" class="img-fluid" />
+            </div>
+            <div class="d-inline-block, container, border-dark">
+                @if (post.IsLiked)
+                {
+                    <button name="unlike" id="@string.Format("{0}{1}", "unlike", post.Id)" data-PostId="@post.Id" class="btn btn-danger btn-pill"><i class="far fa-heart"></i></button>
+                    <button name="like" id="@string.Format("{0}{1}", "like", post.Id)" data-PostId="@post.Id" class="btn btn-outline-danger btn-icon" style="display:none"><i class="far fa-heart"></i></button>
+                }
+                else
+                {
+                    <button name="like" id="@string.Format("{0}{1}", "like", post.Id)" data-PostId="@post.Id" class="btn btn-outline-danger btn-icon"><i class="far fa-heart"></i></button>
+                    <button name="unlike" id="@string.Format("{0}{1}", "unlike", post.Id)" data-PostId="@post.Id" class="btn btn-danger btn-pill" style="display:none"><i class="far fa-heart"></i></button>
+                }
+
+
+                <p class="d-inline text-dark" name="likesCount" id="@post.Id">
+                    @post.Likes.Count
+                </p>
+            </div>
+            <div id="@string.Format("{0}{1}", "CommentsContainer", post.Id)" name="commentsContainer" class=" container-fluid tab-content" style="width:stretch; max-height:200px; overflow:auto">
+                @foreach (var comment in post.Comments)
+                {
+                    <div name="Comments" id="@string.Format("{0}{1}", "commentDiv", comment.Id)" class="container-fluid , border-top">
+                        <p id="@string.Format("{0}{1}", "commentInfo", comment.Id)" data-commentId="@comment.Id" name="CommentUserInfo">
+                            @comment.OwnerName  - @comment.Date.ToLocalTime()
+                            @if (comment.OwnerName == this.User.Identity.Name)
+                            {
+                                <button name="deleteComment" id="@string.Format("{0}{1}", "deleteComment", comment.Id)" data-commentid="@comment.Id" value="@post.Id" class="btn btn-outline-danger btn-sm" style="margin-inline:30px">Delete</button>
+                            }
+                        </p>
+                        <p>@comment.TextContent</p>
+                    </div>
+                }
+            </div>
+            <div>
+
+                <input class="form-control" id="@string.Format("{0}{1}", "comment", post.Id)" type="text" name="commentContent" value="" />
+                <button type="submit" name="commentButton" data-postId="@post.Id" class="btn btn-success">Add comment</button>
+
+            </div>
+
+
+        </div>
+
+        <button onclick="ScrollToTop()" title="Scroll to the top" class="btn btn-info btn-icon" id="scrollToTop" style="position:fixed; right: 10px; bottom: 10px;">
+            <i class="fas fa-arrow-circle-up"></i>
+        </button>
+        <p></p>
+        <p></p>
+        <p></p>
+
+    }
+}
+
+@section Scripts{
+    <script>
+
+        function GetComments(postId) {
+            $.ajax({
+                type: 'GET',
+                url: '/api/Comments',
+                dataType: "json",
+                data: { postId: postId },
+                complete: function (data) {
+
+                    $('#CommentsContainer' + postId).children().remove();
+                    //TODO: Visualizing of comments and delete.
+                    $(data).each(function (i, element) {
+                        $(element.responseJSON).each(function (i, comment) {
+
+                            var formattedDate = new Date(comment.date).toLocaleString(window.navigator.language);
+                            var userUsername = $('[name=userUsername]').attr('data-userusername');
+                            var txtDiv = "<div name=Comments id=commentDiv" + comment.id + " class=\"container-fluid , border\" > </div>";
+                            var txt1 = "<p id=commentInfo" + comment.id + " data-commentId=" + comment.id + " name=\"CommentUserInfo\">" + comment.ownerName + "  - " + formattedDate + "</p> <p>" + comment.textContent + "</p> ";
+
+                            if (userUsername == comment.ownerName) {
+                                txt1 = "<p id=commentInfo" + comment.id + " data-commentId=" + comment.id + " name=\"CommentUserInfo\">" + comment.ownerName + "  - " + formattedDate + "<button name=\"deleteComment\" id=\"deleteComment" + comment.id + "\" data-commentid=\"" + comment.id + "\" value=\"" + postId + "\" class=\"btn btn-outline-danger btn-sm\" style=\"margin-inline: 30px\">Delete</button></p> <p>" + comment.textContent + "</p> ";
+                            }
+
+                            $('#CommentsContainer' + postId).append(txtDiv).append(txt1);
+                        })
+                    })
+                    scrollSmoothToBottom();
+                    $('[name=deleteComment]').on('click', RemoveComment);
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            scrollSmoothToBottom();
+            setTimeout(RefreshLikes, 50000);
+            setTimeout(RefreshComments, 60000);
+            $('[name=commentButton]').on('click', AddComment);
+            
+        });
+        function AddComment() {
+            var postId = $(this).attr('data-postId');
+            var textContent = $('#comment' + postId).val();
+            token = $('[name=__RequestVerificationToken]').val();
+            var comment = { 'PostId': postId, 'TextContent': textContent };
+            $.ajax({
+                type: 'POST',
+                url: '/api/Comments',
+                data: JSON.stringify(comment),
+                contentType: "application/json ; charset=utf-8",
+                dataType: 'json',
+                headers: {
+                    "RequestVerificationToken": token
+                },
+                complete: function () {
+                    $('#comment' + postId).val('');
+                    GetComments(postId);
+                },
+
+            })
+
+        }
+
+        $('[name=deleteComment]').on('click', RemoveComment);
+        function RemoveComment() {
+            console.log("In remove");
+            var commentId = $(this).attr('data-commentid');
+            
+            token = $('[name=__RequestVerificationToken]').val();
+            $.ajax({
+                type: 'Delete',
+                url: '/api/Comments?commentId='+commentId,
+                //data: JSON.stringify(comment),
+                //contentType: "application/json ; charset=utf-8",
+                //dataType: 'json',
+                headers: {
+                    "RequestVerificationToken": token
+                },
+                complete: function () {
+                    var postId = $('#deleteComment' + commentId).prop('value');
+                    console.log(postId);
+                    GetComments(postId);
+                }
+            })
+        }
+
+        
+
+
+        function GetLikes(postId) {
+            $.ajax({
+                type: 'GET',
+                url: '/api/Likes',
+                data: { postId: postId },
+                success: function (data) {
+                    $('#' + postId + '[name=likesCount]').text(data);
+
+                }
+            })
+        }
+
+
+        $('[name=like]').on('click', Like);
+        function Like() {
+            var postId = $(this).attr('data-postId');
+            var like = { 'PostId': postId };
+            token = $('[name=__RequestVerificationToken]').val();
+            $.ajax({
+                type: 'POST',
+                url: '/api/Likes',
+                data: JSON.stringify(like),
+                contentType: "application/json ; charset=utf-8",
+                dataType: 'json',
+                headers: {
+                    "RequestVerificationToken": token
+                },
+                complete: function () {
+                    $("#like" + postId).hide();
+                    $("#unlike" + postId).show();
+                    GetLikes(postId);
+                }
+            })
+        }
+
+        $('[name=unlike]').on('click', Unlike);
+        function Unlike() {
+            var postId = $(this).attr('data-postId');
+            var like = { 'PostId': postId };
+            token = $('[name=__RequestVerificationToken]').val();
+            $.ajax({
+                type: 'Delete',
+                url: '/api/Likes',
+                data: JSON.stringify(like),
+                contentType: "application/json ; charset=utf-8",
+                dataType: 'json',
+                headers: {
+                    "RequestVerificationToken": token
+                },
+                complete: function () {
+                    $("#like" + postId).show();
+                    $("#unlike" + postId).hide();
+                    GetLikes(postId);
+                }
+            })
+        }
+
+        function scrollSmoothToBottom() {
+            $('.tab-content').each(function () { $(this).animate({ scrollTop: $(this).prop("scrollHeight") }, 500) });
+        }
+
+
+        function ScrollToTop() {
+            $(window).scrollTop(0);
+        }
+
+        function RefreshLikes() {
+            $('[name=likesCount]').each(function () {
+                var postId = $(this).prop('id');
+                GetLikes(postId);
+            })
+            setTimeout(RefreshLikes, 50000)
+        }
+
+        function RefreshComments() {
+            $('[name=likesCount]').each(function () {
+                var postId = $(this).prop('id');
+                GetComments(postId);
+            })
+            setTimeout(RefreshComments, 60000)
+        }
+
+    </script>
+}

@@ -1,0 +1,18 @@
+﻿@model BodyProgress.Web.ViewModels.ViewInputModels.PostChangeInputModel
+<div class="container-fluid">
+    <form method="post" id="changePost" asp-action="Change" asp-controller="Posts">
+        <div class="form-group">
+            <input asp-for="PostId" hidden value="@ViewBag.PostId" />
+            <label asp-for="TextContent" class="control-label"></label>
+            <input asp-for="TextContent" class="form-control" placeholder="If you don't type something, will not change." />
+            <span asp-validation-for="TextContent" class="text-danger"></span>
+            <button type="submit" class="btn btn-warning">Change</button>
+        </div>
+        <label for="isPublic">Visibility</label>
+        <select id="isPublic" form="changePost" name="IsPublic">
+            <option value="true" class="dropdown-item">Public</option>
+            <option value="false" class="dropdown-item">Not Public (only friends)</option>
+        </select>
+
+    </form>
+</div>

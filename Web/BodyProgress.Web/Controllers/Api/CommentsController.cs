@@ -46,15 +46,15 @@
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(string commentId)
+        public async Task<IActionResult> Delete([FromQuery]string commentId)
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var isDeleted = await this.commentsService.Delete(commentId, userId);
             if (!this.commentsService.IsCommentOwner(userId, commentId))
             {
                 return this.Unauthorized();
             }
 
+            var isDeleted = await this.commentsService.Delete(commentId, userId);
             if (isDeleted)
             {
                 return this.StatusCode(200);

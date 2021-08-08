@@ -85,6 +85,7 @@ namespace BodyProgress.Services
                     ImageUrl = x.ImageUrl,
                     Comments = x.Comments.Select(c => new CommentViewModel()
                     {
+                        Id = c.Id,
                         Date = c.CreatedOn,
                         OwnerName = c.Owner.UserName,
                         TextContent = c.TextContent,

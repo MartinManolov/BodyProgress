@@ -1,14 +1,8 @@
-﻿using System.Globalization;
-using BodyProgress.Services.Common;
-using BodyProgress.Services.Contracts;
-using CloudinaryDotNet;
-using Microsoft.AspNetCore.Localization;
-
-
-namespace BodyProgress.Web
+﻿namespace BodyProgress.Web
 {
+    using System.Globalization;
     using System.Reflection;
-
+    using BodyProgress.Common;
     using BodyProgress.Data;
     using BodyProgress.Data.Common;
     using BodyProgress.Data.Common.Repositories;
@@ -16,14 +10,18 @@ namespace BodyProgress.Web
     using BodyProgress.Data.Repositories;
     using BodyProgress.Data.Seeding;
     using BodyProgress.Services;
-    
+    using BodyProgress.Services.Common;
+    using BodyProgress.Services.Contracts;
     using BodyProgress.Services.Mapping;
     using BodyProgress.Services.Messaging;
     using BodyProgress.Web.Hubs;
+    using BodyProgress.Web.Middlewares;
     using BodyProgress.Web.ViewModels;
+    using CloudinaryDotNet;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -67,6 +65,7 @@ namespace BodyProgress.Web
                 options.SuppressModelStateInvalidFilter = true;
                 options.SuppressMapClientErrors = true;
             });
+
             // Cloudinary
             var account = new CloudinaryDotNet.Account(
                 this.configuration["Cloudinary:AppName"],
@@ -88,7 +87,6 @@ namespace BodyProgress.Web
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-
             services.AddTransient<IUploadMediaService, UploadMediaService>();
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<IWorkoutsService, WorkoutsService>();
@@ -138,6 +136,7 @@ namespace BodyProgress.Web
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSetAdminMiddleware();
 
             app.UseEndpoints(
                 endpoints =>

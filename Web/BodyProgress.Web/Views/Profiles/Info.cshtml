@@ -1,6 +1,6 @@
 ﻿@model ProfileViewModel
 <div class="container-fluid">
-    <h1>@Model.Username</h1>
+    <h1 class="text-center">@Model.Username</h1>
     @if (Model.ProfilePicture == null)
     {
         <img class="img-fluid" style="max-height:400px; max-width:300px; " src="~/DefaultProfilePicture.png" />
@@ -32,6 +32,7 @@
     else
     {
         <div class="container-fluid">
+            <a class="btn btn-primary btn-lg" href="/Posts/VisitedUserPosts?visitedUserUsername=@Model.Username">Posts</a>
             @if (Model.IsFriend)
             {
                 <button type="button" onclick="location.href='@Url.Action("RemoveFriend", "Friends",new {username = Model.Username })'" href="/Friends/RemoveFriend?username=@Model.Username" class="btn btn-danger btn-sm">

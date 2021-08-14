@@ -16,10 +16,12 @@ namespace BodyProgress.Web.Controllers
     public class PostsController : BaseController
     {
         private readonly IPostsService postsService;
+        private readonly IUsersService usersService;
 
-        public PostsController(IPostsService postsService)
+        public PostsController(IPostsService postsService, IUsersService usersService)
         {
             this.postsService = postsService;
+            this.usersService = usersService;
         }
 
         public IActionResult Feeds()
@@ -53,6 +55,15 @@ namespace BodyProgress.Web.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var posts = this.postsService.UserPosts(userId);
+
+            return this.View("~/Views/Posts/Posts.cshtml", posts);
+        }
+
+        public IActionResult VisitedUserPosts(string visitedUserUsername)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var visitedUserId = this.usersService.GetIdByUsername(visitedUserUsername);
+            var posts = this.postsService.VisitedUserPosts(userId, visitedUserId);
 
             return this.View("~/Views/Posts/Posts.cshtml", posts);
         }

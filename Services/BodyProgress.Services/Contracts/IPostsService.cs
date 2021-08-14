@@ -20,5 +20,7 @@ namespace BodyProgress.Services.Contracts
         ICollection<PostViewModel> AllPublicAndFriends(string userId);
 
         ICollection<PostViewModel> UserPosts(string userId);
+
+        ICollection<PostViewModel> VisitedUserPosts(string userId, string visitedUserId);
     }
 }

@@ -63,7 +63,8 @@
                     Id = x.Id,
                     OwnerName = x.Owner.UserName,
                     TextContent = x.TextContent,
-                }).ToList();
+                })
+                .ToList();
         }
     }
 }

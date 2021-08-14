@@ -48,7 +48,7 @@
 
             friends.AddRange(friendsFriendInitiator);
             friends.AddRange(friendsUserInitiator);
-            
+
             return friends;
         }
 

@@ -29,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\BodyProgress.Data\BodyProgress.Data.csproj" />
     <ProjectReference Include="..\..\Services\BodyProgress.Services.Data\BodyProgress.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Services\BodyProgress.Services\BodyProgress.Services.csproj" />
   </ItemGroup>
 
 </Project>

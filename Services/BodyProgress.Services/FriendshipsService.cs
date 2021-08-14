@@ -65,7 +65,7 @@ namespace BodyProgress.Services
             return;
         }
 
-        public async Task AcceptFriend (string userId, string friendId)
+        public async Task AcceptFriend(string userId, string friendId)
         {
             var user = this.usersRepository.All().FirstOrDefault(x => x.Id == userId);
             var friend = this.usersRepository.All().FirstOrDefault(x => x.Id == friendId);

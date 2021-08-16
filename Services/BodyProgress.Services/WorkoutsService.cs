@@ -17,17 +17,14 @@ namespace BodyProgress.Services
         private readonly IDeletableEntityRepository<Workout> _workoutRepository;
         private readonly IDeletableEntityRepository<Exercise> _exerciseRepository;
         private readonly IDeletableEntityRepository<Set> _setsRepository;
-        private readonly IDeletableEntityRepository<ApplicationUser> _usersRepository;
 
         public WorkoutsService(IDeletableEntityRepository<Workout> workoutRepository,
             IDeletableEntityRepository<Exercise> exerciseRepository,
-            IDeletableEntityRepository<Set> setsRepository,
-            IDeletableEntityRepository<ApplicationUser> usersRepository)
+            IDeletableEntityRepository<Set> setsRepository)
         {
             this._workoutRepository = workoutRepository;
             this._exerciseRepository = exerciseRepository;
             this._setsRepository = setsRepository;
-            this._usersRepository = usersRepository;
         }
 
         public async Task Create(WorkoutInputModel input, string userId)
@@ -66,13 +63,9 @@ namespace BodyProgress.Services
             }
 
             await this._workoutRepository.AddAsync(workout);
-            var user = this._usersRepository.All().FirstOrDefault(x => x.Id == userId);
-            user.Workouts.Add(workout);
-
             await this._exerciseRepository.SaveChangesAsync();
             await this._setsRepository.SaveChangesAsync();
             await this._workoutRepository.SaveChangesAsync();
-            await this._usersRepository.SaveChangesAsync();
         }
 
         public ICollection<WorkoutViewModel> All(string userId)

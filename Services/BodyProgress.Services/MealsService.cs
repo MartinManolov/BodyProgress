@@ -74,7 +74,7 @@
         {
            return this._mealsRepository.AllAsNoTracking()
                 .Where(x => x.OwnerId == userId)
-                .OrderByDescending(x=>x.Date)
+                .OrderByDescending(x => x.Date)
                 .Select(x => new MealViewModel()
                 {
                     Id = x.Id,

@@ -10,75 +10,81 @@ else
     <div name="userUsername" hidden data-userusername="@this.User.Identity.Name"></div>
     @foreach (var post in Model)
     {
-        <div class="container-fluid, border-dark shadow-lg p-3 mb-5 bg-white rounded" style="border:groove;padding-top:10px; margin:70px;">
-            @Html.AntiForgeryToken()
-            @if (post.OwnerUsername == this.User.Identity.Name)
-            {
-                <div class="container-fluid btn-group-sm">
-                    <a class="btn btn-outline-warning btn-sm" href="/Posts/Change?postId=@post.Id">Change</a>
-                    <a class="btn btn-outline-danger btn-sm"  href="/Posts/Delete?postId=@post.Id">Remove</a>
-                </div>
-            }
-            <div class="custom-control-inline container-fluid">
-
-                @if (post.OwnerProfilePicture == null)
-                {
-                    <img src="/DefaultProfilePicture.png" style="max-block-size:60px; margin-inline-start:7px; margin-block:7px" />
-                }
-                else
-                {
-                    <img src="@post.OwnerProfilePicture" style="max-block-size: 60px; margin-inline-start: 7px; margin-block:7px" />
-                }
-                <h5 class=""><a class="nav-link text-info" style="margin-inline-start:10px" href="/Profiles/Info?username=@post.OwnerUsername">@post.OwnerUsername</a></h5>
-            </div>
-            <p class="text-right" style="padding-right:20px;">@post.Date.ToLocalTime()</p>
-
-
-            <p style="margin-inline-start:7px;">@post.TextContent</p>
-            <div class="card-img">
-                <img src="@post.ImageUrl" alt="@post.OwnerUsername BodyProgress" class="img-fluid" />
-            </div>
-            <div class="d-inline-block, container, border-dark">
-                @if (post.IsLiked)
-                {
-                    <button name="unlike" id="@string.Format("{0}{1}", "unlike", post.Id)" data-PostId="@post.Id" class="btn btn-danger btn-pill"><i class="far fa-heart"></i></button>
-                    <button name="like" id="@string.Format("{0}{1}", "like", post.Id)" data-PostId="@post.Id" class="btn btn-outline-danger btn-icon" style="display:none"><i class="far fa-heart"></i></button>
-                }
-                else
-                {
-                    <button name="like" id="@string.Format("{0}{1}", "like", post.Id)" data-PostId="@post.Id" class="btn btn-outline-danger btn-icon"><i class="far fa-heart"></i></button>
-                    <button name="unlike" id="@string.Format("{0}{1}", "unlike", post.Id)" data-PostId="@post.Id" class="btn btn-danger btn-pill" style="display:none"><i class="far fa-heart"></i></button>
-                }
-
-
-                <p class="d-inline text-dark" name="likesCount" id="@post.Id">
-                    @post.Likes.Count
-                </p>
-            </div>
-            <div id="@string.Format("{0}{1}", "CommentsContainer", post.Id)" name="commentsContainer" class=" container-fluid tab-content" style="width:stretch; max-height:200px; overflow:auto">
-                @foreach (var comment in post.Comments)
-                {
-                    <div name="Comments" id="@string.Format("{0}{1}", "commentDiv", comment.Id)" class="container-fluid , border-top">
-                        <p id="@string.Format("{0}{1}", "commentInfo", comment.Id)" data-commentId="@comment.Id" name="CommentUserInfo">
-                            @comment.OwnerName  - @comment.Date.ToLocalTime()
-                            @if (comment.OwnerName == this.User.Identity.Name)
-                            {
-                                <button name="deleteComment" id="@string.Format("{0}{1}", "deleteComment", comment.Id)" data-commentid="@comment.Id" value="@post.Id" class="btn btn-outline-danger btn-sm" style="margin-inline:30px">Delete</button>
-                            }
-                        </p>
-                        <p>@comment.TextContent</p>
-                    </div>
-                }
-            </div>
-            <div>
-
-                <input class="form-control" id="@string.Format("{0}{1}", "comment", post.Id)" type="text" name="commentContent" value="" />
-                <button type="submit" name="commentButton" data-postId="@post.Id" class="btn btn-success">Add comment</button>
-
-            </div>
-
-
+<div class="container-fluid, border-dark shadow-lg p-3 mb-5 bg-white rounded" style="border:groove;padding-top:10px; margin:70px;">
+    @Html.AntiForgeryToken()
+    @if (post.OwnerUsername == this.User.Identity.Name)
+    {
+        <div class="container-fluid btn-group-sm">
+            <a class="btn btn-outline-warning btn-sm" href="/Posts/Change?postId=@post.Id">Change</a>
+            <a class="btn btn-outline-danger btn-sm" href="/Posts/Delete?postId=@post.Id">Remove</a>
         </div>
+    }
+    else if (this.User.IsInRole("Administrator"))
+    {
+        <div class="container-fluid btn-group-sm">
+            <a class="btn btn-outline-danger btn-sm" href="/Administration/Administration/DeletePost?postId=@post.Id">Remove</a>
+        </div>
+    }
+    <div class="custom-control-inline container-fluid">
+
+        @if (post.OwnerProfilePicture == null)
+        {
+            <img src="/DefaultProfilePicture.png" style="max-block-size:60px; margin-inline-start:7px; margin-block:7px" />
+        }
+        else
+        {
+            <img src="@post.OwnerProfilePicture" style="max-block-size: 60px; margin-inline-start: 7px; margin-block:7px" />
+        }
+        <h5 class=""><a class="nav-link text-info" style="margin-inline-start:10px" href="/Profiles/Info?username=@post.OwnerUsername">@post.OwnerUsername</a></h5>
+    </div>
+    <p class="text-right" style="padding-right:20px;">@post.Date.ToLocalTime()</p>
+
+
+    <p style="margin-inline-start:7px;">@post.TextContent</p>
+    <div class="card-img">
+        <img src="@post.ImageUrl" alt="@post.OwnerUsername BodyProgress" class="img-fluid" />
+    </div>
+    <div class="d-inline-block, container, border-dark">
+        @if (post.IsLiked)
+        {
+            <button name="unlike" id="@string.Format("{0}{1}", "unlike", post.Id)" data-PostId="@post.Id" class="btn btn-danger btn-pill"><i class="far fa-heart"></i></button>
+            <button name="like" id="@string.Format("{0}{1}", "like", post.Id)" data-PostId="@post.Id" class="btn btn-outline-danger btn-icon" style="display:none"><i class="far fa-heart"></i></button>
+        }
+        else
+        {
+            <button name="like" id="@string.Format("{0}{1}", "like", post.Id)" data-PostId="@post.Id" class="btn btn-outline-danger btn-icon"><i class="far fa-heart"></i></button>
+            <button name="unlike" id="@string.Format("{0}{1}", "unlike", post.Id)" data-PostId="@post.Id" class="btn btn-danger btn-pill" style="display:none"><i class="far fa-heart"></i></button>
+        }
+
+
+        <p class="d-inline text-dark" name="likesCount" id="@post.Id">
+            @post.Likes.Count
+        </p>
+    </div>
+    <div id="@string.Format("{0}{1}", "CommentsContainer", post.Id)" name="commentsContainer" class=" container-fluid tab-content" style="width:stretch; max-height:200px; overflow:auto">
+        @foreach (var comment in post.Comments)
+        {
+            <div name="Comments" id="@string.Format("{0}{1}", "commentDiv", comment.Id)" class="container-fluid , border-top">
+                <p id="@string.Format("{0}{1}", "commentInfo", comment.Id)" data-commentId="@comment.Id" name="CommentUserInfo">
+                    @comment.OwnerName  - @comment.Date.ToLocalTime()
+                    @if (comment.OwnerName == this.User.Identity.Name)
+                    {
+                        <button name="deleteComment" id="@string.Format("{0}{1}", "deleteComment", comment.Id)" data-commentid="@comment.Id" value="@post.Id" class="btn btn-outline-danger btn-sm" style="margin-inline:30px">Delete</button>
+                    }
+                </p>
+                <p>@comment.TextContent</p>
+            </div>
+        }
+    </div>
+    <div>
+
+        <input class="form-control" id="@string.Format("{0}{1}", "comment", post.Id)" type="text" name="commentContent" value="" />
+        <button type="submit" name="commentButton" data-postId="@post.Id" class="btn btn-success">Add comment</button>
+
+    </div>
+
+
+</div>
 
         <button onclick="ScrollToTop()" title="Scroll to the top" class="btn btn-info btn-icon" id="scrollToTop" style="position:fixed; right: 10px; bottom: 10px;">
             <i class="fas fa-arrow-circle-up"></i>

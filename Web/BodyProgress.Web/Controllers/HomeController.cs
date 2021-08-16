@@ -6,23 +6,22 @@ namespace BodyProgress.Web.Controllers
 {
     using System.Diagnostics;
     using System.Security.Claims;
+    using BodyProgress.Common;
     using BodyProgress.Web.ViewModels;
 
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
-        private readonly IPostsService postsService;
-
-        public HomeController(IPostsService postsService)
-        {
-            this.postsService = postsService;
-        }
-
         public IActionResult Index()
         {
             if (this.User.Identity.IsAuthenticated)
             {
+                if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    return this.Redirect("/Administration/Administration/Feeds");
+                }
+
                 return this.Redirect("/Posts/Feeds");
             }
 

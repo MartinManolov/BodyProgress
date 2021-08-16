@@ -68,6 +68,33 @@
             return this.postsRepository.AllAsNoTracking().Any(x => x.Id == postId && x.OwnerId == userId);
         }
 
+        public ICollection<PostViewModel> All(string userId)
+        {
+            return this.postsRepository.AllAsNoTracking()
+                .Select(x => new PostViewModel()
+                {
+                    Id = x.Id,
+                    Date = x.Date,
+                    IsLiked = x.Likes.Any(l => l.OwnerId == userId),
+                    OwnerUsername = x.Owner.UserName,
+                    OwnerProfilePicture = this.usersService.GetProfileImage(x.OwnerId),
+                    TextContent = x.TextContent,
+                    ImageUrl = x.ImageUrl,
+                    Comments = x.Comments.Select(c => new CommentViewModel()
+                    {
+                        Id = c.Id,
+                        Date = c.CreatedOn,
+                        OwnerName = c.Owner.UserName,
+                        TextContent = c.TextContent,
+                    }).OrderBy(x => x.Date).ToList(),
+                    Likes = x.Likes.Select(l => new LikeViewModel()
+                    {
+                        Username = l.Owner.UserName,
+                    }).ToList(),
+                }).OrderByDescending(x => x.Date).Take(150).ToList();
+        }
+
+
         public ICollection<PostViewModel> AllPublicAndFriends(string userId)
         {
             return this.postsRepository.AllAsNoTracking()

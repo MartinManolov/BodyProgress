@@ -17,6 +17,8 @@ namespace BodyProgress.Services.Contracts
 
         bool IsPostOwner(string userId, string postId);
 
+        ICollection<PostViewModel> All(string userId);
+
         ICollection<PostViewModel> AllPublicAndFriends(string userId);
 
         ICollection<PostViewModel> UserPosts(string userId);

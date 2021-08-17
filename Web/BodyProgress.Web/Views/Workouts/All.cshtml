@@ -12,31 +12,38 @@
         }
 </style>
 <div class="container-fluid">
-    <h1 class="text-center">Workout History</h1>
-
-    @foreach (var workout in Model)
+    <h1 class="text-center">Workouts history</h1>
+    @if (Model.Count == 0)
     {
-        <div class="shadow-lg p-3 mb-5 rounded">
-            <h2>@workout.Name</h2>
-            <p class="text-muted">@workout.Date</p>
-            <table class="tab-content shadow-sm p-1 mb-3 bg-white rounded" style="width: 100%" border-spacing: 5px;>
-                <tr>
-                    <th>Exercise</th>
-                    <th>Reps</th>
-                    <th>Weight</th>
-                </tr>
-                @foreach (var set in workout.Sets)
-                {
-                    <tr>
-                        <td>@set.ExerciseName</td>
-                        <td>@set.Reps</td>
-                        <td>@set.Weight kg</td>
-                    </tr>
-
-                }
-            </table>
-            <h5 class="text-center" style="font:bolder">All Weight: @workout.AllWeightForWorkout kg</h5>
-            <a href="/Workouts/Delete?workoutId=@workout.Id" class="btn btn-outline-danger">Delete</a>
-        </div>
+        <p class="text-center text-info">Doesn't have workouts</p>
     }
+    else
+    {
+        @foreach (var workout in Model)
+        {
+            <div class="shadow-lg p-3 mb-5 rounded">
+                <h2>@workout.Name</h2>
+                <p class="text-muted">@workout.Date</p>
+                <table class="tab-content shadow-sm p-1 mb-3 bg-white rounded" style="width: 100%" border-spacing: 5px;>
+                    <tr>
+                        <th>Exercise</th>
+                        <th>Reps</th>
+                        <th>Weight</th>
+                    </tr>
+                    @foreach (var set in workout.Sets)
+                    {
+                        <tr>
+                            <td>@set.ExerciseName</td>
+                            <td>@set.Reps</td>
+                            <td>@set.Weight kg</td>
+                        </tr>
+
+                    }
+                </table>
+                <h5 class="text-center" style="font:bolder">Total Weight: @workout.AllWeightForWorkout kg</h5>
+                <a href="/Workouts/Delete?workoutId=@workout.Id" class="btn btn-outline-danger">Delete</a>
+            </div>
+        }
+    }
+
 </div>

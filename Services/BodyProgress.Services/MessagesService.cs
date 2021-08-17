@@ -1,15 +1,15 @@
-﻿using BodyProgress.Data.Common.Repositories;
-using BodyProgress.Data.Models;
-using BodyProgress.Services.Contracts;
-using BodyProgress.Web.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BodyProgress.Services
+﻿namespace BodyProgress.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using BodyProgress.Data.Common.Repositories;
+    using BodyProgress.Data.Models;
+    using BodyProgress.Services.Contracts;
+    using BodyProgress.Web.ViewModels;
+
     public class MessagesService : IMessagesService
     {
         private readonly IDeletableEntityRepository<Message> messagesRepository;

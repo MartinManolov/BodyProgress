@@ -1,14 +1,17 @@
 ﻿@model ProfileViewModel
-<div class="container-fluid">
+<div class="container-xl">
     <h1 class="text-center">@Model.Username</h1>
-    @if (Model.ProfilePicture == null)
-    {
-        <img class="img-fluid" style="max-height:400px; max-width:300px; " src="~/DefaultProfilePicture.png" />
-    }
-    else
-    {
-        <img class="img-fluid" style="max-height: 400px; max-width: 300px;" src="@Model.ProfilePicture" />
-    }
+    <div class="custom-control-inline container-fluid">
+        @if (Model.ProfilePicture == null)
+        {
+            <img class="img-fluid col-6" style="max-height:400px; max-width:300px;" src="~/DefaultProfilePicture.png" />
+        }
+        else
+        {
+            <img class="img-fluid col-6" style="max-height: 400px; max-width: 300px;" src="@Model.ProfilePicture" />
+        }
+    <p title="Goal" class="col-6">@Model.Goal</p>
+    </div>
     @if (!Model.IsPublic && !Model.IsFriend)
     {
         <p class="text-center text-danger">This profile is not public.</p>
@@ -61,7 +64,7 @@
                 <button type="button" onclick="location.href='@Url.Action("AddFriend", "Friends",new {username = Model.Username })'" href="/Friends/AddFriend?username=@Model.Username" class="btn-success">Send friend request</button>
             }
         </div>
-        <div class="container-fluid row">
+        <div class="container-xl row">
             <div class="container-fluid col" style="width:fit-content; height:300px; overflow-y:scroll;">
                 @await Component.InvokeAsync("ProfileWorkouts", Model.Username)
             </div>

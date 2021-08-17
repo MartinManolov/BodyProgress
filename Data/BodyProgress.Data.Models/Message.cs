@@ -1,14 +1,11 @@
-﻿using BodyProgress.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BodyProgress.Data.Models
+﻿namespace BodyProgress.Data.Models
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using BodyProgress.Data.Common.Models;
+
     public class Message : BaseDeletableModel<string>
     {
         public Message()

@@ -1,13 +1,9 @@
-﻿using BodyProgress.Services.Contracts;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BodyProgress.Web.Controllers.Api
+﻿namespace BodyProgress.Web.Controllers.Api
 {
+    using BodyProgress.Services.Contracts;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Route("/api/[controller]")]
     [Authorize]
     public class SearchController : ApiBaseController

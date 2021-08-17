@@ -28,6 +28,5 @@
         public virtual ApplicationUser Owner { get; set; }
 
         public virtual ICollection<FoodsMealsQuantity> FoodsMealsQuantities { get; set; }
-
     }
 }

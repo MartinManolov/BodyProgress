@@ -1,16 +1,14 @@
-﻿using BodyProgress.Services.Common;
-using BodyProgress.Services.Contracts;
-using BodyProgress.Web.ViewModels;
-using BodyProgress.Web.ViewModels.ViewInputModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace BodyProgress.Web.Controllers
+﻿namespace BodyProgress.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using BodyProgress.Services.Common;
+    using BodyProgress.Services.Contracts;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class ProfilesController : BaseController
     {

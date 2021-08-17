@@ -176,6 +176,7 @@
                 IsReceivedRequest = this.friendshipsService.IsReceivedRequest(userId, visitedUserId),
                 IsSendedRequest = this.friendshipsService.IsSendedRequest(userId, visitedUserId),
                 ProfilePicture = this.GetProfileImage(visitedUserId),
+                Goal = this.GetGoal(visitedUserId),
             };
         }
 

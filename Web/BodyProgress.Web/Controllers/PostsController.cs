@@ -31,7 +31,7 @@ namespace BodyProgress.Web.Controllers
             return this.View("~/Views/Posts/Posts.cshtml", feeds);
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return this.View();
         }

@@ -89,7 +89,7 @@
                         ProteinPer100g = x.Food.ProteinPer100G,
                         FatsPer100g = x.Food.FatPer100G,
                     }).ToList(),
-                    KcalPerMeal = x.FoodsMealsQuantities.Select(k => (k.Food.KcalPer100G * k.Quantity)/100).Sum(),
+                    KcalPerMeal = x.FoodsMealsQuantities.Select(k => (k.Food.KcalPer100G * k.Quantity) / 100).Sum(),
                     CarbsPerMeal = x.FoodsMealsQuantities.Select(c => (c.Food.CarbsPer100G * c.Quantity) / 100).Sum(),
                     ProteinPerMeal = x.FoodsMealsQuantities.Select(p => (p.Food.ProteinPer100G * p.Quantity) / 100).Sum(),
                     FatsPerMeal = x.FoodsMealsQuantities.Select(f => (f.Food.FatPer100G * f.Quantity) / 100).Sum(),

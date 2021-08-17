@@ -1,16 +1,15 @@
-﻿using BodyProgress.Data.Common.Repositories;
-using BodyProgress.Data.Models;
-using BodyProgress.Web.ViewModels.ViewInputModels;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace BodyProgress.Services.Data.Tests
+﻿namespace BodyProgress.Services.Data.Tests
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using BodyProgress.Data.Common.Repositories;
+    using BodyProgress.Data.Models;
+    using BodyProgress.Web.ViewModels.ViewInputModels;
+    using Moq;
+    using Xunit;
+
     public class CommentsServiceTests
     {
         [Fact]

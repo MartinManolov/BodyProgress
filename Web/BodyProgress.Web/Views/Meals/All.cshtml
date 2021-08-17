@@ -1,41 +1,48 @@
 ﻿@model List<MealViewModel>
 <div class="container-fluid">
-    <h1 class="text-center"> All Meals</h1>
-
-    @foreach (var meal in Model)
+    <h1 class="text-center">Meals history</h1>
+    @if (Model.Count == 0)
     {
-        <div class="shadow-lg p-3 mb-5 bg-white rounded">
-            <h4>@meal.Name</h4>
-            <p class="text-muted">@meal.Date</p>
-            @foreach (var foodQuantity in meal.FoodsMealQuantities)
-            {
-                <table class="tab-content shadow-lg p-1 mb-3 bg-white rounded" style="width: 100%" border-spacing: 5px;>
-
-                    <tr>
-                        <th>Food</th>
-                        <th>Quantity</th>
-                        <th>Kcal per 100g</th>
-                        <th>Carbs per 100g</th>
-                        <th>Protein per 100g</th>
-                        <th>Fat per 100g</th>
-                    </tr>
-                    <tr>
-                        <td>@foodQuantity.FoodName </td>
-                        <td>@foodQuantity.Quantity g</td>
-                        <td>@foodQuantity.KcalPer100g kcal</td>
-                        <td>@foodQuantity.CarbsPer100g g</td>
-                        <td>@foodQuantity.ProteinPer100g g</td>
-                        <td>@foodQuantity.FatsPer100g g</td>
-                    </tr>
-                </table>
-
-            }
-            <p>Kcal per meal: @meal.KcalPerMeal kcal</p>
-            <p>Carbs per meal: @meal.CarbsPerMeal g</p>
-            <p>Protein per meal: @meal.ProteinPerMeal g</p>
-            <p>Fats per meal: @meal.FatsPerMeal g</p>
-
-            <a href="/Meals/Delete?mealId=@meal.Id" class="btn btn-block btn-primary">Delete</a>
-        </div>
+        <p class="text-center text-info">Doesn't have meals</p>
     }
+    else
+    {
+        @foreach (var meal in Model)
+        {
+            <div class="shadow-lg p-3 mb-5 bg-white rounded">
+                <h4>@meal.Name</h4>
+                <p class="text-muted">@meal.Date</p>
+                @foreach (var foodQuantity in meal.FoodsMealQuantities)
+                {
+                    <table class="tab-content shadow-lg p-1 mb-3 bg-white rounded border" style="width: 100%" border="1">
+
+                        <tr>
+                            <th>Food</th>
+                            <th>Quantity</th>
+                            <th>Kcal per 100g</th>
+                            <th>Carbs per 100g</th>
+                            <th>Protein per 100g</th>
+                            <th>Fat per 100g</th>
+                        </tr>
+                        <tr>
+                            <td>@foodQuantity.FoodName </td>
+                            <td>@foodQuantity.Quantity g</td>
+                            <td>@foodQuantity.KcalPer100g kcal</td>
+                            <td>@foodQuantity.CarbsPer100g g</td>
+                            <td>@foodQuantity.ProteinPer100g g</td>
+                            <td>@foodQuantity.FatsPer100g g</td>
+                        </tr>
+                    </table>
+
+                }
+                <p>Total: @meal.KcalPerMeal kcal</p>
+                <p>Total carbs: @meal.CarbsPerMeal g</p>
+                <p>Total protein: @meal.ProteinPerMeal g</p>
+                <p>Total fats: @meal.FatsPerMeal g</p>
+
+                <a href="/Meals/Delete?mealId=@meal.Id" class="btn btn-block btn-primary">Delete</a>
+            </div>
+        }
+    }
+
 </div>

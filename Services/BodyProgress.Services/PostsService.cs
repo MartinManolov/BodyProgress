@@ -16,7 +16,7 @@
     public class PostsService : IPostsService
     {
         private readonly IDeletableEntityRepository<Post> postsRepository;
-        private readonly IUploadMediaService _uploadMediaService;
+        private readonly IUploadMediaService uploadMediaService;
         private readonly IUsersService usersService;
         private readonly Cloudinary cloudinary;
         private readonly IFriendshipsService friendshipsService;
@@ -28,7 +28,7 @@
             IFriendshipsService friendshipsService)
         {
             this.postsRepository = postsRepository;
-            this._uploadMediaService = uploadMediaService;
+            this.uploadMediaService = uploadMediaService;
             this.usersService = usersService;
             this.cloudinary = cloudinary;
             this.friendshipsService = friendshipsService;
@@ -37,7 +37,7 @@
         public async Task Create(PostInputModel input, string userId)
         {
             var imageName = userId + Guid.NewGuid().ToString();
-            var imageUrl = await this._uploadMediaService.UploadImage(this.cloudinary, input.Image, imageName);
+            var imageUrl = await this.uploadMediaService.UploadImage(this.cloudinary, input.Image, imageName);
             var post = new Post()
             {
                 Date = DateTime.UtcNow,

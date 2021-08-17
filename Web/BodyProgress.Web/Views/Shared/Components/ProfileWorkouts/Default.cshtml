@@ -1,32 +1,39 @@
 ﻿@model ICollection<WorkoutViewModel>
 <div class="container-fluid shadow-lg p-3 mb-5 rounded">
-    <h1 class="text-center">Workout History</h1>
-
-    @foreach (var workout in Model)
+    <h1 class="text-center">Workouts</h1>
+    @if (Model.Count == 0)
     {
-        <div class="shadow-lg p-3 mb-5 rounded">
-            <h2>@workout.Name</h2>
-            <h4>@workout.Date</h4>
-            @foreach (var set in workout.Sets)
-            {
-
-                <table class="tab-content shadow-sm p-1 mb-3 bg-white rounded" style="width: 100%" border-spacing: 5px;>
-                    <colgroup>
-                    </colgroup>
-                    <tr>
-                        <th>Exercise</th>
-                        <th>Reps</th>
-                        <th>Weight</th>
-                    </tr>
-                    <tr>
-                        <td>@set.ExerciseName</td>
-                        <td>@set.Reps</td>
-                        <td>@set.Weight</td>
-                    </tr>
-                </table>
-            }
-            <p>All Weight @workout.AllWeightForWorkout</p>
-            
-        </div>
+        <p class="text-center text-info">Doesn't have workouts</p>
     }
+    else
+    {
+        @foreach (var workout in Model)
+        {
+            <div class="shadow-lg p-3 mb-5 rounded">
+                <h2>@workout.Name</h2>
+                <p class="text-muted">@workout.Date</p>
+                @foreach (var set in workout.Sets)
+                {
+
+                    <table class="tab-content shadow-sm p-1 mb-3 bg-white rounded" style="width: 100%" border-spacing: 5px;>
+                        <colgroup>
+                        </colgroup>
+                        <tr>
+                            <th>Exercise</th>
+                            <th>Reps</th>
+                            <th>Weight</th>
+                        </tr>
+                        <tr>
+                            <td>@set.ExerciseName</td>
+                            <td>@set.Reps</td>
+                            <td>@set.Weight kg</td>
+                        </tr>
+                    </table>
+                }
+                <p>Total Weight: @workout.AllWeightForWorkout kg</p>
+
+            </div>
+        }
+    }
+
 </div>

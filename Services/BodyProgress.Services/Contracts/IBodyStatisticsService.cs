@@ -13,7 +13,5 @@
         ICollection<BodyStatisticViewModel> All(string userId);
 
         Task Delete(string bodyStatisticId);
-
-
     }
 }

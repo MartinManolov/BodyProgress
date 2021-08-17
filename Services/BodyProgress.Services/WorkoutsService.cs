@@ -14,17 +14,17 @@ namespace BodyProgress.Services
 
     public class WorkoutsService : IWorkoutsService
     {
-        private readonly IDeletableEntityRepository<Workout> _workoutRepository;
-        private readonly IDeletableEntityRepository<Exercise> _exerciseRepository;
-        private readonly IDeletableEntityRepository<Set> _setsRepository;
+        private readonly IDeletableEntityRepository<Workout> workoutRepository;
+        private readonly IDeletableEntityRepository<Exercise> exerciseRepository;
+        private readonly IDeletableEntityRepository<Set> setsRepository;
 
         public WorkoutsService(IDeletableEntityRepository<Workout> workoutRepository,
             IDeletableEntityRepository<Exercise> exerciseRepository,
             IDeletableEntityRepository<Set> setsRepository)
         {
-            this._workoutRepository = workoutRepository;
-            this._exerciseRepository = exerciseRepository;
-            this._setsRepository = setsRepository;
+            this.workoutRepository = workoutRepository;
+            this.exerciseRepository = exerciseRepository;
+            this.setsRepository = setsRepository;
         }
 
         public async Task Create(WorkoutInputModel input, string userId)
@@ -43,12 +43,12 @@ namespace BodyProgress.Services
                     continue;
                 }
 
-                var exercise = this._exerciseRepository.All()
+                var exercise = this.exerciseRepository.All()
                     .FirstOrDefault(x => x.Name == set.ExerciseName);
                 if (exercise == null)
                 {
                     exercise = new Exercise() { Name = set.ExerciseName };
-                    await this._exerciseRepository.AddAsync(exercise);
+                    await this.exerciseRepository.AddAsync(exercise);
                 }
 
                 var serie = new Set()
@@ -59,18 +59,18 @@ namespace BodyProgress.Services
                     Reps = set.Reps,
                 };
                 workout.Sets.Add(serie);
-                await this._setsRepository.AddAsync(serie);
+                await this.setsRepository.AddAsync(serie);
             }
 
-            await this._workoutRepository.AddAsync(workout);
-            await this._exerciseRepository.SaveChangesAsync();
-            await this._setsRepository.SaveChangesAsync();
-            await this._workoutRepository.SaveChangesAsync();
+            await this.workoutRepository.AddAsync(workout);
+            await this.exerciseRepository.SaveChangesAsync();
+            await this.setsRepository.SaveChangesAsync();
+            await this.workoutRepository.SaveChangesAsync();
         }
 
         public ICollection<WorkoutViewModel> All(string userId)
         {
-            var workoutsFromDb = this._workoutRepository.AllAsNoTracking()
+            var workoutsFromDb = this.workoutRepository.AllAsNoTracking()
                 .Where(x => x.OwnerId == userId)
                 .OrderByDescending(x => x.Date);
 
@@ -92,21 +92,21 @@ namespace BodyProgress.Services
 
         public async Task Delete(string workoutId)
         {
-            var workout = this._workoutRepository.All().FirstOrDefault(x => x.Id == workoutId);
+            var workout = this.workoutRepository.All().FirstOrDefault(x => x.Id == workoutId);
             if (workout == null)
             {
                 return;
             }
 
-            this._workoutRepository.Delete(workout);
-            var sets = this._setsRepository.All().Where(x => x.WorkoutId == workoutId).ToList();
+            this.workoutRepository.Delete(workout);
+            var sets = this.setsRepository.All().Where(x => x.WorkoutId == workoutId).ToList();
             foreach (var set in sets)
             {
-                this._setsRepository.Delete(set);
+                this.setsRepository.Delete(set);
             }
 
-            await this._workoutRepository.SaveChangesAsync();
-            await this._setsRepository.SaveChangesAsync();
+            await this.workoutRepository.SaveChangesAsync();
+            await this.setsRepository.SaveChangesAsync();
         }
     }
 }

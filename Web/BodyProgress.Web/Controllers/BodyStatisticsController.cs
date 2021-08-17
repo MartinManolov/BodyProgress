@@ -11,11 +11,11 @@ namespace BodyProgress.Web.Controllers
     [Authorize]
     public class BodyStatisticsController : BaseController
     {
-        private readonly IBodyStatisticsService _bodyStatisticsService;
+        private readonly IBodyStatisticsService bodyStatisticsService;
 
         public BodyStatisticsController(IBodyStatisticsService bodyStatisticsService)
         {
-            _bodyStatisticsService = bodyStatisticsService;
+            this.bodyStatisticsService = bodyStatisticsService;
         }
 
         public IActionResult Add()
@@ -26,13 +26,13 @@ namespace BodyProgress.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(BodyStatisticInputModel input)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 return this.View();
             }
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await this._bodyStatisticsService.Create(input, userId);
+            await this.bodyStatisticsService.Create(input, userId);
 
             return this.Redirect("/BodyStatistics/All");
         }
@@ -40,14 +40,14 @@ namespace BodyProgress.Web.Controllers
         public IActionResult All()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var bodyStatistics = this._bodyStatisticsService.All(userId);
+            var bodyStatistics = this.bodyStatisticsService.All(userId);
 
             return this.View(bodyStatistics);
         }
 
         public async Task<IActionResult> Delete(string bodyStatisticId)
         {
-            await this._bodyStatisticsService.Delete(bodyStatisticId);
+            await this.bodyStatisticsService.Delete(bodyStatisticId);
 
             return this.Redirect("/BodyStatistics/All");
         }

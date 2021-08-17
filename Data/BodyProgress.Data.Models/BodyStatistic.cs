@@ -28,6 +28,5 @@
         public double Weight { get; set; }
 
         public double BodyFatPercentage { get; set; }
-
     }
 }

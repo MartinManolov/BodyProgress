@@ -12,17 +12,17 @@
 
     public class MealsService : IMealsService
     {
-        private readonly IDeletableEntityRepository<Meal> _mealsRepository;
-        private readonly IDeletableEntityRepository<FoodsMealsQuantity> _foodsMealsQuantityRepository;
-        private readonly IDeletableEntityRepository<Food> _foodRepository;
+        private readonly IDeletableEntityRepository<Meal> mealsRepository;
+        private readonly IDeletableEntityRepository<FoodsMealsQuantity> foodsMealsQuantityRepository;
+        private readonly IDeletableEntityRepository<Food> foodRepository;
 
-        public MealsService(IDeletableEntityRepository<Meal> mealsRepository, 
-            IDeletableEntityRepository<FoodsMealsQuantity> foodsMealsQuantityRepository, 
+        public MealsService(IDeletableEntityRepository<Meal> mealsRepository,
+            IDeletableEntityRepository<FoodsMealsQuantity> foodsMealsQuantityRepository,
             IDeletableEntityRepository<Food> foodRepository)
         {
-            this._mealsRepository = mealsRepository;
-            this._foodsMealsQuantityRepository = foodsMealsQuantityRepository;
-            this._foodRepository = foodRepository;
+            this.mealsRepository = mealsRepository;
+            this.foodsMealsQuantityRepository = foodsMealsQuantityRepository;
+            this.foodRepository = foodRepository;
         }
 
         public async Task Create(MealInputModel input, string userId)
@@ -37,7 +37,7 @@
             List<FoodsMealsQuantity> foodsMealsList = new List<FoodsMealsQuantity>();
             foreach (var foodMealsQuantity in input.FoodsWithQuantities)
             {
-                Food food = this._foodRepository.All().FirstOrDefault(x => x.Name == foodMealsQuantity.FoodName);
+                Food food = this.foodRepository.All().FirstOrDefault(x => x.Name == foodMealsQuantity.FoodName);
                 if (food == null)
                 {
                     food = new Food()
@@ -49,7 +49,7 @@
                         FatPer100G = foodMealsQuantity.FatPer100g,
                     };
 
-                    await this._foodRepository.AddAsync(food);
+                    await this.foodRepository.AddAsync(food);
                 }
 
                 var foodMeals = new FoodsMealsQuantity()
@@ -58,21 +58,21 @@
                     FoodId = food.Id,
                     Quantity = foodMealsQuantity.Quantity,
                 };
-                await this._foodsMealsQuantityRepository.AddAsync(foodMeals);
+                await this.foodsMealsQuantityRepository.AddAsync(foodMeals);
 
                 food.FoodsMealsQuantities.Add(foodMeals);
                 meal.FoodsMealsQuantities.Add(foodMeals);
             }
 
-            await this._mealsRepository.AddAsync(meal);
-            await this._foodRepository.SaveChangesAsync();
-            await this._foodRepository.SaveChangesAsync();
-            await this._foodsMealsQuantityRepository.SaveChangesAsync();
+            await this.mealsRepository.AddAsync(meal);
+            await this.foodRepository.SaveChangesAsync();
+            await this.foodRepository.SaveChangesAsync();
+            await this.foodsMealsQuantityRepository.SaveChangesAsync();
         }
 
         public ICollection<MealViewModel> All(string userId)
         {
-           return this._mealsRepository.AllAsNoTracking()
+           return this.mealsRepository.AllAsNoTracking()
                 .Where(x => x.OwnerId == userId)
                 .OrderByDescending(x => x.Date)
                 .Select(x => new MealViewModel()
@@ -98,23 +98,23 @@
 
         public async Task Delete(string mealId)
         {
-            var meal = this._mealsRepository.All().FirstOrDefault(x => x.Id == mealId);
+            var meal = this.mealsRepository.All().FirstOrDefault(x => x.Id == mealId);
             if (meal == null)
             {
                 return;
             }
 
-            this._mealsRepository.Delete(meal);
+            this.mealsRepository.Delete(meal);
 
-            var foodsMeal = this._foodsMealsQuantityRepository.All()
+            var foodsMeal = this.foodsMealsQuantityRepository.All()
                 .Where(x => x.MealId == mealId).ToList();
             foreach (var foodMeal in foodsMeal)
             {
-                this._foodsMealsQuantityRepository.Delete(foodMeal);
+                this.foodsMealsQuantityRepository.Delete(foodMeal);
             }
 
-            await this._mealsRepository.SaveChangesAsync();
-            await this._foodsMealsQuantityRepository.SaveChangesAsync();
+            await this.mealsRepository.SaveChangesAsync();
+            await this.foodsMealsQuantityRepository.SaveChangesAsync();
         }
     }
 }

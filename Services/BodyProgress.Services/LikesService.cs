@@ -1,15 +1,12 @@
-﻿using BodyProgress.Data.Common.Repositories;
-using BodyProgress.Data.Models;
-using BodyProgress.Services.Contracts;
-using BodyProgress.Web.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BodyProgress.Services
+﻿namespace BodyProgress.Services
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using BodyProgress.Data.Common.Repositories;
+    using BodyProgress.Data.Models;
+    using BodyProgress.Services.Contracts;
+
     public class LikesService : ILikesService
     {
         private readonly IDeletableEntityRepository<Like> likesRepository;
@@ -63,7 +60,5 @@ namespace BodyProgress.Services
             return this.likesRepository.AllAsNoTracking().Where(x => x.PostId == postId)
                 .Count();
         }
-
-
     }
 }

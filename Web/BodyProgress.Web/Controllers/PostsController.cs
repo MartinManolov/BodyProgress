@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using BodyProgress.Data.Common.Repositories;
-using BodyProgress.Data.Models;
-using BodyProgress.Services.Contracts;
-using BodyProgress.Web.ViewModels.ViewInputModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace BodyProgress.Web.Controllers
+﻿namespace BodyProgress.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using BodyProgress.Services.Contracts;
+    using BodyProgress.Web.ViewModels.ViewInputModels;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class PostsController : BaseController
     {
@@ -108,6 +104,5 @@ namespace BodyProgress.Web.Controllers
 
             return this.Redirect("/Posts/UserPosts");
         }
-
     }
 }

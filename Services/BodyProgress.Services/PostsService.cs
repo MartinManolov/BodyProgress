@@ -94,7 +94,6 @@
                 }).OrderByDescending(x => x.Date).Take(150).ToList();
         }
 
-
         public ICollection<PostViewModel> AllPublicAndFriends(string userId)
         {
             return this.postsRepository.AllAsNoTracking()

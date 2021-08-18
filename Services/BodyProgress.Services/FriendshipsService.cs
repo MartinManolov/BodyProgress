@@ -1,16 +1,14 @@
-﻿
-using BodyProgress.Data.Common.Repositories;
-using BodyProgress.Data.Models;
-using BodyProgress.Data.Models.Enums;
-using BodyProgress.Services.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BodyProgress.Services
+﻿namespace BodyProgress.Services
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using BodyProgress.Data.Common.Repositories;
+    using BodyProgress.Data.Models;
+    using BodyProgress.Data.Models.Enums;
+    using BodyProgress.Services.Contracts;
+
     public class FriendshipsService : IFriendshipsService
     {
         private readonly IDeletableEntityRepository<Friendship> friendhipsRepository;

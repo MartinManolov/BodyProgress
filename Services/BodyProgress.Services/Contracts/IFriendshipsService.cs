@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BodyProgress.Services.Contracts
+﻿namespace BodyProgress.Services.Contracts
 {
+    using System.Threading.Tasks;
+
     public interface IFriendshipsService
     {
         Task AddFriend(string userId, string friendId);

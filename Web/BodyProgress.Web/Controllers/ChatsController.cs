@@ -1,14 +1,9 @@
-﻿using BodyProgress.Services.Contracts;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace BodyProgress.Web.Controllers
+﻿namespace BodyProgress.Web.Controllers
 {
+    using BodyProgress.Services.Contracts;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class ChatsController : BaseController
     {

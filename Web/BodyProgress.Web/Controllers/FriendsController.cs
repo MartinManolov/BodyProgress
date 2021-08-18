@@ -1,11 +1,12 @@
-﻿using BodyProgress.Services.Contracts;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace BodyProgress.Web.Controllers
+﻿namespace BodyProgress.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using BodyProgress.Services.Contracts;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class FriendsController : BaseController
     {

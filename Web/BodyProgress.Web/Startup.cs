@@ -2,7 +2,7 @@
 {
     using System.Globalization;
     using System.Reflection;
-    using BodyProgress.Common;
+
     using BodyProgress.Data;
     using BodyProgress.Data.Common;
     using BodyProgress.Data.Common.Repositories;
@@ -110,6 +110,7 @@
             });
 
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {

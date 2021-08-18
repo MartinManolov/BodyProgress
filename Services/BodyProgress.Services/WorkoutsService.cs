@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-namespace BodyProgress.Services
+﻿namespace BodyProgress.Services
 {
     using System.Collections.Generic;
     using System.Linq;

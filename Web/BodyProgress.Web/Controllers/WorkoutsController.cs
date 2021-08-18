@@ -11,13 +11,13 @@
     [Authorize]
     public class WorkoutsController : BaseController
     {
-        private readonly IWorkoutsService _workoutsService;
+        private readonly IWorkoutsService workoutsService;
         private readonly IUsersService usersService;
 
         public WorkoutsController(IWorkoutsService workoutsService,
             IUsersService usersService)
         {
-            this._workoutsService = workoutsService;
+            this.workoutsService = workoutsService;
             this.usersService = usersService;
         }
 
@@ -35,7 +35,7 @@
             }
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await this._workoutsService.Create(input, userId);
+            await this.workoutsService.Create(input, userId);
 
             return this.RedirectToAction("All", "Workouts");
         }
@@ -43,13 +43,13 @@
         public IActionResult All()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var workouts = this._workoutsService.All(userId);
+            var workouts = this.workoutsService.All(userId);
             return this.View(workouts);
         }
 
         public async Task<IActionResult> Delete(string workoutId)
         {
-            await this._workoutsService.Delete(workoutId);
+            await this.workoutsService.Delete(workoutId);
             return this.Redirect("/Workouts/All");
         }
     }

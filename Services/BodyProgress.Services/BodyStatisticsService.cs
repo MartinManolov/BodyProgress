@@ -1,27 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using BodyProgress.Web.ViewModels;
-
-namespace BodyProgress.Services
+﻿namespace BodyProgress.Services
 {
-    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using BodyProgress.Data.Common.Repositories;
     using BodyProgress.Data.Models;
     using BodyProgress.Services.Contracts;
+    using BodyProgress.Web.ViewModels;
     using BodyProgress.Web.ViewModels.ViewInputModels;
 
     public class BodyStatisticsService : IBodyStatisticsService
     {
-        private readonly IDeletableEntityRepository<BodyStatistic> _bodyStatisticRepository;
-        private readonly IDeletableEntityRepository<ApplicationUser> _userRepository;
+        private readonly IDeletableEntityRepository<BodyStatistic> bodyStatisticRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
         public BodyStatisticsService(IDeletableEntityRepository<BodyStatistic> bodyStatisticRepository,
                                         IDeletableEntityRepository<ApplicationUser> userRepository)
         {
-            this._bodyStatisticRepository = bodyStatisticRepository;
-            this._userRepository = userRepository;
+            this.bodyStatisticRepository = bodyStatisticRepository;
+            this.userRepository = userRepository;
         }
 
         public async Task Create(BodyStatisticInputModel input, string userId)
@@ -35,17 +33,17 @@ namespace BodyProgress.Services
                 BodyFatPercentage = input.BodyFatPercentage,
             };
 
-            await this._bodyStatisticRepository.AddAsync(bodyStatistic);
-            var user = this._userRepository.All().FirstOrDefault(x => x.Id == userId);
+            await this.bodyStatisticRepository.AddAsync(bodyStatistic);
+            var user = this.userRepository.All().FirstOrDefault(x => x.Id == userId);
             user.BodyStatistics.Add(bodyStatistic);
 
-            await this._bodyStatisticRepository.SaveChangesAsync();
-            await this._userRepository.SaveChangesAsync();
+            await this.bodyStatisticRepository.SaveChangesAsync();
+            await this.userRepository.SaveChangesAsync();
         }
 
         public ICollection<BodyStatisticViewModel> All(string userId)
         {
-            return this._bodyStatisticRepository.All()
+            return this.bodyStatisticRepository.All()
                 .Where(x => x.OwnerId == userId)
                 .Select(x => new BodyStatisticViewModel()
                 {
@@ -58,17 +56,16 @@ namespace BodyProgress.Services
                 .ToList();
         }
 
-
         public async Task Delete(string bodyStatisticId)
         {
-            var bodyStatistic = this._bodyStatisticRepository.All().FirstOrDefault(x => x.Id == bodyStatisticId);
+            var bodyStatistic = this.bodyStatisticRepository.All().FirstOrDefault(x => x.Id == bodyStatisticId);
             if (bodyStatistic == null)
             {
                 return;
             }
 
-            this._bodyStatisticRepository.Delete(bodyStatistic);
-            await this._bodyStatisticRepository.SaveChangesAsync();
+            this.bodyStatisticRepository.Delete(bodyStatistic);
+            await this.bodyStatisticRepository.SaveChangesAsync();
         }
     }
 }

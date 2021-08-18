@@ -1,11 +1,7 @@
-﻿using System.Linq;
-using BodyProgress.Services.Contracts;
-using Microsoft.AspNetCore.Authorization;
-
-namespace BodyProgress.Web.Controllers
+﻿namespace BodyProgress.Web.Controllers
 {
     using System.Diagnostics;
-    using System.Security.Claims;
+
     using BodyProgress.Common;
     using BodyProgress.Web.ViewModels;
 

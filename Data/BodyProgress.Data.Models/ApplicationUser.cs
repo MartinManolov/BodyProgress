@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace BodyProgress.Data.Models
+﻿namespace BodyProgress.Data.Models
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using BodyProgress.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;

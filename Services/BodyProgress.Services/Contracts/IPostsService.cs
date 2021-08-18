@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using BodyProgress.Web.ViewModels;
-
-namespace BodyProgress.Services.Contracts
+﻿namespace BodyProgress.Services.Contracts
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using BodyProgress.Web.ViewModels;
     using BodyProgress.Web.ViewModels.ViewInputModels;
 
     public interface IPostsService

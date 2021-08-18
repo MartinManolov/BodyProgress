@@ -1,11 +1,9 @@
-﻿using BodyProgress.Services.Contracts;
-
-namespace BodyProgress.Web.Controllers
+﻿namespace BodyProgress.Web.Controllers
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using BodyProgress.Services;
+    using BodyProgress.Services.Contracts;
     using BodyProgress.Web.ViewModels.ViewInputModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -13,11 +11,11 @@ namespace BodyProgress.Web.Controllers
     [Authorize]
     public class MealsController : BaseController
     {
-        private readonly IMealsService _mealsService;
+        private readonly IMealsService mealsService;
 
         public MealsController(IMealsService mealsService)
         {
-            this._mealsService = mealsService;
+            this.mealsService = mealsService;
         }
 
         public IActionResult Add()
@@ -34,23 +32,21 @@ namespace BodyProgress.Web.Controllers
             }
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await this._mealsService.Create(input, userId);
+            await this.mealsService.Create(input, userId);
             return this.Redirect("/Meals/All");
-
         }
 
         public IActionResult All()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var meals = this._mealsService.All(userId);
+            var meals = this.mealsService.All(userId);
             return this.View(meals);
         }
 
         public async Task<IActionResult> Delete(string mealId)
         {
-            await this._mealsService.Delete(mealId);
+            await this.mealsService.Delete(mealId);
             return this.Redirect("/Meals/All");
         }
-
     }
 }

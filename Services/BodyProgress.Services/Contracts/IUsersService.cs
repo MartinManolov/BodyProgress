@@ -1,11 +1,11 @@
-﻿using BodyProgress.Web.ViewModels;
-using BodyProgress.Web.ViewModels.ViewInputModels;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace BodyProgress.Services.Contracts
+﻿namespace BodyProgress.Services.Contracts
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using BodyProgress.Web.ViewModels;
+    using Microsoft.AspNetCore.Http;
+
     public interface IUsersService
     {
         ICollection<string> Search(string expression, int count);

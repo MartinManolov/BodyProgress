@@ -1,12 +1,13 @@
-﻿using BodyProgress.Services.Contracts;
-using BodyProgress.Web.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.SignalR;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace BodyProgress.Web.Hubs
+﻿namespace BodyProgress.Web.Hubs
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using BodyProgress.Services.Contracts;
+    using BodyProgress.Web.ViewModels;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.SignalR;
+
     [Authorize]
     public class ChatHub : Hub
     {

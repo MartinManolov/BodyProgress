@@ -22,13 +22,12 @@
                 return new ValidationResult(this.GetErrorMessage());
             }
 
-
             return ValidationResult.Success;
         }
 
         public string GetErrorMessage()
         {
-            return $"Maximum allowed file size is { this.maxFileSize} bytes.";
+            return $"Maximum allowed file size is {this.maxFileSize} bytes.";
         }
     }
 }

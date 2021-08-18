@@ -1,13 +1,13 @@
 ﻿namespace BodyProgress.Web.Areas.Administration.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
     using BodyProgress.Common;
     using BodyProgress.Services.Contracts;
     using BodyProgress.Web.Controllers;
-
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]

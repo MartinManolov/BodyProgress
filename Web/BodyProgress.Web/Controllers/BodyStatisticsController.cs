@@ -1,13 +1,13 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using BodyProgress.Services;
-using BodyProgress.Services.Contracts;
-using BodyProgress.Web.ViewModels.ViewInputModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace BodyProgress.Web.Controllers
+﻿namespace BodyProgress.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using BodyProgress.Services.Contracts;
+    using BodyProgress.Web.ViewModels.ViewInputModels;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class BodyStatisticsController : BaseController
     {

@@ -36,11 +36,9 @@
     <ProjectReference Include="..\..\BodyProgress.Common\BodyProgress.Common.csproj" />
     <ProjectReference Include="..\..\Data\BodyProgress.Data.Models\BodyProgress.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\BodyProgress.Data\BodyProgress.Data.csproj" />
-    <ProjectReference Include="..\..\Services\BodyProgress.Services.Data\BodyProgress.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\BodyProgress.Services.Mapping\BodyProgress.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\BodyProgress.Services.Messaging\BodyProgress.Services.Messaging.csproj" />
     <ProjectReference Include="..\..\Services\BodyProgress.Services\BodyProgress.Services.csproj" />
-    <ProjectReference Include="..\BodyProgress.Web.Infrastructure\BodyProgress.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\BodyProgress.Web.ViewModels\BodyProgress.Web.ViewModels.csproj" />
   </ItemGroup>
 

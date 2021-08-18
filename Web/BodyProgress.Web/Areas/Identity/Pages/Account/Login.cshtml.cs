@@ -78,12 +78,13 @@
         
             if (this.ModelState.IsValid)
             {
-                var user = await this._userManager.FindByEmailAsync(Input.Email);
+                var user = await this.userManager.FindByEmailAsync(Input.Email);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
+                    this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return this.Page();
                 }
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
